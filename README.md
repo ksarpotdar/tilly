@@ -3,6 +3,7 @@ A simple columnar database. Stores the unique values for each column and rows be
 
 ## Installation
 Until the first release, use the contents of the ```lib``` directory, the entery point is ```index.js```.
+Run `npm update` after downloading to install dependencies.
 
 ## Use
 There are two main ways to add data to a table:
