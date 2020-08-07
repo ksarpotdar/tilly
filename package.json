@@ -1,0 +1,27 @@
+{
+  "name": "@steelbreeze/cdb",
+  "version": "1.0.0",
+  "description": "Columnar database for JavaScript",
+  "main": "lib/core/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steelbreeze/cdb.git"
+  },
+  "author": "Mesmo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/steelbreeze/cdb/issues"
+  },
+  "homepage": "https://github.com/steelbreeze/cdb#readme",
+  "dependencies": {
+    "@types/node": "^14.0.27",
+    "csv-parser": "^2.3.3",
+    "strip-bom-stream": "^4.0.0"
+  }
+}
