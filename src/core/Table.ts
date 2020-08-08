@@ -65,7 +65,7 @@ export class Table extends Queryable {
 		for (const column of this.allColumns) {
 			const value = row[column.name];
 
-			column.insert(keys.indexOf(column.name) === -1 ? column.defaultValue : value);
+			column.insert(keys.indexOf(column.name) === -1 ? column.defaultValue : value, this.rowCount);
 		}
 
 		this.rowCount++;

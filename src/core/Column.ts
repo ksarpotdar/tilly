@@ -81,14 +81,14 @@ export class Column {
 	 * Inserts a new row into the column.
 	 * @param value The value to add.
 	 */
-	public insert(value: unknown): void {		
+	public insert(value: unknown, start: number): void {		
 		let index = this.distinct.indexOf(value);
 
 		if (index === -1) {
 			index = this.distinct.push(value) - 1;
 		}
 
-		this.index.push(index);
+		this.index[start - this.offset] = index;
 	}
 
 	/**
@@ -97,7 +97,6 @@ export class Column {
 	 */
 	public value(index: number): any {
 		const val = index < this.offset ? this.defaultValue : this.distinct[this.index[index - this.offset]];
-//		const val = this.distinct[this.index[index]];
 
 		return this.convert ? this.convert(val) : val;
 	}
