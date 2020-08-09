@@ -1,5 +1,3 @@
-import { off } from "process";
-
 /** Represents a column and its data within a table. */
 export class Column {
 	/** The name of this column */
