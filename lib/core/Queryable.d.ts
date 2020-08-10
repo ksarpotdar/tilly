@@ -18,7 +18,7 @@ export declare abstract class Queryable implements Iterable<Row> {
      * Executes the query, returning results as a series of rows.
      * @returns Returns an interable iterator to the result rows.
      */
-    private rows;
+    private run;
     /**
      * Makes the queryable object itself iterable.
      */

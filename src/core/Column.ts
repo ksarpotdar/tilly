@@ -7,7 +7,7 @@ export class Column {
 	public defaultValue: unknown = undefined;
 
 	/** The set of distinct, or unique, raw values for this column within the table. */
-	private readonly distinct: Array<unknown>;
+	private readonly values: Array<unknown>;
 
 	/** The index into the array of distinct values for each row. */
 	private readonly index: Array<number>;
@@ -33,13 +33,13 @@ export class Column {
 	public constructor(p1: any, p2?: string) {
 		if(typeof p1 === "string") {
 			this.name = p1;
-			this.distinct = [];
+			this.values = [];
 			this.index = [];
 			this.offset = 0;
 		} else {
 			this .name = p2 || p1.name;
 			this.defaultValue = p1.defaultValue;
-			this.distinct = p1.distinct;
+			this.values = p1.distinct;
 			this.index = p1.index;
 			this.offset = p1.offset;
 		}
@@ -58,7 +58,7 @@ export class Column {
 	 * Allows the column to be converted to a specific type.
 	 * @param convert A function used to convert to the defined type.
 	 */
-	public to<T>(convert?: (raw: unknown) => T): this {
+	public to<T>(convert?: (value: unknown) => T): this {
 		this.convert = convert;
 
 		return this;
@@ -80,13 +80,13 @@ export class Column {
 	 * @param value The value to add.
 	 */
 	public insert(value: unknown, start: number): void {		
-		let index = this.distinct.indexOf(value);
+		let position = this.values.indexOf(value);
 
-		if (index === -1) {
-			index = this.distinct.push(value) - 1;
+		if (position === -1) {
+			position = this.values.push(value) - 1;
 		}
 
-		this.index[start - this.offset] = index;
+		this.index[start - this.offset] = position;
 	}
 
 	/**
@@ -94,7 +94,7 @@ export class Column {
 	 * @param index The row index to return.
 	 */
 	public value(index: number): any {
-		const val = index < this.offset ? this.defaultValue : this.distinct[this.index[index - this.offset]];
+		const val = index < this.offset ? this.defaultValue : this.values[this.index[index - this.offset]];
 
 		return this.convert ? this.convert(val) : val;
 	}
@@ -104,10 +104,10 @@ export class Column {
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	equals(value: unknown): (row: number) => boolean {
-		const index = this.distinct.indexOf(value);
+	equals(value: unknown): (index: number) => boolean {
+		const position = this.values.indexOf(value);
 
-		return row => this.index[row] === index;
+		return index => this.index[index] === position;
 	}
 
 	/**
@@ -115,18 +115,18 @@ export class Column {
 	 * @param regex A regular expression that will be tested to select rows.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	like(regex: RegExp): (row: number) => boolean {
-		const indices: Array<number> = [];
+	like(regex: RegExp): (index: number) => boolean {
+		const positions: Array<number> = [];
 
 		// determine the indices of the values that match the regular expression
-		for (let i = 0, j = this.distinct.length; i < j; ++i) {
-			if (regex.test(String(this.distinct[i]))) {
-				indices.push(i);
+		for (let i = 0, j = this.values.length; i < j; ++i) {
+			if (regex.test(String(this.values[i]))) {
+				positions.push(i);
 			}
 		}
 
 		// Return a function that returns true if the row matches the regex results
-		return row => indices.indexOf(this.index[row]) !== -1;
+		return index => positions.indexOf(this.index[index]) !== -1;
 	}
 
 	/**
@@ -134,17 +134,16 @@ export class Column {
 	 * @param values A list of values to test the column against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	list(...values: unknown[]): (row: number) => boolean {
-
-		const indices: Array<number> = [];
+	list(...values: unknown[]): (index: number) => boolean {
+		const positions: Array<number> = [];
 
 		// determine the indices of the values in the provided list
-			for (let i = 0, j = this.distinct.length; i < j; ++i) {
-			if (values.indexOf(this.distinct[i]) !== -1) {
-				indices.push(i);
+			for (let i = 0, j = this.values.length; i < j; ++i) {
+			if (values.indexOf(this.values[i]) !== -1) {
+				positions.push(i);
 			}
 		}
 
-		return row => indices.indexOf(this.index[row]) !== -1;
+		return index => positions.indexOf(this.index[index]) !== -1;
 	}
 }

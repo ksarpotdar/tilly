@@ -8,7 +8,7 @@ export class Query extends Queryable {
 	/**
 	 * The predicate that this query will use to restrict the number of rows from source table.
 	 */
-	private predicate: (row: number) => boolean;
+	private predicate: (index: number) => boolean;
 
 	/**
 	 * The columns that will be returned by this query.

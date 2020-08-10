@@ -5,7 +5,7 @@ export declare class Column {
     /** The default value to use if the row being inserted has no value for this column */
     defaultValue: unknown;
     /** The set of distinct, or unique, raw values for this column within the table. */
-    private readonly distinct;
+    private readonly values;
     /** The index into the array of distinct values for each row. */
     private readonly index;
     /** A row offset for columns that were added after rows had been added to other columns */
@@ -33,7 +33,7 @@ export declare class Column {
      * Allows the column to be converted to a specific type.
      * @param convert A function used to convert to the defined type.
      */
-    to<T>(convert?: (raw: unknown) => T): this;
+    to<T>(convert?: (value: unknown) => T): this;
     /**
      * Sets the default value of the column if no value is specified when inserting.
      * @note By not specified, we mean that the row that was inserted into the table had no property matching the column name. If there is a property, but with an undefined or null value, the undefined or null value will be stored. If you wish to return default values were undefined or null values are stored, use a convertor specified using the [[as]] method.
@@ -55,17 +55,17 @@ export declare class Column {
      * @param value The value to test against.
      * @returns Returns the predicate to be used within a query where method.
      */
-    equals(value: unknown): (row: number) => boolean;
+    equals(value: unknown): (index: number) => boolean;
     /**
      * Generates a predicate used in the where method of a query to select rows from a table based where values are like the regular expression provided.
      * @param regex A regular expression that will be tested to select rows.
      * @returns Returns the predicate to be used within a query where method.
      */
-    like(regex: RegExp): (row: number) => boolean;
+    like(regex: RegExp): (index: number) => boolean;
     /**
      * Generates a predicate used in the where method of a query to select rows from a table based where values are in the list provided.
      * @param values A list of values to test the column against.
      * @returns Returns the predicate to be used within a query where method.
      */
-    list(...values: unknown[]): (row: number) => boolean;
+    list(...values: unknown[]): (index: number) => boolean;
 }
