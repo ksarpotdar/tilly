@@ -31,15 +31,15 @@ export class Column {
 	 */
 	public constructor(column: any, name?: string);
 	public constructor(p1: any, p2?: string) {
-		if(typeof p1 === "string") {
+		if (typeof p1 === "string") {
 			this.name = p1;
 			this.values = [];
 			this.index = [];
 			this.offset = 0;
 		} else {
-			this .name = p2 || p1.name;
+			this.name = p2 || p1.name;
 			this.defaultValue = p1.defaultValue;
-			this.values = p1.distinct;
+			this.values = p1.values;
 			this.index = p1.index;
 			this.offset = p1.offset;
 		}
@@ -69,7 +69,7 @@ export class Column {
 	 * @note By not specified, we mean that the row that was inserted into the table had no property matching the column name. If there is a property, but with an undefined or null value, the undefined or null value will be stored. If you wish to return default values were undefined or null values are stored, use a convertor specified using the [[as]] method.
 	 * @param The default value to use.
 	 */
-	public default<T>(defaultValue: T): this{
+	public default<T>(defaultValue: T): this {
 		this.defaultValue = defaultValue;
 
 		return this
@@ -79,7 +79,7 @@ export class Column {
 	 * Inserts a new row into the column.
 	 * @param value The value to add.
 	 */
-	public insert(value: unknown, start: number): void {		
+	public insert(value: unknown, start: number): void {
 		let position = this.values.indexOf(value);
 
 		if (position === -1) {
@@ -138,7 +138,7 @@ export class Column {
 		const positions: Array<number> = [];
 
 		// determine the indices of the values in the provided list
-			for (let i = 0, j = this.values.length; i < j; ++i) {
+		for (let i = 0, j = this.values.length; i < j; ++i) {
 			if (values.indexOf(this.values[i]) !== -1) {
 				positions.push(i);
 			}
