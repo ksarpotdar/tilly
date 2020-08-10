@@ -3,12 +3,15 @@ export declare class Column {
     /** The name of this column */
     readonly name: string;
     /** The default value to use if the row being inserted has no value for this column */
-    defaultValue: unknown;
+    private defaultValue;
     /** The set of distinct, or unique, raw values for this column within the table. */
     private readonly values;
     /** The index into the array of distinct values for each row. */
     private readonly index;
-    /** A row offset for columns that were added after rows had been added to other columns */
+    /**
+     * A row offset for columns that were added after rows had been added to other columns.
+     * @private Package private as we need update this on the addition to a table.
+     */
     offset: number;
     /** A function to convert the returned value to a defined type. */
     private convert?;

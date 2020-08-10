@@ -4,7 +4,7 @@ export class Column {
 	public readonly name: string;
 
 	/** The default value to use if the row being inserted has no value for this column */
-	public defaultValue: unknown = undefined;
+	private defaultValue: unknown = undefined;
 
 	/** The set of distinct, or unique, raw values for this column within the table. */
 	private readonly values: Array<unknown>;
@@ -12,7 +12,10 @@ export class Column {
 	/** The index into the array of distinct values for each row. */
 	private readonly index: Array<number>;
 
-	/** A row offset for columns that were added after rows had been added to other columns */
+	/**
+	 * A row offset for columns that were added after rows had been added to other columns.
+	 * @private Package private as we need update this on the addition to a table.
+	 */
 	offset: number;
 
 	/** A function to convert the returned value to a defined type. */
@@ -80,10 +83,12 @@ export class Column {
 	 * @param value The value to add.
 	 */
 	public insert(value: unknown, start: number): void {
-		let position = this.values.indexOf(value);
+		const val = value !== undefined ? value : this.defaultValue;
+
+		let position = this.values.indexOf(val);
 
 		if (position === -1) {
-			position = this.values.push(value) - 1;
+			position = this.values.push(val) - 1;
 		}
 
 		this.index[start - this.offset] = position;
