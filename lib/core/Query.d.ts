@@ -4,7 +4,6 @@ import { Column } from './Column';
  * Represents a query used to select a subset of the rows and columns of a table.
  */
 export declare class Query extends Queryable {
-    private readonly source;
     /**
      * The predicate that this query will use to restrict the number of rows from source table.
      */
@@ -15,9 +14,9 @@ export declare class Query extends Queryable {
     private allColumns;
     /**
      * Created a new instance of the query class.
-     * @param source Another queryable object to use as the source for this query.
+     * @param queryable Another queryable object to use as the source for this query.
      */
-    constructor(source: Queryable);
+    constructor(queryable: Queryable);
     /**
      * Defines the columns that will be returned by this query.
      * @param columns The set of columns from the underlying soure that will be returned by this query.

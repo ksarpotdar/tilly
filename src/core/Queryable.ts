@@ -6,15 +6,26 @@ import { Row } from './Row';
  */
 export abstract class Queryable implements Iterable<Row> {
 	/**
+	 * The optional source data underpinning this query.
+	 */
+	protected source: Iterable<number> | undefined;
+
+	/**
 	 * Returns the row indices of rows satisfying the query criteria.
 	 * @private Using the absence of a protection modifier to mean package private as Java.
 	 */
-	abstract indices(): Iterable<number>;
+	protected abstract indices(): Iterable<number>;
 
 	/**
 	 * The columns that will be returned in the rows returned by this query.
 	 */
 	protected abstract columns(): Iterable<Column>;
+
+	constructor(queryable: Queryable | undefined = undefined) {
+		if(queryable) {
+			this.source = queryable.indices();
+		}
+	}
 
 	/**
 	 * Executes the query, returning results as a series of rows.

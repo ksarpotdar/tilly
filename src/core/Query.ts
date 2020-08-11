@@ -17,10 +17,10 @@ export class Query extends Queryable {
 
 	/**
 	 * Created a new instance of the query class.
-	 * @param source Another queryable object to use as the source for this query.
+	 * @param queryable Another queryable object to use as the source for this query.
 	 */
-	public constructor(private readonly source: Queryable) {
-		super();
+	public constructor(queryable: Queryable) {
+		super(queryable);
 
 		this.predicate = () => true;
 	}
@@ -58,9 +58,11 @@ export class Query extends Queryable {
 	 * @private
 	 */
 	*indices(): Iterable<number> {
-		for(const index of this.source.indices()) {
-			if (this.predicate(index)) {
-				yield index;
+		if (this.source) {
+			for (const index of this.source) {
+				if (this.predicate(index)) {
+					yield index;
+				}
 			}
 		}
 	}
