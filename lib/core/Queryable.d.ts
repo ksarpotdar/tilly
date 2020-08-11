@@ -11,9 +11,8 @@ export declare abstract class Queryable implements Iterable<Row> {
     abstract indices(): Iterable<number>;
     /**
      * The columns that will be returned in the rows returned by this query.
-     * @private Using the absence of a protection modifier to mean package private as Java.
      */
-    abstract columns(): Iterable<Column>;
+    protected abstract columns(): Iterable<Column>;
     /**
      * Executes the query, returning results as a series of rows.
      * @returns Returns an interable iterator to the result rows.
