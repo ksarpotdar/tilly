@@ -60,13 +60,8 @@ export class Table extends Queryable {
 	 * @param row The row of data to add
 	 */
 	public insert(row: Row): void {
-//		const keys = Object.keys(row);
-
 		for (const column of this.allColumns) {
 			column.insert(row[column.name], this.rowCount);
-//			const value = row[column.name];
-
-//			column.insert(keys.indexOf(column.name) === -1 ? column.defaultValue : value, this.rowCount);
 		}
 
 		this.rowCount++;
