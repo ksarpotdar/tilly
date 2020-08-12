@@ -30,12 +30,10 @@ export declare class Query extends Queryable {
     where(predicate: (row: number) => boolean): this;
     /**
      * Returns the set of columns that this query will return when executed.
-     * @private
      */
     columns(): Iterable<Column>;
     /**
      * Returns the row indices that this query will return when executed.
-     * @private
      */
     indices(): Iterable<number>;
 }

@@ -3,23 +3,14 @@ export class Column {
 	/** The name of this column */
 	public readonly name: string;
 
-	/** The default value to use if the row being inserted has no value for this column */
-	private defaultValue: unknown = undefined;
-
 	/** The set of distinct, or unique, raw values for this column within the table. */
 	private readonly values: Array<unknown>;
 
 	/** The index into the array of distinct values for each row. */
 	private readonly index: Array<number>;
 
-	/**
-	 * A row offset for columns that were added after rows had been added to other columns.
-	 * @private Package private as we need update this on the addition to a table.
-	 */
-	offset: number;
-
 	/** A function to convert the returned value to a defined type. */
-	private convert?: ((raw: unknown) => any);
+	private convert: ((raw: unknown) => any);
 
 	/**
 	 * Creates a new instance of the Column class.
@@ -38,14 +29,13 @@ export class Column {
 			this.name = p1;
 			this.values = [];
 			this.index = [];
-			this.offset = 0;
 		} else {
 			this.name = p2 || p1.name;
-			this.defaultValue = p1.defaultValue;
 			this.values = p1.values;
 			this.index = p1.index;
-			this.offset = p1.offset;
 		}
+
+		this.convert = (value: unknown) => value;
 	}
 
 	/**
@@ -61,37 +51,26 @@ export class Column {
 	 * Allows the column to be converted to a specific type.
 	 * @param convert A function used to convert to the defined type.
 	 */
-	public to<T>(convert?: (value: unknown) => T): this {
+	public to<T>(convert: (value: unknown) => T): this {
 		this.convert = convert;
 
 		return this;
 	}
 
 	/**
-	 * Sets the default value of the column if no value is specified when inserting.
-	 * @note By not specified, we mean that the row that was inserted into the table had no property matching the column name. If there is a property, but with an undefined or null value, the undefined or null value will be stored. If you wish to return default values were undefined or null values are stored, use a convertor specified using the [[as]] method.
-	 * @param The default value to use.
-	 */
-	public default<T>(defaultValue: T): this {
-		this.defaultValue = defaultValue;
-
-		return this
-	}
-
-	/**
 	 * Inserts a new row into the column.
 	 * @param value The value to add.
 	 */
-	public insert(value: unknown, start: number): void {
-		const val = value !== undefined ? value : this.defaultValue;
-
-		let position = this.values.indexOf(val);
+	public insert(value: unknown, start: number, count: number): void {
+		let position = this.values.indexOf(value);
 
 		if (position === -1) {
-			position = this.values.push(val) - 1;
+			position = this.values.push(value) - 1;
 		}
 
-		this.index[start - this.offset] = position;
+		for (let i = 0; i < count; ++i) {
+			this.index[start + i] = position;
+		}
 	}
 
 	/**
@@ -99,9 +78,7 @@ export class Column {
 	 * @param index The row index to return.
 	 */
 	public value(index: number): any {
-		const val = index < this.offset ? this.defaultValue : this.values[this.index[index - this.offset]];
-
-		return this.convert ? this.convert(val) : val;
+		return this.convert(this.values[this.index[index]]);
 	}
 
 	/**

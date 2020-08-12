@@ -8,7 +8,7 @@ export class Database {
 	public readonly name: string;
 
 	/** All the tables belonging to this database */
-	private allTables: Array<Table> = [];
+	private allTables: Array<Table>;
 
 	/**
 	 * Creates a new instance of the Database class.
@@ -22,11 +22,12 @@ export class Database {
 	 */
 	public constructor(column: any, name?: string);
 	public constructor(param: any) {
+		this.allTables = [];
+		
 		if (typeof param === "string") {
 			this.name = param;
 		} else {
 			this.name = param.name;
-
 			for (const table of param.allTables) {
 				this.add(new Table(table));
 			}

@@ -38,12 +38,10 @@ export declare class Table extends Queryable {
     column(name: string): Column;
     /**
      * Returns the indexes of all rows in the table.
-     * @private
      */
     indices(): Iterable<number>;
     /**
      * Returns all the columns within the table.
-     * @private
      */
     columns(): Iterable<Column>;
 }

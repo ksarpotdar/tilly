@@ -13,7 +13,7 @@ export class Query extends Queryable {
 	/**
 	 * The columns that will be returned by this query.
 	 */
-	private allColumns: Iterable<Column> = [];
+	private allColumns: Iterable<Column>;
 
 	/**
 	 * Created a new instance of the query class.
@@ -23,6 +23,7 @@ export class Query extends Queryable {
 		super();
 
 		this.predicate = () => true;
+		this.allColumns = [];
 	}
 
 	/**
@@ -47,17 +48,15 @@ export class Query extends Queryable {
 
 	/**
 	 * Returns the set of columns that this query will return when executed.
-	 * @private
 	 */
-	columns(): Iterable<Column> {
+	public columns(): Iterable<Column> {
 		return this.allColumns;
 	}
 
 	/**
 	 * Returns the row indices that this query will return when executed.
-	 * @private
 	 */
-	*indices(): Iterable<number> {
+	public *indices(): Iterable<number> {
 		for (const index of this.source.indices()) {
 			if (this.predicate(index)) {
 				yield index;

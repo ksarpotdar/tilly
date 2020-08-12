@@ -13,7 +13,7 @@ export class Table extends Queryable {
 	private rowCount: number;
 
 	/** All the columns within the table. */
-	private readonly allColumns: Array<Column> = [];
+	private readonly allColumns: Array<Column>;
 
 	/**
 	 * Creates a new instance of the Table class.
@@ -29,6 +29,7 @@ export class Table extends Queryable {
 
 	public constructor(param: any) {
 		super();
+		this.allColumns = [];
 
 		if (typeof param === "string") {
 			this.name = param;
@@ -48,9 +49,11 @@ export class Table extends Queryable {
 	 * @param column The new column to add.
 	 */
 	public add(column: Column): Column {
+		// add the column to the table
 		this.allColumns.push(column);
 
-		column.offset = this.rowCount;
+		// add entries for exissting rows
+		column.insert(undefined, 0, this.rowCount);
 
 		return column;
 	}
@@ -61,7 +64,7 @@ export class Table extends Queryable {
 	 */
 	public insert(row: Row): void {
 		for (const column of this.allColumns) {
-			column.insert(row[column.name], this.rowCount);
+			column.insert(row[column.name], this.rowCount, 1);
 		}
 
 		this.rowCount++;
@@ -77,9 +80,8 @@ export class Table extends Queryable {
 
 	/**
 	 * Returns the indexes of all rows in the table.
-	 * @private
 	 */
-	*indices(): Iterable<number> {
+	public *indices(): Iterable<number> {
 		for (let index = 0, length = this.rowCount; index < length; ++index) {
 			yield index;
 		}
@@ -87,9 +89,8 @@ export class Table extends Queryable {
 
 	/**
 	 * Returns all the columns within the table.
-	 * @private
 	 */
-	columns(): Iterable<Column> {
+	public columns(): Iterable<Column> {
 		return this.allColumns;
 	}
 }

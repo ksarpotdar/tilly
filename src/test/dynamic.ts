@@ -15,10 +15,16 @@ const membership = new Table('membership');
 const id = membership.add(new Column('id'));
 const givenName = membership.add(new Column('givenName'));
 const familyName = membership.add(new Column('familyName'));
-const county = membership.add(new Column('county').default("Not Specified"));
 
 // populate the table with some random data
 for (let id = 0; id < 10; id++) {
+	membership.insert({ id: id, givenName: random(givenNames), familyName: random(familyNames), county: random(counties) })
+}
+
+const county = membership.add(new Column('county').to(c => c || "Not specified"));
+
+// populate the table with some random data
+for (let id = 10; id < 20; id++) {
 	membership.insert({ id: id, givenName: random(givenNames), familyName: random(familyNames), county: random(counties) })
 }
 

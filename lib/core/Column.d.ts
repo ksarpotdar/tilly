@@ -2,19 +2,12 @@
 export declare class Column {
     /** The name of this column */
     readonly name: string;
-    /** The default value to use if the row being inserted has no value for this column */
-    private defaultValue;
     /** The set of distinct, or unique, raw values for this column within the table. */
     private readonly values;
     /** The index into the array of distinct values for each row. */
     private readonly index;
-    /**
-     * A row offset for columns that were added after rows had been added to other columns.
-     * @private Package private as we need update this on the addition to a table.
-     */
-    offset: number;
     /** A function to convert the returned value to a defined type. */
-    private convert?;
+    private convert;
     /**
      * Creates a new instance of the Column class.
      * @param name The name of the column.
@@ -36,18 +29,12 @@ export declare class Column {
      * Allows the column to be converted to a specific type.
      * @param convert A function used to convert to the defined type.
      */
-    to<T>(convert?: (value: unknown) => T): this;
-    /**
-     * Sets the default value of the column if no value is specified when inserting.
-     * @note By not specified, we mean that the row that was inserted into the table had no property matching the column name. If there is a property, but with an undefined or null value, the undefined or null value will be stored. If you wish to return default values were undefined or null values are stored, use a convertor specified using the [[as]] method.
-     * @param The default value to use.
-     */
-    default<T>(defaultValue: T): this;
+    to<T>(convert: (value: unknown) => T): this;
     /**
      * Inserts a new row into the column.
      * @param value The value to add.
      */
-    insert(value: unknown, start: number): void;
+    insert(value: unknown, start: number, count: number): void;
     /**
      * Returns a value from the column for a specific row index.
      * @param index The row index to return.
