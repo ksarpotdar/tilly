@@ -35,7 +35,7 @@ export declare class Table extends Queryable {
      * Returns the table coumn of the given name.
      * @param name The name of the column to find.
      */
-    column(name: string): Column;
+    column(name: string): Column | undefined;
     /**
      * Returns the indexes of all rows in the table.
      */

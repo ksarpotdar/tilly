@@ -74,8 +74,8 @@ export class Table extends Queryable {
 	 * Returns the table coumn of the given name.
 	 * @param name The name of the column to find.
 	 */
-	public column(name: string): Column {
-		return this.allColumns.filter(column => column.name === name)[0];
+	public column(name: string): Column | undefined {
+		return this.allColumns.find(col => col.name === name);
 	}
 
 	/**
