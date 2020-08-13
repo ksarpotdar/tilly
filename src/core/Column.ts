@@ -100,17 +100,10 @@ export class Column {
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
 	like(regex: RegExp): (index: number) => boolean {
-		const positions: Array<number> = [];
-
-		// determine the indices of the values that match the regular expression
-		for (let i = 0, j = this.values.length; i < j; ++i) {
-			if (regex.test(String(this.values[i]))) {
-				positions.push(i);
-			}
-		}
+		const indicies = this.values.filter(value => regex.test(String(value))).map((value, index) => index);
 
 		// Return a function that returns true if the row matches the regex results
-		return index => positions.indexOf(this.index[index]) !== -1;
+		return index => indicies.indexOf(this.index[index]) !== -1;
 	}
 
 	/**
@@ -119,15 +112,8 @@ export class Column {
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
 	list(...values: unknown[]): (index: number) => boolean {
-		const positions: Array<number> = [];
+		const indicies = this.values.filter(value => values.indexOf(value) !== -1).map((value, index) => index);
 
-		// determine the indices of the values in the provided list
-		for (let i = 0, j = this.values.length; i < j; ++i) {
-			if (values.indexOf(this.values[i]) !== -1) {
-				positions.push(i);
-			}
-		}
-
-		return index => positions.indexOf(this.index[index]) !== -1;
+		return index => indicies.indexOf(this.index[index]) !== -1;
 	}
 }
