@@ -52,7 +52,7 @@ export class Table extends Queryable {
 		// add the column to the table
 		this.allColumns.push(column);
 
-		// add entries for exissting rows
+		// add empty entries for existing rows
 		column.insert(undefined, 0, this.rowCount);
 
 		return column;
@@ -63,11 +63,11 @@ export class Table extends Queryable {
 	 * @param row The row of data to add
 	 */
 	public insert(row: Row): void {
-		for (const column of this.allColumns) {
-			column.insert(row[column.name], this.rowCount, 1);
-		}
+		const start = this.rowCount++;
 
-		this.rowCount++;
+		for (const column of this.allColumns) {
+			column.insert(row[column.name], start, this.rowCount);
+		}
 	}
 
 	/**
@@ -82,8 +82,10 @@ export class Table extends Queryable {
 	 * Returns the indexes of all rows in the table.
 	 */
 	public *indices(): Iterable<number> {
-		for (let index = 0, length = this.rowCount; index < length; ++index) {
-			yield index;
+		let index = 0;
+
+		while(index < this.rowCount) {
+			yield index++;
 		}
 	}
 

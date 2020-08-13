@@ -12,7 +12,7 @@ readStream.on('data', () => {
 	if (++count % 10 === 0) {
 		const end = new Date();
 
-		console.log(`Processed ${count} blocks in ${(end.getTime() - start.getTime()) / 1000}s`);
+		console.log(`Processed ${count} 64KiB blocks in ${(end.getTime() - start.getTime()) / 1000}s`);
 	}
 });
 
