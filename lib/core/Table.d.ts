@@ -18,9 +18,9 @@ export declare class Table extends Queryable {
     constructor(name: string);
     /**
      * Creates a new instance of the Table class.
-     * @param column Another table to copy as a baseline.
+     * @param table Another table to copy as a baseline or JSON rendering of a table.
      */
-    constructor(column: any);
+    constructor(table: any);
     /**
      * Adds a new column to the table
      * @param column The new column to add.

@@ -1,6 +1,7 @@
 import { Queryable } from './Queryable';
 import { Column } from './Column';
 import { Row } from './Row';
+import { throws } from 'assert';
 
 /**
  * Represents a table of data, comprising a number of columns.
@@ -23,24 +24,21 @@ export class Table extends Queryable {
 
 	/**
 	 * Creates a new instance of the Table class.
-	 * @param column Another table to copy as a baseline.
+	 * @param table Another table to copy as a baseline or JSON rendering of a table.
 	 */
-	public constructor(column: any);
+	public constructor(table: any);
 
 	public constructor(param: any) {
 		super();
-		this.allColumns = [];
-
+		
 		if (typeof param === "string") {
 			this.name = param;
+			this.allColumns = [];
 			this.rowCount = 0;
 		} else {
 			this.name = param.name;
+			this.allColumns = param.allColumns.map((column: any) => new Column(column));
 			this.rowCount = param.rowCount;
-
-			for (const column of param.allColumns) {
-				this.allColumns.push(new Column(column));
-			}
 		}
 	}
 
@@ -84,7 +82,7 @@ export class Table extends Queryable {
 	public *indices(): Iterable<number> {
 		let index = 0;
 
-		while(index < this.rowCount) {
+		while (index < this.rowCount) {
 			yield index++;
 		}
 	}
