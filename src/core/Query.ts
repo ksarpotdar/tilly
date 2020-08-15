@@ -1,5 +1,6 @@
 import { Queryable } from './Queryable';
 import { Column } from './Column';
+import { Predicate } from './types';
 
 /**
  * Represents a query used to select a subset of the rows and columns of a table.
@@ -8,7 +9,7 @@ export class Query extends Queryable {
 	/**
 	 * The predicate that this query will use to restrict the number of rows from source table.
 	 */
-	private predicate: (index: number) => boolean;
+	private predicate: Predicate;
 
 	/**
 	 * The columns that will be returned by this query.
@@ -22,7 +23,7 @@ export class Query extends Queryable {
 	public constructor(private readonly source: Queryable) {
 		super();
 
-		this.predicate = () => true;
+		this.predicate = (index: number) => true;
 		this.allColumns = [];
 	}
 
@@ -40,7 +41,7 @@ export class Query extends Queryable {
 	 * Defines the filter critera that will be applied to rows retrieved from the source.
 	 * @param predicate A boolean predicate built using the supplied column oriented predicates ([[equals]], [[list]], [[like]], [[and]], [[or]], etc.).
 	 */
-	public where(predicate: (row: number) => boolean): this {
+	public where(predicate: Predicate): this {
 		this.predicate = predicate;
 
 		return this;

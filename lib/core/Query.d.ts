@@ -1,5 +1,6 @@
 import { Queryable } from './Queryable';
 import { Column } from './Column';
+import { Predicate } from './types';
 /**
  * Represents a query used to select a subset of the rows and columns of a table.
  */
@@ -27,7 +28,7 @@ export declare class Query extends Queryable {
      * Defines the filter critera that will be applied to rows retrieved from the source.
      * @param predicate A boolean predicate built using the supplied column oriented predicates ([[equals]], [[list]], [[like]], [[and]], [[or]], etc.).
      */
-    where(predicate: (row: number) => boolean): this;
+    where(predicate: Predicate): this;
     /**
      * Returns the set of columns that this query will return when executed.
      */
