@@ -1,3 +1,4 @@
+import { Predicate } from './types';
 /** Represents a column and its data within a table. */
 export declare class Column {
     /** The name of this column */
@@ -14,7 +15,7 @@ export declare class Column {
      */
     constructor(name: string);
     /**
-     * Creates a new instance of the Column class.
+     * Copy constructor; creates a new instance of the Column class from another object with the same values.
      * @param column Another column to copy as a baseline.
      * @param name An alternative name for the new column.
      */
@@ -47,17 +48,17 @@ export declare class Column {
      * @param value The value to test against.
      * @returns Returns the predicate to be used within a query where method.
      */
-    equals(value: unknown): (index: number) => boolean;
+    equals(value: unknown): Predicate;
     /**
      * Generates a predicate used in the where method of a query to select rows from a table based where values are like the regular expression provided.
      * @param regex A regular expression that will be tested to select rows.
      * @returns Returns the predicate to be used within a query where method.
      */
-    like(regex: RegExp): (index: number) => boolean;
+    like(regex: RegExp): Predicate;
     /**
      * Generates a predicate used in the where method of a query to select rows from a table based where values are in the list provided.
      * @param values A list of values to test the column against.
      * @returns Returns the predicate to be used within a query where method.
      */
-    list(...values: unknown[]): (index: number) => boolean;
+    list(...values: unknown[]): Predicate;
 }

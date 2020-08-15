@@ -1,3 +1,5 @@
+import { Predicate } from './types';
+
 /** Represents a column and its data within a table. */
 export class Column {
 	/** The name of this column */
@@ -19,7 +21,7 @@ export class Column {
 	public constructor(name: string);
 
 	/**
-	 * Creates a new instance of the Column class.
+	 * Copy constructor; creates a new instance of the Column class from another object with the same values.
 	 * @param column Another column to copy as a baseline.
 	 * @param name An alternative name for the new column.
 	 */
@@ -88,7 +90,7 @@ export class Column {
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	equals(value: unknown): (index: number) => boolean {
+	equals(value: unknown): Predicate {
 		const position = this.values.indexOf(value);
 
 		return index => this.index[index] === position;
@@ -99,7 +101,7 @@ export class Column {
 	 * @param regex A regular expression that will be tested to select rows.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	like(regex: RegExp): (index: number) => boolean {
+	like(regex: RegExp): Predicate {
 		const indicies = this.values.filter(value => regex.test(String(value))).map((value, index) => index);
 
 		// Return a function that returns true if the row matches the regex results
@@ -111,7 +113,7 @@ export class Column {
 	 * @param values A list of values to test the column against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	list(...values: unknown[]): (index: number) => boolean {
+	list(...values: unknown[]): Predicate {
 		const indicies = this.values.filter(value => values.indexOf(value) !== -1).map((value, index) => index);
 
 		return index => indicies.indexOf(this.index[index]) !== -1;
