@@ -5,6 +5,6 @@ import { Predicate } from '../types';
  * @param predicates A predicate whose result with be negated.
  * @returns Returns the predicate to be used within a query where method.
  */
-export function not(predicate: Predicate): Predicate {
+export function not(predicate: Predicate<number>): Predicate<number> {
 	return index => !predicate(index);
 }

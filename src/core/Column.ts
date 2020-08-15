@@ -90,7 +90,7 @@ export class Column {
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	public equals(value: unknown): Predicate {
+	public equals(value: unknown): Predicate<number> {
 		const position = this.values.indexOf(value);
 
 		return index => this.index[index] === position;
@@ -101,8 +101,8 @@ export class Column {
 	 * @param regex A regular expression that will be tested to select rows.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	public like(regex: RegExp): Predicate {
-		const indices = this.values.filter(value => regex.test(String(value))).map((value, index) => index);
+	public like(regex: RegExp): Predicate<number> {
+		const indices = this.values.filter(value => regex.test(String(value))).map((value, index) => index); // TODO: move to iterable protocol
 
 		// Return a function that returns true if the row matches the regex results
 		return index => indices.indexOf(this.index[index]) !== -1;
@@ -113,8 +113,8 @@ export class Column {
 	 * @param values A list of values to test the column against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	public list(...values: unknown[]): Predicate {
-		const indices = this.values.filter(value => values.indexOf(value) !== -1).map((value, index) => index);
+	public list(...values: unknown[]): Predicate<number> {
+		const indices = this.values.filter(value => values.indexOf(value) !== -1).map((value, index) => index); // TODO: move to iterable protocol
 
 		return index => indices.indexOf(this.index[index]) !== -1;
 	}

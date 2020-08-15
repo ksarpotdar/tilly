@@ -1,4 +1,4 @@
 /**
- * A function that takes a index and returns a boolean. Used in the construction of where clauses.
+ * A function that takes a value and returns a boolean. Used in the construction of where clauses.
  */
-export declare type Predicate = (index: number) => boolean;
+export declare type Predicate<TValue> = (value: TValue) => boolean;

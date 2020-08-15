@@ -4,4 +4,4 @@ import { Predicate } from '../types';
  * @param predicates An arbitory number of predicates, all of which must return true for this predicate to return true.
  * @returns Returns the predicate to be used within a query where method.
  */
-export declare function and(...predicates: Array<Predicate>): Predicate;
+export declare function and(...predicates: Array<Predicate<number>>): Predicate<number>;

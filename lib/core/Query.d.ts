@@ -28,7 +28,7 @@ export declare class Query extends Queryable {
      * Defines the filter critera that will be applied to rows retrieved from the source.
      * @param predicate A boolean predicate built using the supplied column oriented predicates ([[equals]], [[list]], [[like]], [[and]], [[or]], etc.).
      */
-    where(predicate: Predicate): this;
+    where(predicate: Predicate<number>): this;
     /**
      * Returns the set of columns that this query will return when executed.
      */

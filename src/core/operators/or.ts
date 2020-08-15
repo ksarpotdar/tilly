@@ -5,6 +5,6 @@ import { Predicate } from '../types';
  * @param predicates An arbitory number of predicates, any of which can return true for this predicate to return true.
  * @returns Returns the predicate to be used within a query where method.
  */
-export function or(...predicates: Array<Predicate>): Predicate {
+export function or(...predicates: Array<Predicate<number>>): Predicate<number> {
 	return index => predicates.some(predicate => predicate(index));
 }

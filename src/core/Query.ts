@@ -9,7 +9,7 @@ export class Query extends Queryable {
 	/**
 	 * The predicate that this query will use to restrict the number of rows from source table.
 	 */
-	private predicate: Predicate;
+	private predicate: Predicate<number>;
 
 	/**
 	 * The columns that will be returned by this query.
@@ -41,7 +41,7 @@ export class Query extends Queryable {
 	 * Defines the filter critera that will be applied to rows retrieved from the source.
 	 * @param predicate A boolean predicate built using the supplied column oriented predicates ([[equals]], [[list]], [[like]], [[and]], [[or]], etc.).
 	 */
-	public where(predicate: Predicate): this {
+	public where(predicate: Predicate<number>): this {
 		this.predicate = predicate;
 
 		return this;
@@ -59,7 +59,7 @@ export class Query extends Queryable {
 	 */
 	public *indices(): Iterable<number> {
 		for (const index of this.source.indices()) {
-			if (this.predicate(index)) {
+			if (this.predicate(index)) { // TODO: use iterable protocol filter function
 				yield index;
 			}
 		}
