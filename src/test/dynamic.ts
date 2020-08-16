@@ -30,7 +30,7 @@ for (let id = 10; id < 20; id++) {
 
 const sussex = new Query(membership)
 	.select(id, givenName, familyName, county)
-	.where(or(givenName.equals('David'), givenName.equals('James')));
+	.where(givenName.list('David', 'James'));
 
 for (const member of sussex) {
 	console.log(member);
