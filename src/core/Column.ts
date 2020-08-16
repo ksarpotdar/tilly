@@ -72,7 +72,7 @@ export class Column {
 			this.values[position = this.values.length] = value;
 		}
 
-		while(start < end) {
+		while (start < end) {
 			this.index[start++] = position;
 		}
 	}
@@ -102,7 +102,13 @@ export class Column {
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
 	public like(regex: RegExp): Predicate<number> {
-		const indices = this.values.filter(value => regex.test(String(value))).map((value, index) => index); // TODO: move to iterable protocol
+		const indices: Array<number> = [];
+
+		for (let i = this.values.length; --i;) {
+			if (regex.test(String(this.values[i]))) {
+				indices.push(i);
+			}
+		}
 
 		// Return a function that returns true if the row matches the regex results
 		return index => indices.indexOf(this.index[index]) !== -1;
@@ -114,8 +120,15 @@ export class Column {
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
 	public list(...values: unknown[]): Predicate<number> {
-		const indices = this.values.filter(value => values.indexOf(value) !== -1).map((value, index) => index); // TODO: move to iterable protocol
+		const indices: Array<number> = [];
 
+		for (let i = this.values.length; --i;) {
+			if (values.indexOf(this.values[i]) !== -1) {
+				indices.push(i);
+			}
+		}
+
+		// Return a function that returns true if the row matches the regex results
 		return index => indices.indexOf(this.index[index]) !== -1;
 	}
 }
