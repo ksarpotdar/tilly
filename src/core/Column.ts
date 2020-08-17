@@ -1,4 +1,4 @@
-import { Predicate } from './types';
+import { Function, Predicate } from './types';
 
 /** Represents a column and its data within a table. */
 export class Column {
@@ -21,7 +21,7 @@ export class Column {
 	 * A function to convert the returned value to a defined type.
 	 * @private
 	 */
-	private convert: ((raw: unknown) => any);
+	private convert: Function<unknown, any>;
 
 	/**
 	 * Creates a new instance of the Column class.
@@ -63,7 +63,7 @@ export class Column {
 	 * @param convert A function used to convert to the defined type.
 	 * @return Fluent API call, so returns this.
 	 */
-	public to<T>(convert: (value: unknown) => T): this {
+	public to<T>(convert: Function<unknown, T>): this {
 		this.convert = convert;
 
 		return this;

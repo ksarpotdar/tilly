@@ -1,4 +1,4 @@
-import { Predicate } from './types';
+import { Function, Predicate } from './types';
 /** Represents a column and its data within a table. */
 export declare class Column {
     /** The name of this column */
@@ -40,7 +40,7 @@ export declare class Column {
      * @param convert A function used to convert to the defined type.
      * @return Fluent API call, so returns this.
      */
-    to<T>(convert: (value: unknown) => T): this;
+    to<T>(convert: Function<unknown, T>): this;
     /**
      * Inserts a new row into the column.
      * @param value The value to add.
