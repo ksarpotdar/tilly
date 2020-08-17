@@ -3,11 +3,20 @@ import { Predicate } from './types';
 export declare class Column {
     /** The name of this column */
     readonly name: string;
-    /** The set of distinct, or unique, raw values for this column within the table. */
+    /**
+     * The set of distinct, or unique, raw values for this column within the table.
+     * @private
+     */
     private readonly values;
-    /** The index into the array of distinct values for each row. */
+    /**
+     * The index into the array of distinct values for each row.
+     * @private
+     */
     private readonly index;
-    /** A function to convert the returned value to a defined type. */
+    /**
+     * A function to convert the returned value to a defined type.
+     * @private
+     */
     private convert;
     /**
      * Creates a new instance of the Column class.
@@ -29,6 +38,7 @@ export declare class Column {
     /**
      * Allows the column to be converted to a specific type.
      * @param convert A function used to convert to the defined type.
+     * @return Fluent API call, so returns this.
      */
     to<T>(convert: (value: unknown) => T): this;
     /**

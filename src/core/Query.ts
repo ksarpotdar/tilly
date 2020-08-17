@@ -8,11 +8,13 @@ import { Predicate } from './types';
 export class Query extends Queryable {
 	/**
 	 * The predicate that this query will use to restrict the number of rows from source table.
+	 * @private
 	 */
 	private predicate: Predicate<number>;
 
 	/**
 	 * The columns that will be returned by this query.
+	 * @private
 	 */
 	private allColumns: Iterable<Column>;
 
@@ -30,6 +32,7 @@ export class Query extends Queryable {
 	/**
 	 * Defines the columns that will be returned by this query.
 	 * @param columns The set of columns from the underlying soure that will be returned by this query.
+	 * @return Fluent API call, so returns this.
 	 */
 	public select(...columns: Column[]): this {
 		this.allColumns = columns;
@@ -40,6 +43,7 @@ export class Query extends Queryable {
 	/**
 	 * Defines the filter critera that will be applied to rows retrieved from the source.
 	 * @param predicate A boolean predicate built using the supplied column oriented predicates ([[equals]], [[list]], [[like]], [[and]], [[or]], etc.).
+	 * @return Fluent API call, so returns this.
 	 */
 	public where(predicate: Predicate<number>): this {
 		this.predicate = predicate;
@@ -49,6 +53,7 @@ export class Query extends Queryable {
 
 	/**
 	 * Returns the set of columns that this query will return when executed.
+	 * @returns Returns an iterator for all the columns specified in the select method.
 	 */
 	public columns(): Iterable<Column> {
 		return this.allColumns;
@@ -56,10 +61,11 @@ export class Query extends Queryable {
 
 	/**
 	 * Returns the row indices that this query will return when executed.
+	 * @returns Returns an iterator for all the rows that meet the criteria specified in the where method.
 	 */
 	public *indices(): Iterable<number> {
 		for (const index of this.source.indices()) {
-			if (this.predicate(index)) { // TODO: use iterable protocol filter function
+			if (this.predicate(index)) {
 				yield index;
 			}
 		}

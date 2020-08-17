@@ -5,11 +5,19 @@ import { Row } from './Row';
  * Represents a table of data, comprising a number of columns.
  */
 export declare class Table extends Queryable {
-    /** The name of this table */
+    /**
+     * The name of this table
+     */
     readonly name: string;
-    /** The number of rows inserted into the table. */
+    /**
+     * The number of rows inserted into the table.
+     * @private
+     */
     private rowCount;
-    /** All the columns within the table. */
+    /**
+     * All the columns within the table.
+     * @private
+     */
     private readonly allColumns;
     /**
      * Creates a new instance of the Table class.
@@ -22,10 +30,10 @@ export declare class Table extends Queryable {
      */
     constructor(table: any);
     /**
-     * Adds a new column to the table
-     * @param column The new column to add.
+     * Adds one or more columns to the table
+     * @param columns The new columns to add.
      */
-    add(column: Column): Column;
+    add(...columns: Column[]): void;
     /**
      * Adds a new row of data to the table
      * @param row The row of data to add

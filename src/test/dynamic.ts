@@ -1,4 +1,4 @@
-import {Table, Column, Query, or} from '../core';
+import { Table, Column, Query, or } from '../core';
 
 // some names to generate a membership database with
 const givenNames = ['Boris', 'Theresa', 'David', 'Gordon', 'Tony', 'John', 'Margaret', 'James', 'Harold', 'Edward'];
@@ -12,27 +12,29 @@ function random(strings: Array<string>): string {
 
 // create a table with some columns
 const membership = new Table('membership');
-const id = membership.add(new Column('id'));
-const givenName = membership.add(new Column('givenName'));
-const familyName = membership.add(new Column('familyName'));
+const id = new Column('id');
+const givenName = new Column('givenName');
+const familyName = new Column('familyName');
+membership.add(id, givenName, familyName);
 
 // populate the table with some random data
 for (let id = 0; id < 10; id++) {
 	membership.insert({ id: id, givenName: random(givenNames), familyName: random(familyNames), county: random(counties) })
 }
 
-const county = membership.add(new Column('county').to(c => c || "Not specified"));
+const county = new Column('county').to(c => c || "Not specified");
+membership.add(county);
 
 // populate the table with some random data
 for (let id = 10; id < 20; id++) {
 	membership.insert({ id: id, givenName: random(givenNames), familyName: random(familyNames), county: random(counties) })
 }
 
-const sussex = new Query(membership)
+const query = new Query(membership)
 	.select(id, givenName, familyName, county)
 	.where(givenName.list('David', 'James'));
 
-for (const member of sussex) {
+for (const member of query) {
 	console.log(member);
 }
 

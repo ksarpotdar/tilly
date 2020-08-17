@@ -17,7 +17,8 @@ export abstract class Queryable implements Iterable<Row> {
 
 	/**
 	 * Executes the query, returning results as a series of rows.
-	 * @returns Returns an interable iterator to the result rows. 
+	 * @returns Returns an interable iterator to the result rows.
+	 * @private
 	 */
 	private *run(): IterableIterator<Row> {
 		for (const index of this.indices()) {
@@ -34,6 +35,7 @@ export abstract class Queryable implements Iterable<Row> {
 
 	/**
 	 * Makes the queryable object itself iterable.
+	 * @returns Returns an interable iterator to the result rows.
 	 */
 	public [Symbol.iterator](): IterableIterator<Row> {
 		return this.run();

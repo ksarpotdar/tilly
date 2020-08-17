@@ -6,13 +6,21 @@ import { Row } from './Row';
  * Represents a table of data, comprising a number of columns.
  */
 export class Table extends Queryable {
-	/** The name of this table */
+	/**
+	 * The name of this table
+	 */
 	public readonly name: string;
 
-	/** The number of rows inserted into the table. */
+	/**
+	 * The number of rows inserted into the table.
+	 * @private
+	 */
 	private rowCount: number;
 
-	/** All the columns within the table. */
+	/**
+	 * All the columns within the table.
+	 * @private
+	 */
 	private readonly allColumns: Array<Column>;
 
 	/**
@@ -42,17 +50,17 @@ export class Table extends Queryable {
 	}
 
 	/**
-	 * Adds a new column to the table
-	 * @param column The new column to add.
+	 * Adds one or more columns to the table
+	 * @param columns The new columns to add.
 	 */
-	public add(column: Column): Column {
-		// add the column to the table
-		this.allColumns.push(column);
+	public add(...columns: Column[]): void {
+		for (const column of columns) {
+			// add the column to the table
+			this.allColumns.push(column);
 
-		// add empty entries for existing rows
-		column.insert(undefined, 0, this.rowCount);
-
-		return column;
+			// add empty entries for existing rows
+			column.insert(undefined, 0, this.rowCount);
+		}
 	}
 
 	/**
