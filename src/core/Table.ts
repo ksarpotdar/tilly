@@ -29,7 +29,7 @@ export class Table extends Queryable {
 
 	public constructor(param: any) {
 		super();
-		
+
 		if (typeof param === "string") {
 			this.name = param;
 			this.allColumns = [];
