@@ -77,17 +77,19 @@ export class Column {
 	 * @private Package private.
 	 */
 	insert(value: unknown, start: number, end: number): void {
-		let position = this.values.indexOf(value);
+		if (start < end) {
+			let position = this.values.indexOf(value);
 
-		if (position === -1) {
-			this.values[position = this.values.length] = value;
-		}
+			if (position === -1) {
+				this.values[position = this.values.length] = value;
+			}
 
-		while (start < end) {
-			this.index[start++] = position;
+			while (start < end) {
+				this.index[start++] = position;
+			}
 		}
 	}
-
+	
 	/**
 	 * Returns a value from the column for a specific row index.
 	 * @param index The row index to return.
