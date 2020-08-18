@@ -89,7 +89,7 @@ export class Column {
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns a value from the column for a specific row index.
 	 * @param index The row index to return.
@@ -136,7 +136,7 @@ export class Column {
 	public like(regex: RegExp): Predicate<number> {
 		const indices: Array<number> = [];
 
-		for (let i = this.values.length; --i;) {
+		for (let i = this.values.length; i--;) {
 			if (regex.test(String(this.values[i]))) {
 				indices.push(i);
 			}
@@ -154,7 +154,7 @@ export class Column {
 	public in(...values: unknown[]): Predicate<number> {
 		const indices: Array<number> = [];
 
-		for (let i = this.values.length; --i;) {
+		for (let i = this.values.length; i--;) {
 			if (values.indexOf(this.values[i]) !== -1) {
 				indices.push(i);
 			}
