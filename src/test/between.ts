@@ -15,7 +15,6 @@ for (let year = 1000; year < 3000; ++year) {
 // create a query
 const today = new Date();
 const query1 = new Query(table)
-	.select(name)
 	.where(or(from.equals(today), from.lessThan(today)));
 
 // create a layered query, on on the other (could have been done with a simple and, but serves as an example)
