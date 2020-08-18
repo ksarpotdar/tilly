@@ -20,8 +20,8 @@ const query1 = new Query(table)
 
 // create a layered query, on on the other (could have been done with a simple and, but serves as an example)
 const query2 = new Query(query1)
-.select(name)
-.where(or(to.equals(today), to.greaterThan(today)));
+	.select(name)
+	.where(or(to.equals(today), to.greaterThan(today)));
 
 for (const row of query2) {
 	console.log(row);
