@@ -107,6 +107,24 @@ export class Column {
 	}
 
 	/**
+	 * Generates a predicate used in the where method of a query to select rows from a table less than a specified value.
+	 * @param value The value to test against.
+	 * @returns Returns the predicate to be used within a query where method.
+	 */
+	public lessThan<T>(value: T): Predicate<number> {
+		return index => this.value(index) < value;
+	}
+
+	/**
+	 * Generates a predicate used in the where method of a query to select rows from a table greater than a specified value.
+	 * @param value The value to test against.
+	 * @returns Returns the predicate to be used within a query where method.
+	 */
+	public greaterThan<T>(value: T): Predicate<number> {
+		return index => this.value(index) > value;
+	}
+
+	/**
 	 * Generates a predicate used in the where method of a query to select rows from a table based where values are like the regular expression provided.
 	 * @param regex A regular expression that will be tested to select rows.
 	 * @returns Returns the predicate to be used within a query where method.
@@ -129,7 +147,7 @@ export class Column {
 	 * @param values A list of values to test the column against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	public list(...values: unknown[]): Predicate<number> {
+	public in(...values: unknown[]): Predicate<number> {
 		const indices: Array<number> = [];
 
 		for (let i = this.values.length; --i;) {

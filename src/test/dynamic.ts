@@ -1,4 +1,4 @@
-import { Table, Column, Query, or } from '../core';
+import { Table, Column, Query } from '../core';
 
 // some names to generate a membership database with
 const givenNames = ['Boris', 'Theresa', 'David', 'Gordon', 'Tony', 'John', 'Margaret', 'James', 'Harold', 'Edward'];
@@ -32,10 +32,8 @@ for (let id = 10; id < 20; id++) {
 
 const query = new Query(membership)
 	.select(id, givenName, familyName, county)
-	.where(givenName.list('David', 'James'));
+	.where(givenName.in('David', 'James'));
 
 for (const member of query) {
 	console.log(member);
 }
-
-console.log()

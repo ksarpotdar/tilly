@@ -60,6 +60,18 @@ export declare class Column {
      */
     equals(value: unknown): Predicate<number>;
     /**
+     * Generates a predicate used in the where method of a query to select rows from a table less than a specified value.
+     * @param value The value to test against.
+     * @returns Returns the predicate to be used within a query where method.
+     */
+    lessThan<T>(value: T): Predicate<number>;
+    /**
+     * Generates a predicate used in the where method of a query to select rows from a table greater than a specified value.
+     * @param value The value to test against.
+     * @returns Returns the predicate to be used within a query where method.
+     */
+    greaterThan<T>(value: T): Predicate<number>;
+    /**
      * Generates a predicate used in the where method of a query to select rows from a table based where values are like the regular expression provided.
      * @param regex A regular expression that will be tested to select rows.
      * @returns Returns the predicate to be used within a query where method.
@@ -70,5 +82,5 @@ export declare class Column {
      * @param values A list of values to test the column against.
      * @returns Returns the predicate to be used within a query where method.
      */
-    list(...values: unknown[]): Predicate<number>;
+    in(...values: unknown[]): Predicate<number>;
 }
