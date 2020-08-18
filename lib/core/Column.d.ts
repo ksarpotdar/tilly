@@ -46,11 +46,13 @@ export declare class Column {
      * @param value The value to add.
      * @param start The first row to insert the value into.
      * @param end The first row not to insert the value into. Start and end provide a range from the start and up to, but not including the end.
+     * @private Package private.
      */
     insert(value: unknown, start: number, end: number): void;
     /**
      * Returns a value from the column for a specific row index.
      * @param index The row index to return.
+     * @private Package private.
      */
     value(index: number): any;
     /**

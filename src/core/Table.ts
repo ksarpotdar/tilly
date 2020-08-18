@@ -35,17 +35,17 @@ export class Table extends Queryable {
 	 */
 	public constructor(table: any);
 
-	public constructor(param: any) {
+	public constructor(p1: any) {
 		super();
 
-		if (typeof param === "string") {
-			this.name = param;
+		if (typeof p1 === "string") {
+			this.name = p1;
 			this.allColumns = [];
 			this.rowCount = 0;
 		} else {
-			this.name = param.name;
-			this.allColumns = param.allColumns.map((column: any) => new Column(column));
-			this.rowCount = param.rowCount;
+			this.name = p1.name;
+			this.allColumns = p1.allColumns.map((column: any) => new Column(column));
+			this.rowCount = p1.rowCount;
 		}
 	}
 
