@@ -106,6 +106,15 @@ export class Column {
 	}
 
 	/**
+	 * Enables a user-defined predicate to be used within a where clause
+	 * @param predicate A function that takes the columns value for a row and returns a boolean to indicate if the predicate has been met or not.
+	 * @returns Returns the predicate to be used within a query where method.
+	 */
+	public evaluate(predicate: Predicate<any>) : Predicate<number> {
+		return index => predicate(this.value(index));
+	}
+
+	/**
 	 * Generates a predicate used in the where method of a query to select rows from a table based on equality.
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
