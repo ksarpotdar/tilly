@@ -59,7 +59,7 @@ export class Table extends Queryable {
 			this.allColumns.push(column);
 
 			// add empty entries for existing rows
-			column.insert(undefined, 0, this.rowCount);
+			column.insert(null, 0, this.rowCount);
 		}
 	}
 

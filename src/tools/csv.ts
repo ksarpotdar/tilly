@@ -19,6 +19,12 @@ function createColumns(headers: any) {
 
 /** Add each row to the table */
 function insertRow(row: cdb.Row) {
+	for(const name of Object.getOwnPropertyNames(row)) {
+		if(row[name] === '') {
+			row[name] = null;
+		}
+	}
+
 	table.insert(row);
 
 	if (++count % 1000 === 0) {
