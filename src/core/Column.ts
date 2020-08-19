@@ -8,7 +8,7 @@ export class Column {
 	/**
 	 * The set of distinct, or unique, raw values for this column within the table.
 	 */
-	public readonly distinct: Array<unknown>;
+	private readonly distinct: Array<unknown>;
 
 	/**
 	 * The index into the array of distinct values for each row. 
@@ -87,6 +87,13 @@ export class Column {
 				this.index[start++] = position;
 			}
 		}
+	}
+
+	/**
+	 * Returns the distinct set of values that could be returned by a call to the value method.
+	 */
+	values(): Array<any> {
+		return this.distinct.map(this.convert);
 	}
 
 	/**
