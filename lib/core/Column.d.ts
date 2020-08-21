@@ -6,7 +6,7 @@ export declare class Column {
     /**
      * The set of distinct, or unique, raw values for this column within the table.
      */
-    private readonly distinct;
+    private readonly values;
     /**
      * The index into the array of distinct values for each row.
      * @private
@@ -51,7 +51,7 @@ export declare class Column {
     /**
      * Returns the distinct set of values that could be returned by a call to the value method.
      */
-    values(): Array<any>;
+    distinct(): Array<any>;
     /**
      * Returns a value from the column for a specific row index.
      * @param index The row index to return.

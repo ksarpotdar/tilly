@@ -8,7 +8,7 @@ export class Column {
 	/**
 	 * The set of distinct, or unique, raw values for this column within the table.
 	 */
-	private readonly distinct: Array<unknown>;
+	private readonly values: Array<unknown>;
 
 	/**
 	 * The index into the array of distinct values for each row. 
@@ -37,11 +37,11 @@ export class Column {
 	public constructor(p1: any, p2?: string) {
 		if (typeof p1 === "string") {
 			this.name = p1;
-			this.distinct = [];
+			this.values = [];
 			this.index = [];
 		} else {
 			this.name = p2 || p1.name;
-			this.distinct = p1.distinct;
+			this.values = p1.values;
 			this.index = p1.index;
 		}
 
@@ -77,10 +77,10 @@ export class Column {
 	 */
 	insert(value: unknown, start: number, end: number): void {
 		if (start < end) {
-			let position = this.distinct.indexOf(value);
+			let position = this.values.indexOf(value);
 
 			if (position === -1) {
-				this.distinct[position = this.distinct.length] = value;
+				this.values[position = this.values.length] = value;
 			}
 
 			while (start < end) {
@@ -92,8 +92,8 @@ export class Column {
 	/**
 	 * Returns the distinct set of values that could be returned by a call to the value method.
 	 */
-	values(): Array<any> {
-		return this.distinct.map(this.convert);
+	distinct(): Array<any> {
+		return this.values.map(this.convert);
 	}
 
 	/**
@@ -102,7 +102,7 @@ export class Column {
 	 * @private Package private.
 	 */
 	value(index: number): any {
-		return this.convert(this.distinct[this.index[index]]);
+		return this.convert(this.values[this.index[index]]);
 	}
 
 	/**
@@ -120,7 +120,7 @@ export class Column {
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
 	public equals(value: unknown): Predicate<number> {
-		const position = this.distinct.indexOf(value);
+		const position = this.values.indexOf(value);
 
 		return index => this.index[index] === position;
 	}
@@ -151,8 +151,8 @@ export class Column {
 	public like(regex: RegExp): Predicate<number> {
 		const indices: Array<number> = [];
 
-		for (let i = this.distinct.length; i--;) {
-			if (regex.test(String(this.distinct[i]))) {
+		for (let i = this.values.length; i--;) {
+			if (regex.test(String(this.values[i]))) {
 				indices.push(i);
 			}
 		}
@@ -169,8 +169,8 @@ export class Column {
 	public in(...values: unknown[]): Predicate<number> {
 		const indices: Array<number> = [];
 
-		for (let i = this.distinct.length; i--;) {
-			if (values.indexOf(this.distinct[i]) !== -1) {
+		for (let i = this.values.length; i--;) {
+			if (values.indexOf(this.values[i]) !== -1) {
 				indices.push(i);
 			}
 		}
