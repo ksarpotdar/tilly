@@ -1,6 +1,6 @@
 import { Queryable } from './Queryable';
 import { Column } from './Column';
-import { Row } from './Row';
+import { Row } from './types';
 
 /**
  * Represents a table of data, comprising a number of columns.

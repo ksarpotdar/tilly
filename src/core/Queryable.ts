@@ -1,5 +1,5 @@
 import { Column } from './Column';
-import { Row } from './Row';
+import { Row } from './types';
 
 /**
  * Abstract representation of a queryable object that is an iterator over a number of rows.

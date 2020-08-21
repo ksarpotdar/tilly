@@ -26,7 +26,7 @@ export class Query extends Queryable {
 		super();
 
 		this.predicate = (index: number) => true;
-		this.allColumns = [];
+		this.allColumns = source.columns();
 	}
 
 	/**
