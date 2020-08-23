@@ -110,7 +110,7 @@ export class Column {
 	 * @param predicate A function that takes the columns value for a row and returns a boolean to indicate if the predicate has been met or not.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	public evaluate(predicate: Predicate<any>) : Predicate<number> {
+	public evaluate(predicate: Predicate<any>): Predicate<number> {
 		return index => predicate(this.value(index));
 	}
 
