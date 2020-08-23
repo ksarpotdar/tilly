@@ -1,11 +1,11 @@
-import { Queryable } from './Queryable';
+import { IQueryable } from './IQueryable';
 import { Column } from './Column';
-import { Predicate } from './types';
+import { Predicate, Row } from './types';
 
 /**
  * Represents a query used to select a subset of the rows and columns of a table.
  */
-export class Query extends Queryable {
+export class Query implements IQueryable {
 	/**
 	 * The predicate that this query will use to restrict the number of rows from source table.
 	 * @private
@@ -22,9 +22,7 @@ export class Query extends Queryable {
 	 * Created a new instance of the query class.
 	 * @param queryable Another queryable object to use as the source for this query.
 	 */
-	public constructor(private readonly source: Queryable) {
-		super();
-
+	public constructor(private readonly source: IQueryable) {
 		this.predicate = (index: number) => true;
 		this.allColumns = source.columns();
 	}
@@ -69,5 +67,26 @@ export class Query extends Queryable {
 				yield index;
 			}
 		}
+	}
+
+	private *run(): IterableIterator<Row> {
+		for (const index of this.indices()) {
+			const row: Row = {};
+
+			// create each row in the result
+			for (const column of this.columns()) {
+				row[column.name] = column.value(index);
+			}
+
+			yield row;
+		}
+	}
+
+	/**
+	 * Makes the queryable object itself iterable.
+	 * @returns Returns an interable iterator to the result rows.
+	 */
+	public [Symbol.iterator](): IterableIterator<Row> {
+		return this.run();
 	}
 }

@@ -1,11 +1,11 @@
-import { Queryable } from './Queryable';
+import { IQueryable } from './IQueryable';
 import { Column } from './Column';
 import { Row } from './types';
 
 /**
  * Represents a table of data, comprising a number of columns.
  */
-export class Table extends Queryable {
+export class Table implements IQueryable {
 	/**
 	 * The name of this table
 	 */
@@ -36,8 +36,6 @@ export class Table extends Queryable {
 	public constructor(table: any);
 
 	public constructor(p1: any) {
-		super();
-
 		if (typeof p1 === "string") {
 			this.name = p1;
 			this.allColumns = [];
@@ -99,5 +97,26 @@ export class Table extends Queryable {
 	 */
 	public columns(): Iterable<Column> {
 		return this.allColumns;
+	}
+
+	private *run(): IterableIterator<Row> {
+		for (const index of this.indices()) {
+			const row: Row = {};
+
+			// create each row in the result
+			for (const column of this.columns()) {
+				row[column.name] = column.value(index);
+			}
+
+			yield row;
+		}
+	}
+
+	/**
+	 * Makes the queryable object itself iterable.
+	 * @returns Returns an interable iterator to the result rows.
+	 */
+	public [Symbol.iterator](): IterableIterator<Row> {
+		return this.run();
 	}
 }

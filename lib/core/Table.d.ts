@@ -1,10 +1,10 @@
-import { Queryable } from './Queryable';
+import { IQueryable } from './IQueryable';
 import { Column } from './Column';
 import { Row } from './types';
 /**
  * Represents a table of data, comprising a number of columns.
  */
-export declare class Table extends Queryable {
+export declare class Table implements IQueryable {
     /**
      * The name of this table
      */
@@ -52,4 +52,10 @@ export declare class Table extends Queryable {
      * Returns all the columns within the table.
      */
     columns(): Iterable<Column>;
+    private run;
+    /**
+     * Makes the queryable object itself iterable.
+     * @returns Returns an interable iterator to the result rows.
+     */
+    [Symbol.iterator](): IterableIterator<Row>;
 }
