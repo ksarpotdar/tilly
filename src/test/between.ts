@@ -15,7 +15,7 @@ for (let year = 1000; year < 3000; ++year) {
 // create a query
 const today = new Date();
 const query1 = new Query(table)
-	.where(or(from.equals(today), from.lessThan(today)));
+	.where(from.evaluate(value => value <= today));
 
 const query2 = new Query(query1)
 	.select(name)

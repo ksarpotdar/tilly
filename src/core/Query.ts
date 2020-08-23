@@ -69,7 +69,11 @@ export class Query implements IQueryable {
 		}
 	}
 
-	private *run(): IterableIterator<Row> {
+	/**
+	 * Makes the queryable object itself iterable.
+	 * @returns Returns an interable iterator to the result rows.
+	 */
+	*[Symbol.iterator](): IterableIterator<Row> {
 		for (const index of this.indices()) {
 			const row: Row = {};
 
@@ -80,13 +84,5 @@ export class Query implements IQueryable {
 
 			yield row;
 		}
-	}
-
-	/**
-	 * Makes the queryable object itself iterable.
-	 * @returns Returns an interable iterator to the result rows.
-	 */
-	public [Symbol.iterator](): IterableIterator<Row> {
-		return this.run();
 	}
 }

@@ -52,10 +52,4 @@ export declare class Table implements IQueryable {
      * Returns all the columns within the table.
      */
     columns(): Iterable<Column>;
-    private run;
-    /**
-     * Makes the queryable object itself iterable.
-     * @returns Returns an interable iterator to the result rows.
-     */
-    [Symbol.iterator](): IterableIterator<Row>;
 }

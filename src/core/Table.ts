@@ -98,25 +98,4 @@ export class Table implements IQueryable {
 	public columns(): Iterable<Column> {
 		return this.allColumns;
 	}
-
-	private *run(): IterableIterator<Row> {
-		for (const index of this.indices()) {
-			const row: Row = {};
-
-			// create each row in the result
-			for (const column of this.columns()) {
-				row[column.name] = column.value(index);
-			}
-
-			yield row;
-		}
-	}
-
-	/**
-	 * Makes the queryable object itself iterable.
-	 * @returns Returns an interable iterator to the result rows.
-	 */
-	public [Symbol.iterator](): IterableIterator<Row> {
-		return this.run();
-	}
 }
