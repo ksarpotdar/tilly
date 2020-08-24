@@ -1,5 +1,5 @@
 # Tilly
-A simple columnar database. Stores the unique values for each column and rows become integer indexes into the set of unique values.
+Tilly is a simple columnar database that can be used within the browser, or server-side in node.js. Stores the unique values for each column and rows become integer indexes into the set of unique values.
 
 ## Installation
 Until the first release, use the contents of the ```lib``` directory, the entery point is ```index.js```.
