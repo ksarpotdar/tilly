@@ -16,7 +16,10 @@ For option 2 above, a utility is provided to convert CSV formatted data into the
 ```
 node lib/tools/csv [source CSV path] [target JSON path]
 ```
-
+Then compress the file with the following:
+```
+node lib/tools/compress [source JSON path] brotli
+```
 ## Example
 An example of option two would be:
 ```TypeScript
