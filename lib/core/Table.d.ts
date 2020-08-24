@@ -18,7 +18,7 @@ export declare class Table implements IQueryable {
      * All the columns within the table.
      * @private
      */
-    private readonly allColumns;
+    private readonly columns;
     /**
      * Creates a new instance of the Table class.
      * @param name The name of the table.
@@ -48,8 +48,4 @@ export declare class Table implements IQueryable {
      * Returns the indexes of all rows in the table.
      */
     indices(): Iterable<number>;
-    /**
-     * Returns all the columns within the table.
-     */
-    columns(): Iterable<Column>;
 }

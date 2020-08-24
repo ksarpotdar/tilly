@@ -15,7 +15,7 @@ export declare class Query implements IQueryable {
      * The columns that will be returned by this query.
      * @private
      */
-    private allColumns;
+    private columns;
     /**
      * Created a new instance of the query class.
      * @param queryable Another queryable object to use as the source for this query.
@@ -33,11 +33,6 @@ export declare class Query implements IQueryable {
      * @return Fluent API call, so returns this.
      */
     where(predicate: Predicate<number>): this;
-    /**
-     * Returns the set of columns that this query will return when executed.
-     * @returns Returns an iterator for all the columns specified in the select method.
-     */
-    columns(): Iterable<Column>;
     /**
      * Returns the row indices that this query will return when executed.
      * @returns Returns an iterator for all the rows that meet the criteria specified in the where method.

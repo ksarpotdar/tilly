@@ -16,7 +16,7 @@ export class Query implements IQueryable {
 	 * The columns that will be returned by this query.
 	 * @private
 	 */
-	private allColumns: Iterable<Column>;
+	private columns: Iterable<Column>;
 
 	/**
 	 * Created a new instance of the query class.
@@ -24,7 +24,7 @@ export class Query implements IQueryable {
 	 */
 	public constructor(private readonly source: IQueryable) {
 		this.predicate = (index: number) => true;
-		this.allColumns = [];
+		this.columns = [];
 	}
 
 	/**
@@ -33,7 +33,7 @@ export class Query implements IQueryable {
 	 * @return Fluent API call, so returns this.
 	 */
 	public select(...columns: Column[]): this {
-		this.allColumns = columns;
+		this.columns = columns;
 
 		return this;
 	}
@@ -47,14 +47,6 @@ export class Query implements IQueryable {
 		this.predicate = predicate;
 
 		return this;
-	}
-
-	/**
-	 * Returns the set of columns that this query will return when executed.
-	 * @returns Returns an iterator for all the columns specified in the select method.
-	 */
-	public columns(): Iterable<Column> {
-		return this.allColumns;
 	}
 
 	/**
@@ -78,11 +70,11 @@ export class Query implements IQueryable {
 			const row: Row = {};
 			
 			// create each row in the result
-			for (const column of this.columns()) {
+			for (const column of this.columns) {
 				row[column.name] = column.value(index);
 			}
 
-			yield row; // TODO: investigate Object.fromEntries
+			yield row;
 		}
 	}
 }

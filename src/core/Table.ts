@@ -21,7 +21,7 @@ export class Table implements IQueryable {
 	 * All the columns within the table.
 	 * @private
 	 */
-	private readonly allColumns: Array<Column>;
+	private readonly columns: Array<Column>;
 
 	/**
 	 * Creates a new instance of the Table class.
@@ -38,11 +38,11 @@ export class Table implements IQueryable {
 	public constructor(p1: any) {
 		if (typeof p1 === "string") {
 			this.name = p1;
-			this.allColumns = [];
+			this.columns = [];
 			this.rowCount = 0;
 		} else {
 			this.name = p1.name;
-			this.allColumns = p1.allColumns.map((column: any) => new Column(column));
+			this.columns = p1.columns.map((column: any) => new Column(column));
 			this.rowCount = p1.rowCount;
 		}
 	}
@@ -54,7 +54,7 @@ export class Table implements IQueryable {
 	public add(...columns: Column[]): void {
 		for (const column of columns) {
 			// add the column to the table
-			this.allColumns.push(column);
+			this.columns.push(column);
 
 			// add empty entries for existing rows
 			column.insert(null, 0, this.rowCount);
@@ -68,7 +68,7 @@ export class Table implements IQueryable {
 	public insert(row: Row): void {
 		const start = this.rowCount++;
 
-		for (const column of this.allColumns) {
+		for (const column of this.columns) {
 			column.insert(row[column.name], start, this.rowCount);
 		}
 	}
@@ -78,7 +78,7 @@ export class Table implements IQueryable {
 	 * @param name The name of the column to find.
 	 */
 	public column(name: string): Column | undefined {
-		return this.allColumns.find(col => col.name === name);
+		return this.columns.find(col => col.name === name);
 	}
 
 	/**
@@ -90,12 +90,5 @@ export class Table implements IQueryable {
 		while (index < this.rowCount) {
 			yield index++;
 		}
-	}
-
-	/**
-	 * Returns all the columns within the table.
-	 */
-	public columns(): Iterable<Column> {
-		return this.allColumns;
 	}
 }

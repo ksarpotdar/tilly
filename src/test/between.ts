@@ -1,4 +1,4 @@
-import { Table, Column, Query, or } from '../core';
+import { Table, Column, Query } from '../core';
 
 // create a table
 const table = new Table('ranges');
