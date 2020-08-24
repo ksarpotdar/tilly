@@ -1,5 +1,5 @@
 # Tools
-Contains some utility tools for converting data into the format used by cdb.
+Contains some utility tools for converting data into the format used by Tilly.
 
 |Tool|Use|
 |:-|:-|

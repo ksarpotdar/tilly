@@ -1,4 +1,4 @@
-# cdb
+# Tilly
 A simple columnar database. Stores the unique values for each column and rows become integer indexes into the set of unique values.
 
 ## Installation
@@ -12,7 +12,7 @@ There are two main ways to add data to a table:
 
 Both options then allow you to query tables.
 
-For option 2 above, a utility is provided to convert CSV formatted data into the cdb JSON format. To run this utility, simply invoke the command:
+For option 2 above, a utility is provided to convert CSV formatted data into the Tilly JSON format. To run this utility, simply invoke the command:
 ```
 node lib/tools/csv [source CSV path] [target JSON path]
 ```
@@ -64,8 +64,8 @@ This example uses population forecast data from the World Bank available [here](
 Licensed under the [MIT License](LICENSE).
 
 ## Depencencies
-@steelbreeze/cdb depends on the following packages:
+@steelbreeze/tilly depends on the following packages:
 |Package|Use|Licence|
 |:-|:-|:-|
-|[csv-parser](https://github.com/mafintosh/csv-parser)|Stream parser for CSV files. Not a requirement for the core code, but used within the CSV to cdb conversion tool.|MIT License|
-|[strip-bom-stream](https://github.com/sindresorhus/strip-bom-stream)|Removes byte order marks from files. Not a requirement for the core code, but used within the CSV to cdb conversion tool.|MIT License|
+|[csv-parser](https://github.com/mafintosh/csv-parser)|Stream parser for CSV files. Not a requirement for the core code, but used within the CSV to JSON conversion tool.|MIT License|
+|[strip-bom-stream](https://github.com/sindresorhus/strip-bom-stream)|Removes byte order marks from files. Not a requirement for the core code, but used within the CSV to JSON conversion tool.|MIT License|

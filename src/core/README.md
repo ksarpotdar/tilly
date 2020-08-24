@@ -1,4 +1,4 @@
-The properties used within cdb classes have this meaning:
+The properties used within Tilly classes have this meaning:
 
 |Name|Meaning|
 |:-|:-|

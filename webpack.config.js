@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-	  cdb: [ './lib/core/index.js' ]
+	  tilly: [ './lib/core/index.js' ]
   },
   mode: 'production',
   output: {
