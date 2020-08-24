@@ -44,7 +44,7 @@ export declare class Query implements IQueryable {
      */
     indices(): Iterable<number>;
     /**
-     * Makes the queryable object itself iterable.
+     * Makes the query iterable.
      * @returns Returns an interable iterator to the result rows.
      */
     [Symbol.iterator](): IterableIterator<Row>;

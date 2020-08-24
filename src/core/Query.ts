@@ -24,7 +24,7 @@ export class Query implements IQueryable {
 	 */
 	public constructor(private readonly source: IQueryable) {
 		this.predicate = (index: number) => true;
-		this.allColumns = source.columns();
+		this.allColumns = [];
 	}
 
 	/**
@@ -70,19 +70,19 @@ export class Query implements IQueryable {
 	}
 
 	/**
-	 * Makes the queryable object itself iterable.
+	 * Makes the query iterable.
 	 * @returns Returns an interable iterator to the result rows.
 	 */
-	*[Symbol.iterator](): IterableIterator<Row> {
+	public *[Symbol.iterator](): IterableIterator<Row> {
 		for (const index of this.indices()) {
 			const row: Row = {};
-
+			
 			// create each row in the result
 			for (const column of this.columns()) {
 				row[column.name] = column.value(index);
 			}
 
-			yield row;
+			yield row; // TODO: investigate Object.fromEntries
 		}
 	}
 }
