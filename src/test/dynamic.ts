@@ -32,7 +32,7 @@ for (let id = 10; id < 20; id++) {
 
 const query = new Query(membership)
 	.select(id, givenName, familyName, county)
-	.where(givenName.evaluate(name => name ==='David' || name === 'James'));
+	.where(givenName.in('David', 'James'));
 
 for (const member of query) {
 	console.log(member);
