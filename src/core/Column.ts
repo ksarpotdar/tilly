@@ -124,40 +124,4 @@ export class Column {
 
 		return index => this.index[index] === position;
 	}
-
-	/**
-	 * Generates a predicate used in the where method of a query to select rows from a table based where values are like the regular expression provided.
-	 * @param regex A regular expression that will be tested to select rows.
-	 * @returns Returns the predicate to be used within a query where method.
-	 */
-	public like(regex: RegExp): Predicate<number> {
-		const indices: Array<number> = [];
-
-		for (let i = this.values.length; i--;) {
-			if (regex.test(String(this.values[i]))) {
-				indices.push(i);
-			}
-		}
-
-		// Return a function that returns true if the row matches the regex results
-		return index => indices.indexOf(this.index[index]) !== -1;
-	}
-
-	/**
-	 * Generates a predicate used in the where method of a query to select rows from a table based where values are in the list provided.
-	 * @param values A list of values to test the column against.
-	 * @returns Returns the predicate to be used within a query where method.
-	 */
-	public in(...values: unknown[]): Predicate<number> {
-		const indices: Array<number> = [];
-
-		for (let i = this.values.length; i--;) {
-			if (values.indexOf(this.values[i]) !== -1) {
-				indices.push(i);
-			}
-		}
-
-		// Return a function that returns true if the row matches the regex results
-		return index => indices.indexOf(this.index[index]) !== -1;
-	}
 }

@@ -70,16 +70,4 @@ export declare class Column {
      * @returns Returns the predicate to be used within a query where method.
      */
     equals(value: unknown): Predicate<number>;
-    /**
-     * Generates a predicate used in the where method of a query to select rows from a table based where values are like the regular expression provided.
-     * @param regex A regular expression that will be tested to select rows.
-     * @returns Returns the predicate to be used within a query where method.
-     */
-    like(regex: RegExp): Predicate<number>;
-    /**
-     * Generates a predicate used in the where method of a query to select rows from a table based where values are in the list provided.
-     * @param values A list of values to test the column against.
-     * @returns Returns the predicate to be used within a query where method.
-     */
-    in(...values: unknown[]): Predicate<number>;
 }
