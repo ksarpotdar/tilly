@@ -6,7 +6,7 @@ export declare class Column {
     /**
      * The set of distinct, or unique, raw values for this column within the table.
      */
-    private readonly values;
+    readonly distinct: Array<unknown>;
     /**
      * The index into the array of distinct values for each row.
      * @private
@@ -43,15 +43,14 @@ export declare class Column {
     /**
      * Inserts a new row into the column.
      * @param value The value to add.
-     * @param start The first row to insert the value into.
-     * @param end The first row not to insert the value into. Start and end provide a range from the start and up to, but not including the end.
+     * @param from The first row to insert the value into.
+     * @param to The first row not to insert the value into. Start and end provide a range from the start and up to, but not including the end.
      * @private Package private.
      */
-    insert(value: unknown, start: number, end: number): void;
+    insert(value: unknown, from: number, to: number): void;
     /**
      * Returns the distinct set of values that could be returned by a call to the value method.
      */
-    distinct(): Array<any>;
     /**
      * Returns a value from the column for a specific row index.
      * @param index The row index to return.

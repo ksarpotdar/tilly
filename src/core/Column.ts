@@ -8,7 +8,7 @@ export class Column {
 	/**
 	 * The set of distinct, or unique, raw values for this column within the table.
 	 */
-	private readonly values: Array<unknown>;
+	public readonly distinct: Array<unknown>;
 
 	/**
 	 * The index into the array of distinct values for each row. 
@@ -37,11 +37,11 @@ export class Column {
 	public constructor(p1: any, p2?: string) {
 		if (typeof p1 === "string") {
 			this.name = p1;
-			this.values = [];
+			this.distinct = [];
 			this.index = [];
 		} else {
 			this.name = p2 || p1.name;
-			this.values = p1.values;
+			this.distinct = p1.distinct;
 			this.index = p1.index;
 		}
 
@@ -71,29 +71,22 @@ export class Column {
 	/**
 	 * Inserts a new row into the column.
 	 * @param value The value to add.
-	 * @param start The first row to insert the value into.
-	 * @param end The first row not to insert the value into. Start and end provide a range from the start and up to, but not including the end.
+	 * @param from The first row to insert the value into.
+	 * @param to The first row not to insert the value into. Start and end provide a range from the start and up to, but not including the end.
 	 * @private Package private.
 	 */
-	insert(value: unknown, start: number, end: number): void {
-		if (start < end) {
-			let position = this.values.indexOf(value);
+	insert(value: unknown, from: number, to: number): void {
+		if (from < to) {
+			let position = this.distinct.indexOf(value);
 
 			if (position === -1) {
-				this.values[position = this.values.length] = value;
+				this.distinct[position = this.distinct.length] = value;
 			}
 
-			while (start < end) {
-				this.index[start++] = position;
+			while (from < to) {
+				this.index[from++] = position;
 			}
 		}
-	}
-
-	/**
-	 * Returns the distinct set of values that could be returned by a call to the value method.
-	 */
-	distinct(): Array<any> {
-		return this.values.map(this.convert);
 	}
 
 	/**
@@ -102,7 +95,7 @@ export class Column {
 	 * @private Package private.
 	 */
 	value(index: number): any {
-		return this.convert(this.values[this.index[index]]);
+		return this.convert(this.distinct[this.index[index]]);
 	}
 
 	/**
@@ -123,7 +116,7 @@ export class Column {
 	 */
 	public equals(value: unknown): Supplier<Predicate<number>> {
 		return () => {
-			let position = this.values.indexOf(value);
+			let position = this.distinct.indexOf(value);
 
 			return (index) => {
 				return this.index[index] === position;
