@@ -120,7 +120,7 @@ export class Column {
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
 	public equals(value: unknown): Predicate<number> {
-		const position = this.values.indexOf(value);
+		let position = this.values.indexOf(value);
 
 		return index => this.index[index] === position;
 	}
