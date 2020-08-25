@@ -1,4 +1,4 @@
-import { Function, Predicate } from './types';
+import { Supplier, Function, Predicate } from './types';
 
 /** Represents a column and its data within a table. */
 export class Column {
@@ -106,12 +106,14 @@ export class Column {
 	}
 
 	/**
-	 * Enables a user-defined predicate to be used within a where clause
+	 * Generates a predicate based on a callback to be used within a where clause
 	 * @param predicate A function that takes the columns value for a row and returns a boolean to indicate if the predicate has been met or not.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	public evaluate(predicate: Predicate<any>): Predicate<number> {
-		return index => predicate(this.value(index));
+	public evaluate(predicate: Predicate<any>): Supplier<Predicate<number>> {
+		return () => (index) => {
+			return predicate(this.value(index));
+		}
 	}
 
 	/**
@@ -119,9 +121,13 @@ export class Column {
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	public equals(value: unknown): Predicate<number> {
-		let position = this.values.indexOf(value);
+	public equals(value: unknown): Supplier<Predicate<number>> {
+		return () => {
+			let position = this.values.indexOf(value);
 
-		return index => this.index[index] === position;
+			return (index) => {
+				return this.index[index] === position;
+			}
+		}
 	}
 }

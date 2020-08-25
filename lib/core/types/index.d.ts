@@ -1,4 +1,8 @@
 /**
+ * A supplier function, one with no parameters that returns a result.
+ */
+export declare type Supplier<TResult> = () => TResult;
+/**
  * A function taking a value of one type returning another type.
  */
 export declare type Function<TValue, TResult> = (value: TValue) => TResult;

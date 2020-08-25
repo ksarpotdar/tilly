@@ -1,16 +1,16 @@
 import { IQueryable } from './IQueryable';
 import { Column } from './Column';
-import { Predicate, Row } from './types';
+import { Supplier, Predicate, Row } from './types';
 
 /**
  * Represents a query used to select a subset of the rows and columns of a table.
  */
 export class Query implements IQueryable {
 	/**
-	 * The predicate that this query will use to restrict the number of rows from source table.
+	 * The supplier that will create the predicate that this query will use to restrict the number of rows from source table.
 	 * @private
 	 */
-	private predicate: Predicate<number>;
+	private condition: Supplier<Predicate<number>>;
 
 	/**
 	 * The columns that will be returned by this query.
@@ -23,7 +23,7 @@ export class Query implements IQueryable {
 	 * @param queryable Another queryable object to use as the source for this query.
 	 */
 	public constructor(private readonly source: IQueryable) {
-		this.predicate = (index: number) => true;
+		this.condition = () => (index: number) => true;
 		this.columns = [];
 	}
 
@@ -40,11 +40,11 @@ export class Query implements IQueryable {
 
 	/**
 	 * Defines the filter critera that will be applied to rows retrieved from the source.
-	 * @param predicate A boolean predicate built using the supplied column oriented predicates ([[equals]], [[list]], [[like]], [[and]], [[or]], etc.).
+	 * @param condition The predicate built using the supplied column oriented predicates ([[equals]], [[list]], [[like]], [[and]], [[or]], etc.).
 	 * @return Fluent API call, so returns this.
 	 */
-	public where(predicate: Predicate<number>): this {
-		this.predicate = predicate;
+	public where(condition: Supplier<Predicate<number>>): this {
+		this.condition = condition;
 
 		return this;
 	}
@@ -53,9 +53,13 @@ export class Query implements IQueryable {
 	 * Returns the row indices that this query will return when executed.
 	 * @returns Returns an iterator for all the rows that meet the criteria specified in the where method.
 	 */
-	public *indices(): Iterable<number> {
+	public *indices(): IterableIterator<number> {
+		// generate the predicate that will be used to filter the rows.
+		const predicate = this.condition();
+
+		// filter the rows
 		for (const index of this.source.indices()) {
-			if (this.predicate(index)) {
+			if (predicate(index)) {
 				yield index;
 			}
 		}

@@ -1,4 +1,4 @@
-import { Function, Predicate } from './types';
+import { Supplier, Function, Predicate } from './types';
 /** Represents a column and its data within a table. */
 export declare class Column {
     /** The name of this column */
@@ -59,15 +59,15 @@ export declare class Column {
      */
     value(index: number): any;
     /**
-     * Enables a user-defined predicate to be used within a where clause
+     * Generates a predicate based on a callback to be used within a where clause
      * @param predicate A function that takes the columns value for a row and returns a boolean to indicate if the predicate has been met or not.
      * @returns Returns the predicate to be used within a query where method.
      */
-    evaluate(predicate: Predicate<any>): Predicate<number>;
+    evaluate(predicate: Predicate<any>): Supplier<Predicate<number>>;
     /**
      * Generates a predicate used in the where method of a query to select rows from a table based on equality.
      * @param value The value to test against.
      * @returns Returns the predicate to be used within a query where method.
      */
-    equals(value: unknown): Predicate<number>;
+    equals(value: unknown): Supplier<Predicate<number>>;
 }

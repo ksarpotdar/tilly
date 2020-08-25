@@ -1,4 +1,4 @@
-export { Function, Predicate, Row } from './types';
+export { Row } from './types';
 export { Column } from './Column';
 export { Table } from './Table';
 export { Query } from './Query';
