@@ -55,7 +55,7 @@ export declare class Column {
      */
     value(index: number): any;
     /**
-     * Generates a predicate based on a callback to be used within a where clause
+     * Generates a condition based on a callback to be used within a where clause
      * @param predicate A function that takes the columns value for a row and returns a boolean to indicate if the predicate has been met or not.
      */
     evaluate(predicate: Predicate<any>): Supplier<Predicate<number>>;
@@ -65,7 +65,7 @@ export declare class Column {
      */
     in(...values: Array<any>): Supplier<Predicate<number>>;
     /**
-     * Generates a predicate used in the where method of a query to select rows from a table based on equality.
+     * Generates a condition to be used in the where method of a query to select rows from a table based on equality.
      * @param value The value to test against.
      * @returns Returns the predicate to be used within a query where method.
      */

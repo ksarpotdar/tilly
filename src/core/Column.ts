@@ -99,12 +99,14 @@ export class Column {
 	}
 
 	/**
-	 * Generates a predicate based on a callback to be used within a where clause
+	 * Generates a condition based on a callback to be used within a where clause
 	 * @param predicate A function that takes the columns value for a row and returns a boolean to indicate if the predicate has been met or not.
 	 */
 	public evaluate(predicate: Predicate<any>): Supplier<Predicate<number>> {
-		return () => (index) => {
-			return predicate(this.value(index));
+		return () => {
+			return (index: number) => {
+				return predicate(this.value(index));
+			}
 		}
 	}
 
@@ -124,13 +126,14 @@ export class Column {
 				}
 			}
 
-			// Return a function that returns true if the row matches the regex results
-			return index => indices.indexOf(this.index[index]) !== -1;
+			return (index: number) => {
+				return indices.indexOf(this.index[index]) !== -1;
+			}
 		}
 	}
 
 	/**
-	 * Generates a predicate used in the where method of a query to select rows from a table based on equality.
+	 * Generates a condition to be used in the where method of a query to select rows from a table based on equality.
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
@@ -138,7 +141,7 @@ export class Column {
 		return () => {
 			let position = this.distinct.indexOf(value);
 
-			return (index) => {
+			return (index: number) => {
 				return this.index[index] === position;
 			}
 		}
