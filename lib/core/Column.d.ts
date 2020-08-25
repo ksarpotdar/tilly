@@ -49,9 +49,6 @@ export declare class Column {
      */
     insert(value: unknown, from: number, to: number): void;
     /**
-     * Returns the distinct set of values that could be returned by a call to the value method.
-     */
-    /**
      * Returns a value from the column for a specific row index.
      * @param index The row index to return.
      * @private Package private.
@@ -60,9 +57,13 @@ export declare class Column {
     /**
      * Generates a predicate based on a callback to be used within a where clause
      * @param predicate A function that takes the columns value for a row and returns a boolean to indicate if the predicate has been met or not.
-     * @returns Returns the predicate to be used within a query where method.
      */
     evaluate(predicate: Predicate<any>): Supplier<Predicate<number>>;
+    /**
+     * Generates a condition to be used in Query.where to filter a column by a list of values.
+     * @param values The list of values to filter the column by.
+     */
+    in(...values: Array<any>): Supplier<Predicate<number>>;
     /**
      * Generates a predicate used in the where method of a query to select rows from a table based on equality.
      * @param value The value to test against.

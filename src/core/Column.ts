@@ -101,11 +101,31 @@ export class Column {
 	/**
 	 * Generates a predicate based on a callback to be used within a where clause
 	 * @param predicate A function that takes the columns value for a row and returns a boolean to indicate if the predicate has been met or not.
-	 * @returns Returns the predicate to be used within a query where method.
 	 */
 	public evaluate(predicate: Predicate<any>): Supplier<Predicate<number>> {
 		return () => (index) => {
 			return predicate(this.value(index));
+		}
+	}
+
+	/**
+	 * Generates a condition to be used in Query.where to filter a column by a list of values.
+	 * @param values The list of values to filter the column by.
+	 */
+	public in(...values: Array<any>): Supplier<Predicate<number>> {
+		return () => {
+			const indices: Array<number> = [];
+
+			for (let i = values.length; i--;) {
+				const index = this.distinct.indexOf(values[i]);
+
+				if (index !== -1) {
+					indices.push(index);
+				}
+			}
+
+			// Return a function that returns true if the row matches the regex results
+			return index => indices.indexOf(this.index[index]) !== -1;
 		}
 	}
 
