@@ -63,7 +63,7 @@ export declare class Column {
      * Generates a condition to be used in Query.where to filter a column by a list of values.
      * @param values The list of values to filter the column by.
      */
-    in(...values: Array<any>): Supplier<Predicate<number>>;
+    in(values: Array<any>): Supplier<Predicate<number>>;
     /**
      * Generates a condition to be used in the where method of a query to select rows from a table based on equality.
      * @param value The value to test against.

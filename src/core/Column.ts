@@ -114,7 +114,7 @@ export class Column {
 	 * Generates a condition to be used in Query.where to filter a column by a list of values.
 	 * @param values The list of values to filter the column by.
 	 */
-	public in(...values: Array<any>): Supplier<Predicate<number>> {
+	public in(values: Array<any>): Supplier<Predicate<number>> {
 		return () => {
 			const indices: Array<number> = [];
 

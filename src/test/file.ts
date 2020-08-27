@@ -21,7 +21,7 @@ const notCountry = ['ARB', 'CSS', 'CEB', 'EAR', 'EAS', 'EAP', 'TEA', 'ECS', 'ECA
 // create a query with just three returned columns and a complex filter criteria
 const query = new Query(estimates)
 	.select(countryCode.as('code'), countryName.as('name'), value)
-	.where(and(indicatorName.equals('Population, total'), not(value.equals(null)), not(countryCode.in(...notCountry))));
+	.where(and(indicatorName.equals('Population, total'), not(value.equals(null)), not(countryCode.in(notCountry))));
 
 // iterate the query results
 for (const row of query) {
