@@ -1,6 +1,8 @@
 # Tilly
 Tilly is a simple columnar database that can be used within the browser, or server-side in node.js. Stores the unique values for each column and rows become integer indexes into the set of unique values.
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/a0cbfd497a54ac1fb031/maintainability)](https://codeclimate.com/github/steelbreeze/tilly/maintainability)
+
 ## Installation
 Until the first release, use the contents of the ```lib``` directory, the entery point is ```index.js```.
 Run `npm update` after downloading to install dependencies.
