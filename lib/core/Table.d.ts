@@ -28,7 +28,7 @@ export declare class Table implements IQueryable {
      * Creates a new instance of the Table class.
      * @param table Another table to copy as a baseline or JSON rendering of a table.
      */
-    constructor(table: any);
+    constructor(table: Table);
     /**
      * Adds one or more columns to the table
      * @param columns The new columns to add.

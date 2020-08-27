@@ -33,8 +33,8 @@ export class Column {
 	 * @param column Another column to copy as a baseline.
 	 * @param name An alternative name for the new column.
 	 */
-	public constructor(column: any, name?: string);
-	public constructor(p1: any, p2?: string) {
+	public constructor(column: Column, name?: string);
+	public constructor(p1: string | Column, p2?: string) {
 		if (typeof p1 === "string") {
 			this.name = p1;
 			this.distinct = [];

@@ -33,9 +33,9 @@ export class Table implements IQueryable {
 	 * Creates a new instance of the Table class.
 	 * @param table Another table to copy as a baseline or JSON rendering of a table.
 	 */
-	public constructor(table: any);
+	public constructor(table: Table);
 
-	public constructor(p1: any) {
+	public constructor(p1: string | Table) {
 		if (typeof p1 === "string") {
 			this.name = p1;
 			this.columns = [];

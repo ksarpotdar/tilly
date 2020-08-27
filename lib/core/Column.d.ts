@@ -27,7 +27,7 @@ export declare class Column {
      * @param column Another column to copy as a baseline.
      * @param name An alternative name for the new column.
      */
-    constructor(column: any, name?: string);
+    constructor(column: Column, name?: string);
     /**
      * Creates a column alias with a different name.
      * @param name The alias name for the column.
