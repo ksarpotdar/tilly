@@ -1,18 +1,27 @@
 import { Supplier, Predicate } from './types';
 
 /**
+ * Function to aggregate a number of predicates using an operation
+ * @param suppliers 
+ * @param operation 
+ */
+function aggregate(suppliers: Array<Supplier<Predicate<number>>>, operation: Predicate<Predicate<any>>): Supplier<Predicate<number>> {
+	return () => {
+		const predicates = suppliers.map(supplier => supplier());
+
+		return (index: number) => {
+			return operation.call(predicates, predicate => predicate(index));
+		}
+	};
+}
+
+/**
  * Performs a logical and operation of other predicates used within a query.
  * @param suppliers An arbitory number of conditions, all of which must return true for this predicate to return true.
  * @returns Returns the predicate to be used within a query where method.
  */
 export function and(...suppliers: Array<Supplier<Predicate<number>>>): Supplier<Predicate<number>> {
-	return () => {
-		const predicates = suppliers.map(supplier => supplier());
-
-		return (index: number) => {
-			return predicates.every(predicate => predicate(index));
-		}
-	};
+	return aggregate(suppliers, Array.prototype.every);
 }
 
 /**
@@ -21,13 +30,7 @@ export function and(...suppliers: Array<Supplier<Predicate<number>>>): Supplier<
  * @returns Returns the predicate to be used within a query where method.
  */
 export function or(...suppliers: Array<Supplier<Predicate<number>>>): Supplier<Predicate<number>> {
-	return () => {
-		const predicates = suppliers.map(supplier => supplier());
-
-		return (index: number) => {
-			return predicates.some(predicate => predicate(index));
-		}
-	}
+	return aggregate(suppliers, Array.prototype.some);
 }
 
 /**
