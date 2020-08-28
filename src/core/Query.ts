@@ -1,11 +1,11 @@
-import { IQueryable } from './IQueryable';
 import { Column } from './Column';
+import { Table } from './Table';
 import { Supplier, Predicate, Row } from './types';
 
 /**
  * Represents a query used to select a subset of the rows and columns of a table.
  */
-export class Query implements IQueryable {
+export class Query {
 	/**
 	 * The supplier that will create the predicate that this query will use to restrict the number of rows from source table.
 	 * @private
@@ -20,9 +20,9 @@ export class Query implements IQueryable {
 
 	/**
 	 * Created a new instance of the query class.
-	 * @param queryable Another queryable object to use as the source for this query.
+	 * @param source Another queryable object to use as the source for this query.
 	 */
-	public constructor(private readonly source: IQueryable) {
+	public constructor(private readonly source: Table | Query) {
 		this.condition = () => (index: number) => true;
 		this.columns = [];
 	}
@@ -72,7 +72,7 @@ export class Query implements IQueryable {
 	public *[Symbol.iterator](): IterableIterator<Row> {
 		for (const index of this.indices()) {
 			const row: Row = {};
-			
+
 			// create each row in the result
 			for (const column of this.columns) {
 				row[column.name] = column.value(index);

@@ -1,10 +1,9 @@
-import { IQueryable } from './IQueryable';
 import { Column } from './Column';
 import { Row } from './types';
 /**
  * Represents a table of data, comprising a number of columns.
  */
-export declare class Table implements IQueryable {
+export declare class Table {
     /**
      * The name of this table
      */

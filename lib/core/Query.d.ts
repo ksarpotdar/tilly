@@ -1,10 +1,10 @@
-import { IQueryable } from './IQueryable';
 import { Column } from './Column';
+import { Table } from './Table';
 import { Supplier, Predicate, Row } from './types';
 /**
  * Represents a query used to select a subset of the rows and columns of a table.
  */
-export declare class Query implements IQueryable {
+export declare class Query {
     private readonly source;
     /**
      * The supplier that will create the predicate that this query will use to restrict the number of rows from source table.
@@ -18,9 +18,9 @@ export declare class Query implements IQueryable {
     private columns;
     /**
      * Created a new instance of the query class.
-     * @param queryable Another queryable object to use as the source for this query.
+     * @param source Another queryable object to use as the source for this query.
      */
-    constructor(source: IQueryable);
+    constructor(source: Table | Query);
     /**
      * Defines the columns that will be returned by this query.
      * @param columns The set of columns from the underlying soure that will be returned by this query.
