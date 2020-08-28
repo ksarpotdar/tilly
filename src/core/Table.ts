@@ -54,9 +54,11 @@ export class Table {
 		// add the columns to the table
 		this.columns.push(...columns);
 
-		for (const column of columns) {
-			// add empty entries for existing rows
-			column.insert(null, 0, this.rowCount);
+		if (this.rowCount) {
+			for (const column of columns) {
+				// add empty entries for existing rows
+				column.insert(null, 0, this.rowCount);
+			}
 		}
 	}
 

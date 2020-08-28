@@ -77,16 +77,14 @@ export class Column {
 	 * @private Package private.
 	 */
 	insert(value: unknown, from: number, to: number): void { // TODO: remove from/to with an iterator providing indices
-		if (from < to) {
-			let position = this.distinct.indexOf(value);
+		let position = this.distinct.indexOf(value);
 
-			if (position === -1) {
-				this.distinct[position = this.distinct.length] = value;
-			}
+		if (position === -1) {
+			this.distinct[position = this.distinct.length] = value;
+		}
 
-			while (from < to) {
-				this.index[from++] = position;
-			}
+		while (from < to) {
+			this.index[from++] = position;
 		}
 	}
 
