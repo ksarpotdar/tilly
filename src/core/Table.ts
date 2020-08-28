@@ -57,7 +57,7 @@ export class Table {
 		if (this.rowCount) {
 			for (const column of columns) {
 				// add empty entries for existing rows
-				column.insert(null, 0, this.rowCount);
+				column.insert(null, range(0, this.rowCount));
 			}
 		}
 	}
@@ -70,7 +70,7 @@ export class Table {
 		const start = this.rowCount++;
 
 		for (const column of this.columns) {
-			column.insert(row[column.name], start, this.rowCount);
+			column.insert(row[column.name], range(start, this.rowCount));
 		}
 	}
 
@@ -91,5 +91,11 @@ export class Table {
 		while (index < this.rowCount) {
 			yield index++;
 		}
+	}
+}
+
+function* range(start: number, end: number): IterableIterator<number> {
+	while (start < end) {
+		yield start++;
 	}
 }

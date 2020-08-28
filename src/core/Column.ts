@@ -76,16 +76,20 @@ export class Column {
 	 * @param to The first row not to insert the value into. Start and end provide a range from the start and up to, but not including the end.
 	 * @private Package private.
 	 */
-	insert(value: unknown, from: number, to: number): void { // TODO: remove from/to with an iterator providing indices
+	insert(value: unknown, rows: Iterable<number> /*from: number, to: number*/): void { // TODO: remove from/to with an iterator providing indices
 		let position = this.distinct.indexOf(value);
 
 		if (position === -1) {
 			this.distinct[position = this.distinct.length] = value;
 		}
 
-		while (from < to) {
-			this.index[from++] = position;
+		for(const index of rows) {
+			this.index[index] = position;
 		}
+
+//		while (from < to) {
+//			this.index[from++] = position;
+//		}
 	}
 
 	/**
