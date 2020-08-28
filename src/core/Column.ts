@@ -31,9 +31,10 @@ export class Column {
 	/**
 	 * Copy constructor; creates a new instance of the Column class from another object with the same values.
 	 * @param column Another column to copy as a baseline.
-	 * @param name An alternative name for the new column.
+	 * @param alias An alternative name for the new column.
 	 */
-	public constructor(column: Column, name?: string);
+	public constructor(column: Column, alias?: string);
+
 	public constructor(p1: string | Column, p2?: string) {
 		if (typeof p1 === "string") {
 			this.name = p1;
@@ -75,7 +76,7 @@ export class Column {
 	 * @param to The first row not to insert the value into. Start and end provide a range from the start and up to, but not including the end.
 	 * @private Package private.
 	 */
-	insert(value: unknown, from: number, to: number): void {
+	insert(value: unknown, from: number, to: number): void { // TODO: remove from/to with an iterator providing indices
 		if (from < to) {
 			let position = this.distinct.indexOf(value);
 

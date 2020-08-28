@@ -1,8 +1,4 @@
 /**
- * A supplier function, one with no parameters that returns a result.
- */
-export declare type Supplier<TResult> = () => TResult;
-/**
  * A function taking a value of one type returning another type.
  */
 export declare type Function<TValue, TResult> = (value: TValue) => TResult;
@@ -16,3 +12,7 @@ export declare type Predicate<TValue> = Function<TValue, boolean>;
 export declare type Row = {
     [key: string]: unknown;
 };
+/**
+ * A supplier function, one with no parameters that returns a result.
+ */
+export declare type Supplier<TResult> = () => TResult;

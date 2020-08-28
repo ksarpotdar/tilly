@@ -25,9 +25,9 @@ export declare class Column {
     /**
      * Copy constructor; creates a new instance of the Column class from another object with the same values.
      * @param column Another column to copy as a baseline.
-     * @param name An alternative name for the new column.
+     * @param alias An alternative name for the new column.
      */
-    constructor(column: Column, name?: string);
+    constructor(column: Column, alias?: string);
     /**
      * Creates a column alias with a different name.
      * @param name The alias name for the column.

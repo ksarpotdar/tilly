@@ -51,10 +51,10 @@ export class Table {
 	 * @param columns The new columns to add.
 	 */
 	public add(...columns: Column[]): void {
-		for (const column of columns) {
-			// add the column to the table
-			this.columns.push(column);
+		// add the columns to the table
+		this.columns.push(...columns);
 
+		for (const column of columns) {
 			// add empty entries for existing rows
 			column.insert(null, 0, this.rowCount);
 		}
