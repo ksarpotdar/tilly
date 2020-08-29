@@ -12,7 +12,7 @@ export declare class Table {
      * The number of rows inserted into the table.
      * @private
      */
-    private rowCount;
+    private rows;
     /**
      * All the columns within the table.
      * @private

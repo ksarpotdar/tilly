@@ -14,7 +14,7 @@ export class Table {
 	 * The number of rows inserted into the table.
 	 * @private
 	 */
-	private rowCount: number;
+	private rows: number;
 
 	/**
 	 * All the columns within the table.
@@ -38,11 +38,11 @@ export class Table {
 		if (typeof p1 === "string") {
 			this.name = p1;
 			this.columns = [];
-			this.rowCount = 0;
+			this.rows = 0;
 		} else {
 			this.name = p1.name;
 			this.columns = p1.columns.map((column: any) => new Column(column));
-			this.rowCount = p1.rowCount;
+			this.rows = p1.rows;
 		}
 	}
 
@@ -55,7 +55,7 @@ export class Table {
 		this.columns.push(...columns);
 
 		// if the table already has rows, add null rows to the newly added columns
-		if (this.rowCount) {
+		if (this.rows) {
 			for (const column of columns) {
 				column.insert(null, this.indices());
 			}
@@ -69,10 +69,10 @@ export class Table {
 	public insert(row: Row): void {
 		// add a new row with appropriate value, or null if not found, to each column
 		for (const column of this.columns) {
-			column.insert(row[column.name] || null, [this.rowCount]);
+			column.insert(row[column.name] || null, [this.rows]);
 		}
 
-		this.rowCount++;
+		this.rows++;
 	}
 
 	/**
@@ -87,7 +87,7 @@ export class Table {
 	 * Returns the indexes of all rows in the table.
 	 */
 	public * indices(): IterableIterator<number> {
-		for (let i = 0; i < this.rowCount; i++) {
+		for (let i = 0; i < this.rows; i++) {
 			yield i;
 		}
 	}
