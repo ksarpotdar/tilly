@@ -57,7 +57,7 @@ export class Table {
 		if (this.rowCount) {
 			for (const column of columns) {
 				// add empty entries for existing rows
-				column.insert(null, range(0, this.rowCount));
+				column.insert(null, this.indices());
 			}
 		}
 	}
@@ -67,11 +67,11 @@ export class Table {
 	 * @param row The row of data to add
 	 */
 	public insert(row: Row): void {
-		const start = this.rowCount++;
-
 		for (const column of this.columns) {
-			column.insert(row[column.name], range(start, this.rowCount));
+			column.insert(row[column.name], [this.rowCount]);
 		}
+
+		this.rowCount++;
 	}
 
 	/**
@@ -85,17 +85,9 @@ export class Table {
 	/**
 	 * Returns the indexes of all rows in the table.
 	 */
-	public *indices(): Iterable<number> {
-		let index = 0;
-
-		while (index < this.rowCount) {
-			yield index++;
+	public * indices(): IterableIterator<number> {
+		for (let i = 0; i < this.rowCount; i++) {
+			yield i;
 		}
-	}
-}
-
-function* range(start: number, end: number): IterableIterator<number> {
-	while (start < end) {
-		yield start++;
 	}
 }

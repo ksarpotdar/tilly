@@ -46,5 +46,5 @@ export declare class Table {
     /**
      * Returns the indexes of all rows in the table.
      */
-    indices(): Iterable<number>;
+    indices(): IterableIterator<number>;
 }

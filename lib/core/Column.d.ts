@@ -43,11 +43,10 @@ export declare class Column {
     /**
      * Inserts a new row into the column.
      * @param value The value to add.
-     * @param from The first row to insert the value into.
-     * @param to The first row not to insert the value into. Start and end provide a range from the start and up to, but not including the end.
+     * @param indices The set of indices to insert the value into.
      * @private Package private.
      */
-    insert(value: unknown, rows: Iterable<number>): void;
+    insert(value: unknown, indices: Iterable<number>): void;
     /**
      * Returns a value from the column for a specific row index.
      * @param index The row index to return.
