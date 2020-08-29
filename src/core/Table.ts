@@ -54,9 +54,9 @@ export class Table {
 		// add the columns to the table
 		this.columns.push(...columns);
 
+		// if the table already has rows, add null rows to the newly added columns
 		if (this.rowCount) {
 			for (const column of columns) {
-				// add empty entries for existing rows
 				column.insert(null, this.indices());
 			}
 		}
@@ -67,8 +67,9 @@ export class Table {
 	 * @param row The row of data to add
 	 */
 	public insert(row: Row): void {
+		// add a new row with appropriate value, or null if not found, to each column
 		for (const column of this.columns) {
-			column.insert(row[column.name], [this.rowCount]);
+			column.insert(row[column.name] || null, [this.rowCount]);
 		}
 
 		this.rowCount++;
