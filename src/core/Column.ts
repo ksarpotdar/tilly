@@ -137,7 +137,7 @@ export class Column {
 	 */
 	public equals(value: unknown): Supplier<Predicate<number>> {
 		return () => {
-			let position = this.distinct.indexOf(value);
+			const position = this.distinct.indexOf(value);
 
 			return (index: number) => {
 				return this.index[index] === position;

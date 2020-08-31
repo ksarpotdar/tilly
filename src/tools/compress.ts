@@ -20,7 +20,7 @@ const compressor = compressors.find(c => c.name.toLowerCase() === process.argv[3
 if (compressor) {
 
 	let count = 0;
-	let start: Date = new Date();
+	const start: Date = new Date();
 
 	// Create read and write streams
 	const readStream = fs.createReadStream(process.argv[2]);

@@ -8,7 +8,7 @@ import bom = require('strip-bom-stream');
 const table = new Table('table');
 
 let count = 0;
-let start: Date = new Date();
+const start: Date = new Date();
 
 /** Add the columns once csv-parser has parsed the headers */
 function createColumns(headers: any) {
