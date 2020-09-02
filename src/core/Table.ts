@@ -51,28 +51,30 @@ export class Table {
 	 * @param columns The new columns to add.
 	 */
 	public add(...columns: Column[]): void {
-		// add the columns to the table
-		this.columns.push(...columns);
-
-		// if the table already has rows, add null rows to the newly added columns
-		if (this.rows) {
-			for (const column of columns) {
-				column.insert(null, this.indices());
+		for (const column of columns) {
+			// if the table already has rows, add null rows to the newly added columns
+			if (this.rows) {
+				column.insert(null, this.indexes());
 			}
+
+			// add the columns to the table
+			this.columns.push(column);
 		}
 	}
 
 	/**
 	 * Adds a new row of data to the table
-	 * @param row The row of data to add
+	 * @param rows One or more rows of data to add
 	 */
-	public insert(row: Row): void {
-		// add a new row with appropriate value, or null if not found, to each column
-		for (const column of this.columns) {
-			column.insert(row[column.name] || null, [this.rows]);
-		}
+	public insert(...rows: Array<Row>): void {
+		for (const row of rows) {
+			// add a new row with appropriate value, or null if not found, to each column
+			for (const column of this.columns) {
+				column.insert(row[column.name] || null, [this.rows]);
+			}
 
-		this.rows++;
+			this.rows++;
+		}
 	}
 
 	/**
@@ -86,7 +88,7 @@ export class Table {
 	/**
 	 * Returns the indexes of all rows in the table.
 	 */
-	public * indices(): IterableIterator<number> {
+	public * indexes(): IterableIterator<number> {
 		for (let i = 0; i < this.rows; i++) {
 			yield i;
 		}

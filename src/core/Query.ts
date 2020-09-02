@@ -50,15 +50,15 @@ export class Query {
 	}
 
 	/**
-	 * Returns the row indices that this query will return when executed.
+	 * Returns the row indexes that this query will return when executed.
 	 * @returns Returns an iterator for all the rows that meet the criteria specified in the where method.
 	 */
-	public *indices(): IterableIterator<number> {
+	public *indexes(): IterableIterator<number> {
 		// generate the predicate that will be used to filter the rows.
 		const predicate = this.condition();
 
 		// filter the rows
-		for (const index of this.source.indices()) {
+		for (const index of this.source.indexes()) {
 			if (predicate(index)) {
 				yield index;
 			}
@@ -70,7 +70,7 @@ export class Query {
 	 * @returns Returns an interable iterator to the result rows.
 	 */
 	public *[Symbol.iterator](): IterableIterator<Row> {
-		for (const index of this.indices()) {
+		for (const index of this.indexes()) {
 			const row: Row = {};
 
 			// create each row in the result

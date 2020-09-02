@@ -35,9 +35,9 @@ export declare class Table {
     add(...columns: Column[]): void;
     /**
      * Adds a new row of data to the table
-     * @param row The row of data to add
+     * @param rows One or more rows of data to add
      */
-    insert(row: Row): void;
+    insert(...rows: Array<Row>): void;
     /**
      * Returns the table coumn of the given name.
      * @param name The name of the column to find.
@@ -46,5 +46,5 @@ export declare class Table {
     /**
      * Returns the indexes of all rows in the table.
      */
-    indices(): IterableIterator<number>;
+    indexes(): IterableIterator<number>;
 }

@@ -6,7 +6,7 @@ export declare class Column {
     /**
      * The set of distinct, or unique, raw values for this column within the table.
      */
-    readonly distinct: Array<unknown>;
+    readonly unique: Array<unknown>;
     /**
      * The index into the array of distinct values for each row.
      * @private
@@ -43,10 +43,10 @@ export declare class Column {
     /**
      * Inserts a new row into the column.
      * @param value The value to add.
-     * @param indices The set of indices to insert the value into.
+     * @param indexes The set of indexes to insert the value into.
      * @private Package private.
      */
-    insert(value: unknown, indices: Iterable<number>): void;
+    insert(value: unknown, indexes: Iterable<number>): void;
     /**
      * Returns a value from the column for a specific row index.
      * @param index The row index to return.

@@ -34,10 +34,10 @@ export declare class Query {
      */
     where(condition: Supplier<Predicate<number>>): this;
     /**
-     * Returns the row indices that this query will return when executed.
+     * Returns the row indexes that this query will return when executed.
      * @returns Returns an iterator for all the rows that meet the criteria specified in the where method.
      */
-    indices(): IterableIterator<number>;
+    indexes(): IterableIterator<number>;
     /**
      * Makes the query iterable.
      * @returns Returns an interable iterator to the result rows.

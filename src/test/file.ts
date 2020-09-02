@@ -27,3 +27,15 @@ const query = new Query(estimates)
 for (const row of query) {
 	console.log(row);
 }
+
+let count = 0;
+const start = process.hrtime();
+
+// iterate the query results - without console overhead
+for (const row of query) {
+	count++;
+}
+
+const elapsed = process.hrtime(start);
+
+console.log (`Processed ${count} rows in ${elapsed[0]}s ${elapsed[1]/1000000}ms`);
