@@ -15,9 +15,8 @@ export declare class Table {
     private rows;
     /**
      * All the columns within the table.
-     * @private
      */
-    private readonly columns;
+    readonly columns: Array<Column>;
     /**
      * Creates a new instance of the Table class.
      * @param name The name of the table.
