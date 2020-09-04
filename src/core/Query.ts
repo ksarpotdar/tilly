@@ -14,9 +14,8 @@ export class Query {
 
 	/**
 	 * The columns that will be returned by this query.
-	 * @private
 	 */
-	private columns: Iterable<Column>;
+	public columns: Array<Column>;
 
 	/**
 	 * Created a new instance of the query class.
@@ -47,6 +46,14 @@ export class Query {
 		this.condition = condition;
 
 		return this;
+	}
+
+	/**
+	 * Returns the table coumn of the given name.
+	 * @param name The name of the column to find.
+	 */
+	public column(name: string): Column | undefined {
+		return this.columns.find(col => col.name === name);
 	}
 
 	/**

@@ -13,9 +13,8 @@ export declare class Query {
     private condition;
     /**
      * The columns that will be returned by this query.
-     * @private
      */
-    private columns;
+    columns: Array<Column>;
     /**
      * Created a new instance of the query class.
      * @param source Another queryable object to use as the source for this query.
@@ -33,6 +32,11 @@ export declare class Query {
      * @return Fluent API call, so returns this.
      */
     where(condition: Supplier<Predicate<number>>): this;
+    /**
+     * Returns the table coumn of the given name.
+     * @param name The name of the column to find.
+     */
+    column(name: string): Column | undefined;
     /**
      * Returns the row indexes that this query will return when executed.
      * @returns Returns an iterator for all the rows that meet the criteria specified in the where method.

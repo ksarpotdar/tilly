@@ -4,9 +4,9 @@ export declare class Column {
     /** The name of this column */
     readonly name: string;
     /**
-     * The set of distinct, or unique, raw values for this column within the table.
+     * The set of distinct, raw values for this column within the table.
      */
-    readonly unique: Array<unknown>;
+    readonly distinct: Array<unknown>;
     /**
      * The index into the array of distinct values for each row.
      * @private

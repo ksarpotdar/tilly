@@ -6,9 +6,9 @@ export class Column {
 	public readonly name: string;
 
 	/**
-	 * The set of distinct, or unique, raw values for this column within the table.
+	 * The set of distinct, raw values for this column within the table.
 	 */
-	public readonly unique: Array<unknown>;
+	public readonly distinct: Array<unknown>;
 
 	/**
 	 * The index into the array of distinct values for each row. 
@@ -38,11 +38,11 @@ export class Column {
 	public constructor(p1: string | Column, p2?: string) {
 		if (typeof p1 === "string") {
 			this.name = p1;
-			this.unique = [];
+			this.distinct = [];
 			this.index = [];
 		} else {
 			this.name = p2 || p1.name;
-			this.unique = p1.unique;
+			this.distinct = p1.distinct;
 			this.index = p1.index;
 		}
 
@@ -76,10 +76,10 @@ export class Column {
 	 * @private Package private.
 	 */
 	insert(value: unknown, indexes: Iterable<number>): void {
-		let position = this.unique.indexOf(value);
+		let position = this.distinct.indexOf(value);
 
 		if (position === -1) {
-			this.unique[position = this.unique.length] = value;
+			this.distinct[position = this.distinct.length] = value;
 		}
 
 		for (const index of indexes) {
@@ -93,7 +93,7 @@ export class Column {
 	 * @private Package private.
 	 */
 	value(index: number): any {
-		return this.convert(this.unique[this.index[index]]);
+		return this.convert(this.distinct[this.index[index]]);
 	}
 
 	/**
@@ -117,7 +117,7 @@ export class Column {
 			const indexes: Array<number> = [];
 
 			for (let i = values.length; i--;) {
-				const index = this.unique.indexOf(values[i]);
+				const index = this.distinct.indexOf(values[i]);
 
 				if (index !== -1) {
 					indexes.push(index);
@@ -137,7 +137,7 @@ export class Column {
 	 */
 	public equals(value: unknown): Supplier<Predicate<number>> {
 		return () => {
-			const position = this.unique.indexOf(value);
+			const position = this.distinct.indexOf(value);
 
 			return (index: number) => {
 				return this.index[index] === position;
