@@ -1,4 +1,4 @@
-import { Column } from './Column';
+import { IColumn } from './IColumn';
 import { Row } from './types';
 /**
  * Represents a table of data, comprising a number of columns.
@@ -16,7 +16,7 @@ export declare class Table {
     /**
      * All the columns within the table.
      */
-    readonly columns: Array<Column>;
+    readonly columns: Array<IColumn>;
     /**
      * Creates a new instance of the Table class.
      * @param name The name of the table.
@@ -31,7 +31,7 @@ export declare class Table {
      * Adds one or more columns to the table
      * @param columns The new columns to add.
      */
-    add(...columns: Column[]): void;
+    add(...columns: IColumn[]): void;
     /**
      * Adds a new row of data to the table
      * @param rows One or more rows of data to add
@@ -41,7 +41,7 @@ export declare class Table {
      * Returns the table coumn of the given name.
      * @param name The name of the column to find.
      */
-    column(name: string): Column | undefined;
+    column(name: string): IColumn | undefined;
     /**
      * Returns the indexes of all rows in the table.
      */

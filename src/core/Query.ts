@@ -1,28 +1,28 @@
-import { Column } from './Column';
+import { IColumn } from './IColumn';
 import { Table } from './Table';
-import { Supplier, Predicate, Row } from './types';
+import { Operator, Row } from './types';
 
 /**
  * Represents a query used to select a subset of the rows and columns of a table.
  */
 export class Query {
 	/**
-	 * The supplier that will create the predicate that this query will use to restrict the number of rows from source table.
+	 * The operator that will create the predicate that this query will use to restrict the number of rows from source table.
 	 * @private
 	 */
-	private condition: Supplier<Predicate<number>>;
+	private operator: Operator;
 
 	/**
 	 * The columns that will be returned by this query.
 	 */
-	public columns: Array<Column>;
+	public columns: Array<IColumn>;
 
 	/**
 	 * Created a new instance of the query class.
 	 * @param source Another queryable object to use as the source for this query.
 	 */
 	public constructor(private readonly source: Table | Query) {
-		this.condition = () => (index: number) => true;
+		this.operator = () => (index: number) => true;
 		this.columns = [];
 	}
 
@@ -31,7 +31,7 @@ export class Query {
 	 * @param columns The set of columns from the underlying soure that will be returned by this query.
 	 * @return Fluent API call, so returns this.
 	 */
-	public select(...columns: Column[]): this {
+	public select(...columns: Array<IColumn>): this {
 		this.columns = columns;
 
 		return this;
@@ -39,11 +39,11 @@ export class Query {
 
 	/**
 	 * Defines the filter critera that will be applied to rows retrieved from the source.
-	 * @param condition The predicate built using the supplied column oriented predicates ([[equals]], [[list]], [[like]], [[and]], [[or]], etc.).
+	 * @param operator The predicate built using the supplied column oriented predicates ([[equals]], [[in]], [[and]], [[or]], etc.).
 	 * @return Fluent API call, so returns this.
 	 */
-	public where(condition: Supplier<Predicate<number>>): this {
-		this.condition = condition;
+	public where(operator: Operator): this {
+		this.operator = operator;
 
 		return this;
 	}
@@ -52,7 +52,7 @@ export class Query {
 	 * Returns the table coumn of the given name.
 	 * @param name The name of the column to find.
 	 */
-	public column(name: string): Column | undefined {
+	public column(name: string): IColumn | undefined {
 		return this.columns.find(col => col.name === name);
 	}
 
@@ -62,7 +62,7 @@ export class Query {
 	 */
 	public *indexes(): IterableIterator<number> {
 		// generate the predicate that will be used to filter the rows.
-		const predicate = this.condition();
+		const predicate = this.operator();
 
 		// filter the rows
 		for (const index of this.source.indexes()) {

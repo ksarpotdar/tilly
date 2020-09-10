@@ -1,7 +1,8 @@
-import { Supplier, Function, Predicate } from './types';
+import { Function, Operator } from './types';
+import { IColumn } from './IColumn';
 
 /** Represents a column and its data within a table. */
-export class Column {
+export class Column implements IColumn {
 	/** The name of this column */
 	public readonly name: string;
 
@@ -97,22 +98,10 @@ export class Column {
 	}
 
 	/**
-	 * Generates a condition based on a callback to be used within a where clause
-	 * @param predicate A function that takes the columns value for a row and returns a boolean to indicate if the predicate has been met or not.
-	 */
-	public evaluate(predicate: Predicate<any>): Supplier<Predicate<number>> {
-		return () => {
-			return (index: number) => {
-				return predicate(this.value(index));
-			}
-		}
-	}
-
-	/**
-	 * Generates a condition to be used in Query.where to filter a column by a list of values.
+	 * Generates an operator to be used in Query.where to filter a column by a list of values.
 	 * @param values The list of values to filter the column by.
 	 */
-	public in(values: Array<any>): Supplier<Predicate<number>> {
+	public in(values: Array<any>): Operator {
 		return () => {
 			const indexes: Array<number> = [];
 
@@ -131,11 +120,11 @@ export class Column {
 	}
 
 	/**
-	 * Generates a condition to be used in the where method of a query to select rows from a table based on equality.
+	 * Generates an operator to be used in the where method of a query to select rows from a table based on equality.
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	public equals(value: unknown): Supplier<Predicate<number>> {
+	public equals(value: unknown): Operator {
 		return () => {
 			const position = this.distinct.indexOf(value);
 

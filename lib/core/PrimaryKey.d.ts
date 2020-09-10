@@ -1,40 +1,32 @@
 import { Function, Operator } from './types';
 import { IColumn } from './IColumn';
-/** Represents a column and its data within a table. */
-export declare class Column implements IColumn {
+/**
+ * A primary key is a type of column where all the values are known to be unique.
+ */
+export declare class PrimaryKey implements IColumn {
     /** The name of this column */
     readonly name: string;
     /**
      * The set of distinct, raw values for this column within the table.
      */
-    readonly distinct: Array<unknown>;
-    /**
-     * The index into the array of distinct values for each row.
-     * @private
-     */
-    private readonly index;
-    /**
-     * A function to convert the returned value to a defined type.
-     * @private
-     */
-    private convert;
+    readonly values: Array<unknown>;
     /**
      * Creates a new instance of the Column class.
      * @param name The name of the column.
      */
     constructor(name: string);
     /**
-     * Copy constructor; creates a new instance of the Column class from another object with the same values.
+     * Copy constructor; creates a new instance of the PrimaryKey class from another object with the same values.
      * @param column Another column to copy as a baseline.
      * @param alias An alternative name for the new column.
      */
-    constructor(column: Column, alias?: string);
+    constructor(column: PrimaryKey, alias?: string);
     /**
      * Creates a column alias with a different name.
      * @param name The alias name for the column.
      * @returns A virtual column.
      */
-    as(name: string): Column;
+    as(name: string): PrimaryKey;
     /**
      * Allows the column to be converted to a specific type.
      * @param convert A function used to convert to the defined type.
@@ -55,14 +47,10 @@ export declare class Column implements IColumn {
      */
     value(index: number): any;
     /**
-     * Generates an operator to be used in Query.where to filter a column by a list of values.
-     * @param values The list of values to filter the column by.
-     */
-    in(values: Array<any>): Operator;
-    /**
-     * Generates an operator to be used in the where method of a query to select rows from a table based on equality.
+     * Generates a condition to be used in the where method of a query to select rows from a table based on equality.
      * @param value The value to test against.
-     * @returns Returns the predicate to be used within a query where method.
+     * @returns Returns an operator to be used within a query where method.
      */
     equals(value: unknown): Operator;
+    in(values: Array<any>): Operator;
 }

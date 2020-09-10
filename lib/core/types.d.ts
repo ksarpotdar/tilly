@@ -7,12 +7,13 @@ export declare type Function<TValue, TResult> = (value: TValue) => TResult;
  */
 export declare type Predicate<TValue> = Function<TValue, boolean>;
 /**
+ * A supplier function, one with no parameters that returns a result.
+ */
+export declare type Supplier<TResult> = () => TResult;
+/**
  * Represents a row of data; essentially a JavaScript Object with an arbitory number of properties.
  */
 export declare type Row = {
     [key: string]: unknown;
 };
-/**
- * A supplier function, one with no parameters that returns a result.
- */
-export declare type Supplier<TResult> = () => TResult;
+export declare type Operator = Supplier<Predicate<number>>;

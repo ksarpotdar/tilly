@@ -1,4 +1,6 @@
+import { IColumn } from './IColumn';
 import { Column } from './Column';
+import { PrimaryKey } from './PrimaryKey';
 import { Row } from './types';
 
 /**
@@ -19,7 +21,7 @@ export class Table {
 	/**
 	 * All the columns within the table.
 	 */
-	public readonly columns: Array<Column>;
+	public readonly columns: Array<IColumn>;
 
 	/**
 	 * Creates a new instance of the Table class.
@@ -40,7 +42,7 @@ export class Table {
 			this.rows = 0;
 		} else {
 			this.name = p1.name;
-			this.columns = p1.columns.map((column: any) => new Column(column));
+			this.columns = p1.columns.map((column: any) => column.distinct ? new Column(column) : new PrimaryKey(column));
 			this.rows = p1.rows;
 		}
 	}
@@ -49,7 +51,7 @@ export class Table {
 	 * Adds one or more columns to the table
 	 * @param columns The new columns to add.
 	 */
-	public add(...columns: Column[]): void {
+	public add(...columns: IColumn[]): void {
 		for (const column of columns) {
 			// if the table already has rows, add null rows to the newly added columns
 			if (this.rows) {
@@ -80,7 +82,7 @@ export class Table {
 	 * Returns the table coumn of the given name.
 	 * @param name The name of the column to find.
 	 */
-	public column(name: string): Column | undefined {
+	public column(name: string): IColumn | undefined {
 		return this.columns.find(col => col.name === name);
 	}
 
