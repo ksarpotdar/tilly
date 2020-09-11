@@ -6,6 +6,7 @@ import { IColumn } from './IColumn';
 export declare class Key implements IColumn {
     /** The name of this column */
     readonly name: string;
+    readonly unique: boolean;
     /**
      * The set of distinct, raw values for this column within the table.
      */
@@ -13,8 +14,9 @@ export declare class Key implements IColumn {
     /**
      * Creates a new instance of the Column class.
      * @param name The name of the column.
+     * @param unique A flag used to determine if the key should be unique
      */
-    constructor(name: string);
+    constructor(name: string, unique: boolean);
     /**
      * Copy constructor; creates a new instance of the PrimaryKey class from another object with the same values.
      * @param column Another column to copy as a baseline.

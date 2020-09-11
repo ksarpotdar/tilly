@@ -8,6 +8,8 @@ export class Key implements IColumn {
 	/** The name of this column */
 	public readonly name: string;
 
+	public readonly unique: boolean;
+
 	/**
 	 * The set of distinct, raw values for this column within the table.
 	 */
@@ -16,8 +18,9 @@ export class Key implements IColumn {
 	/**
 	 * Creates a new instance of the Column class.
 	 * @param name The name of the column.
+	 * @param unique A flag used to determine if the key should be unique
 	 */
-	public constructor(name: string);
+	public constructor(name: string, unique: boolean);
 
 	/**
 	 * Copy constructor; creates a new instance of the PrimaryKey class from another object with the same values.
@@ -26,9 +29,10 @@ export class Key implements IColumn {
 	 */
 	public constructor(name: string, column: Key);
 
-	public constructor(name: string, key?: Key) {
+	public constructor(name: string, p2: Key | boolean) {
 		this.name = name;
-		this.values = key ? key.values : [];
+		this.unique = typeof p2 === "boolean" ? p2 : p2.unique;
+		this.values = typeof p2 === "boolean" ? [] : p2.values;
 	}
 
 	/**
@@ -57,6 +61,10 @@ export class Key implements IColumn {
 	 */
 	insert(value: unknown, indexes: Iterable<number>): void {
 		for (const index of indexes) {
+			if(this.unique &&  this.values.indexOf(value) !== -1) {
+				throw Error(`Unique constraint violation for ${this.name}: Key`);
+			}
+
 			this.values[index] = value;
 		}
 	}
