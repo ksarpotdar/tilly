@@ -31,22 +31,15 @@ export class Column implements IColumn {
 
 	/**
 	 * Copy constructor; creates a new instance of the Column class from another object with the same values.
+	 * @param name An alternative name for the new column.
 	 * @param column Another column to copy as a baseline.
-	 * @param alias An alternative name for the new column.
 	 */
-	public constructor(column: Column, alias?: string);
+	public constructor(name: string, column: Column);
 
-	public constructor(p1: string | Column, p2?: string) {
-		if (typeof p1 === "string") {
-			this.name = p1;
-			this.distinct = [];
-			this.index = [];
-		} else {
-			this.name = p2 || p1.name;
-			this.distinct = p1.distinct;
-			this.index = p1.index;
-		}
-
+	public constructor(name: string, column?: Column) {
+		this.name = name;
+		this.distinct = column ? column.distinct : [];
+		this.index = column ? column.index : [];
 		this.convert = (value: unknown) => value;
 	}
 
@@ -56,7 +49,7 @@ export class Column implements IColumn {
 	 * @returns A virtual column.
 	 */
 	public as(name: string): Column {
-		return new Column(this, name);
+		return new Column(name, this);
 	}
 
 	/**

@@ -20,7 +20,7 @@ export declare class Key implements IColumn {
      * @param column Another column to copy as a baseline.
      * @param alias An alternative name for the new column.
      */
-    constructor(column: Key, alias?: string);
+    constructor(name: string, column: Key);
     /**
      * Creates a column alias with a different name.
      * @param name The alias name for the column.

@@ -42,7 +42,7 @@ export class Table {
 			this.rows = 0;
 		} else {
 			this.name = p1.name;
-			this.columns = p1.columns.map((column: any) => column.distinct ? new Column(column) : new Key(column));
+			this.columns = p1.columns.map((column: any) => column.distinct ? new Column(column.name, column) : new Key(column.name, column));
 			this.rows = p1.rows;
 		}
 	}

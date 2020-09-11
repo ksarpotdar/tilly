@@ -24,16 +24,11 @@ export class Key implements IColumn {
 	 * @param column Another column to copy as a baseline.
 	 * @param alias An alternative name for the new column.
 	 */
-	public constructor(column: Key, alias?: string);
+	public constructor(name: string, column: Key);
 
-	public constructor(p1: string | Key, p2?: string) {
-		if (typeof p1 === "string") {
-			this.name = p1;
-			this.values = [];
-		} else {
-			this.name = p2 || p1.name;
-			this.values = p1.values;
-		}
+	public constructor(name: string, key?: Key) {
+		this.name = name;
+		this.values = key ? key.values : [];
 	}
 
 	/**
@@ -42,7 +37,7 @@ export class Key implements IColumn {
 	 * @returns A virtual column.
 	 */
 	public as(name: string): Key {
-		return new Key(this, name);
+		return new Key(name, this);
 	}
 
 	/**

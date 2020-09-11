@@ -25,10 +25,10 @@ export declare class Column implements IColumn {
     constructor(name: string);
     /**
      * Copy constructor; creates a new instance of the Column class from another object with the same values.
+     * @param name An alternative name for the new column.
      * @param column Another column to copy as a baseline.
-     * @param alias An alternative name for the new column.
      */
-    constructor(column: Column, alias?: string);
+    constructor(name: string, column: Column);
     /**
      * Creates a column alias with a different name.
      * @param name The alias name for the column.
