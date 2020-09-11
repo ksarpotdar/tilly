@@ -4,7 +4,7 @@ import { IColumn } from './IColumn';
 /**
  * A primary key is a type of column where all the values are known to be unique.
  */
-export class PrimaryKey implements IColumn {
+export class Key implements IColumn {
 	/** The name of this column */
 	public readonly name: string;
 
@@ -24,9 +24,9 @@ export class PrimaryKey implements IColumn {
 	 * @param column Another column to copy as a baseline.
 	 * @param alias An alternative name for the new column.
 	 */
-	public constructor(column: PrimaryKey, alias?: string);
+	public constructor(column: Key, alias?: string);
 
-	public constructor(p1: string | PrimaryKey, p2?: string) {
+	public constructor(p1: string | Key, p2?: string) {
 		if (typeof p1 === "string") {
 			this.name = p1;
 			this.values = [];
@@ -41,8 +41,8 @@ export class PrimaryKey implements IColumn {
 	 * @param name The alias name for the column.
 	 * @returns A virtual column.
 	 */
-	public as(name: string): PrimaryKey {
-		return new PrimaryKey(this, name);
+	public as(name: string): Key {
+		return new Key(this, name);
 	}
 
 	/**

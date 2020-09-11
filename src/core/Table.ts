@@ -1,6 +1,6 @@
 import { IColumn } from './IColumn';
 import { Column } from './Column';
-import { PrimaryKey } from './PrimaryKey';
+import { Key } from './Key';
 import { Row } from './types';
 
 /**
@@ -42,7 +42,7 @@ export class Table {
 			this.rows = 0;
 		} else {
 			this.name = p1.name;
-			this.columns = p1.columns.map((column: any) => column.distinct ? new Column(column) : new PrimaryKey(column));
+			this.columns = p1.columns.map((column: any) => column.distinct ? new Column(column) : new Key(column));
 			this.rows = p1.rows;
 		}
 	}
@@ -71,7 +71,7 @@ export class Table {
 		for (const row of rows) {
 			// add a new row with appropriate value, or null if not found, to each column
 			for (const column of this.columns) {
-				column.insert(row[column.name] || null, [this.rows]);
+				column.insert(column.name in row ? row[column.name] : null, [this.rows]);
 			}
 
 			this.rows++;

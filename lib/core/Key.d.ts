@@ -3,7 +3,7 @@ import { IColumn } from './IColumn';
 /**
  * A primary key is a type of column where all the values are known to be unique.
  */
-export declare class PrimaryKey implements IColumn {
+export declare class Key implements IColumn {
     /** The name of this column */
     readonly name: string;
     /**
@@ -20,13 +20,13 @@ export declare class PrimaryKey implements IColumn {
      * @param column Another column to copy as a baseline.
      * @param alias An alternative name for the new column.
      */
-    constructor(column: PrimaryKey, alias?: string);
+    constructor(column: Key, alias?: string);
     /**
      * Creates a column alias with a different name.
      * @param name The alias name for the column.
      * @returns A virtual column.
      */
-    as(name: string): PrimaryKey;
+    as(name: string): Key;
     /**
      * Allows the column to be converted to a specific type.
      * @param convert A function used to convert to the defined type.

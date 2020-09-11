@@ -1,4 +1,4 @@
-import { Table, PrimaryKey, Column, Query } from '../core';
+import { Table, Key, Column, Query } from '../core';
 
 // some names to generate a membership database with
 const givenNames = ['Boris', 'Theresa', 'David', 'Gordon', 'Tony', 'John', 'Margaret', 'James', 'Harold', 'Edward'];
@@ -12,7 +12,7 @@ function random(strings: Array<string>): string {
 
 // create a table with some columns
 const membership = new Table('membership');
-const id = new PrimaryKey('id');
+const id = new Key('id');
 const givenName = new Column('givenName');
 const familyName = new Column('familyName');
 membership.add(id, givenName, familyName);
@@ -32,7 +32,7 @@ for (let id = 10; id < 20; id++) {
 
 const query = new Query(membership)
 	.select(id, givenName, familyName, county)
-	.where(givenName.in(['David', 'James']));
+//	.where(givenName.in(['David', 'James']));
 
 for (const member of query) {
 	console.log(member);
