@@ -66,7 +66,7 @@ export class Query {
 
 		// filter the rows
 		for (const index of this.source.indexes()) {
-			if (predicate(index)) {
+			if (predicate(index) === true) {
 				yield index;
 			}
 		}

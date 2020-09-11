@@ -42,7 +42,7 @@ export class Table {
 			this.rows = 0;
 		} else {
 			this.name = p1.name;
-			this.columns = p1.columns.map((column: any) => column.distinct ? new Column(column.name, column) : new Key(column.name, column));
+			this.columns = p1.columns.map((column: any) => "distinct" in column ? new Column(column.name, column) : new Key(column.name, column));
 			this.rows = p1.rows;
 		}
 	}
@@ -54,7 +54,7 @@ export class Table {
 	public add(...columns: IColumn[]): void {
 		for (const column of columns) {
 			// if the table already has rows, add null rows to the newly added columns
-			if (this.rows) {
+			if (this.rows !== 0) {
 				column.insert(null, this.indexes());
 			}
 

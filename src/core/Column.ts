@@ -31,7 +31,7 @@ export class Column implements IColumn {
 
 	/**
 	 * Copy constructor; creates a new instance of the Column class from another object with the same values.
-	 * @param name An alternative name for the new column.
+	 * @param name The name of the column.
 	 * @param column Another column to copy as a baseline.
 	 */
 	public constructor(name: string, column: Column);

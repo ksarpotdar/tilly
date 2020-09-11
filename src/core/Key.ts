@@ -8,6 +8,7 @@ export class Key implements IColumn {
 	/** The name of this column */
 	public readonly name: string;
 
+	/** A flag indicating if the key has a unique constraint. */
 	public readonly unique: boolean;
 
 	/**
@@ -24,7 +25,7 @@ export class Key implements IColumn {
 
 	/**
 	 * Copy constructor; creates a new instance of the PrimaryKey class from another object with the same values.
-	 * @param column Another column to copy as a baseline.
+	 * @param name The name of the column.
 	 * @param alias An alternative name for the new column.
 	 */
 	public constructor(name: string, column: Key);
