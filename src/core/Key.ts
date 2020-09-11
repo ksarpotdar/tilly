@@ -62,7 +62,7 @@ export class Key implements IColumn {
 	insert(value: unknown, indexes: Iterable<number>): void {
 		for (const index of indexes) {
 			if(this.unique &&  this.values.indexOf(value) !== -1) {
-				throw Error(`Unique constraint violation for ${this.name}: Key`);
+				throw Error(`Unique constraint violation for key ${this.name} while inserting value ${value}`);
 			}
 
 			this.values[index] = value;
