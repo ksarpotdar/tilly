@@ -1,5 +1,6 @@
 import { Function, Operator } from "./types";
 export interface IColumn {
+    type: string;
     name: string;
     as(name: string): IColumn;
     to<T>(convert: Function<unknown, T>): this;

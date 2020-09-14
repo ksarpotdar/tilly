@@ -46,4 +46,9 @@ export declare class Table {
      * Returns the indexes of all rows in the table.
      */
     indexes(): IterableIterator<number>;
+    /**
+     * Create columns from JSON objects
+     * @param json The raw JSON to create columns from
+     */
+    private static create;
 }

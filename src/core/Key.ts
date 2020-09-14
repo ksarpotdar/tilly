@@ -5,11 +5,13 @@ import { IColumn } from './IColumn';
  * A primary key is a type of column where all the values are known to be unique.
  */
 export class Key implements IColumn {
+	public readonly type: string = 'Key';
+	
 	/** The name of this column */
 	public readonly name: string;
 
 	/** A flag indicating if the key has a unique constraint. */
-	public readonly unique: boolean;
+//	public readonly unique: boolean = true;
 
 	/**
 	 * The set of distinct, raw values for this column within the table.
@@ -21,19 +23,19 @@ export class Key implements IColumn {
 	 * @param name The name of the column.
 	 * @param unique A flag used to determine if the key should be unique
 	 */
-	public constructor(name: string, unique: boolean);
+	public constructor(name: string/*, unique: boolean*/);
 
 	/**
 	 * Copy constructor; creates a new instance of the PrimaryKey class from another object with the same values.
 	 * @param name The name of the column.
-	 * @param alias An alternative name for the new column.
+	 * @param column The column to copy.
 	 */
 	public constructor(name: string, column: Key);
 
-	public constructor(name: string, p2: Key | boolean) {
+	public constructor(name: string, column?: Key) {
 		this.name = name;
-		this.unique = typeof p2 === "boolean" ? p2 : p2.unique;
-		this.values = typeof p2 === "boolean" ? [] : p2.values;
+//		this.unique = typeof p2 ? p2.unique : [];
+		this.values = column ? column.values : [];
 	}
 
 	/**
@@ -62,7 +64,7 @@ export class Key implements IColumn {
 	 */
 	insert(value: unknown, indexes: Iterable<number>): void {
 		for (const index of indexes) {
-			if(this.unique &&  this.values.indexOf(value) !== -1) {
+			if(/*this.unique && */ this.values.indexOf(value) !== -1) {
 				throw Error(`Unique constraint violation for key ${this.name} while inserting value ${value}`);
 			}
 

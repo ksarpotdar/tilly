@@ -42,7 +42,7 @@ export class Table {
 			this.rows = 0;
 		} else {
 			this.name = p1.name;
-			this.columns = p1.columns.map((column: any) => "distinct" in column ? new Column(column.name, column) : new Key(column.name, column));
+			this.columns = p1.columns.map((column: any) => Table.create(column));
 			this.rows = p1.rows;
 		}
 	}
@@ -92,6 +92,19 @@ export class Table {
 	public * indexes(): IterableIterator<number> {
 		for (let i = 0; i < this.rows; i++) {
 			yield i;
+		}
+	}
+
+	/**
+	 * Create columns from JSON objects
+	 * @param json The raw JSON to create columns from
+	 */
+	private static create(json: any): IColumn {
+		switch (json.type) {
+			case 'Key':
+				return new Key(json.name, json);
+			default:
+				return new Column(json.name, json);
 		}
 	}
 }
