@@ -98,13 +98,13 @@ export class Table {
 	/**
 	 * Create columns from JSON objects
 	 * @param json The raw JSON to create columns from
+	 * @private
 	 */
 	private static create(json: any): IColumn {
-		switch (json.type) {
-			case 'Key':
-				return new Key(json.name, json);
-			default:
-				return new Column(json.name, json);
+		if ('distinct' in json) {
+			return new Column(json.name, json);
+		} else {
+			return new Key(json.name, json);
 		}
 	}
 }

@@ -3,8 +3,6 @@ import { IColumn } from './IColumn';
 
 /** Represents a column and its data within a table. */
 export class Column implements IColumn {
-	public readonly type: string = 'Column';
-
 	/** The name of this column */
 	public readonly name: string;
 

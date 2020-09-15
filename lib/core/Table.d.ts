@@ -49,6 +49,7 @@ export declare class Table {
     /**
      * Create columns from JSON objects
      * @param json The raw JSON to create columns from
+     * @private
      */
     private static create;
 }
