@@ -1,6 +1,7 @@
 import { IColumn } from './IColumn';
 import { Column } from './Column';
 import { Key } from './Key';
+import { ForeignKey } from './ForeignKey';
 import { Row } from './types';
 
 /**
@@ -51,7 +52,7 @@ export class Table {
 	 * Adds one or more columns to the table
 	 * @param columns The new columns to add.
 	 */
-	public add(...columns: IColumn[]): void {
+	public add(...columns: Array<IColumn>): void {
 		for (const column of columns) {
 			// if the table already has rows, add null rows to the newly added columns
 			if (this.rows !== 0) {
@@ -103,8 +104,10 @@ export class Table {
 	private static create(json: any): IColumn {
 		if ('distinct' in json) {
 			return new Column(json.name, json);
-		} else {
+		} else if('values' in json) {
 			return new Key(json.name, json);
+		} else {
+			return new ForeignKey(json.name, json);
 		}
 	}
 }

@@ -31,7 +31,7 @@ export declare class Table {
      * Adds one or more columns to the table
      * @param columns The new columns to add.
      */
-    add(...columns: IColumn[]): void;
+    add(...columns: Array<IColumn>): void;
     /**
      * Adds a new row of data to the table
      * @param rows One or more rows of data to add
