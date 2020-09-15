@@ -2,7 +2,8 @@ import { Function, Operator } from './types';
 import { IColumn } from './IColumn';
 /**
  * A primary key is a type of column where all the values are known to be unique.
- */ export declare class Key implements IColumn {
+ */
+export declare class Key implements IColumn {
     /** The name of this column */
     readonly name: string;
     /** A flag indicating if the key has a unique constraint. */

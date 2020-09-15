@@ -3,7 +3,8 @@ import { IColumn } from './IColumn';
 
 /**
  * A primary key is a type of column where all the values are known to be unique.
- */export class Key implements IColumn {
+ */
+export class Key implements IColumn {
 	/** The name of this column */
 	public readonly name: string;
 
