@@ -7,7 +7,7 @@ export declare class ForeignKey implements IColumn {
     readonly index: Array<number>;
     private convert;
     constructor(name: string, key: Key);
-    constructor(name: string, foreignKey: ForeignKey);
+    constructor(name: string, ket: Key, foreignKey: ForeignKey);
     as(name: string): IColumn;
     to<T>(convert: Function<unknown, T>): this;
     insert(value: unknown, indexes: Iterable<number>): void;

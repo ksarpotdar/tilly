@@ -3,6 +3,7 @@ import { Column } from './Column';
 import { Key } from './Key';
 import { ForeignKey } from './ForeignKey';
 import { Row } from './types';
+import { throws } from 'assert';
 
 /**
  * Represents a table of data, comprising a number of columns.
@@ -37,13 +38,41 @@ export class Table {
 	public constructor(table: Table);
 
 	public constructor(p1: string | Table) {
+		this.columns = [];
+
 		if (typeof p1 === "string") {
 			this.name = p1;
-			this.columns = [];
 			this.rows = 0;
 		} else {
+			const primaryKeys: Array<Key> = [];
+			const foreignKeys: Array<ForeignKey> = [];
+
 			this.name = p1.name;
-			this.columns = p1.columns.map((column: any) => Table.create(column));
+
+			p1.columns.forEach((json: any) => {
+				if ('distinct' in json) {
+					this.columns.push(new Column(json.name, json));
+				} else if ('values' in json) {
+					const key = new Key(json.name, json);
+
+					this.columns.push(key);
+
+					if (key.unique === true) {
+						primaryKeys.push(key);
+					}
+				} else {
+					foreignKeys.push(json)
+				}
+			});
+
+			foreignKeys.forEach((json: any) => {
+				const primaryKey = primaryKeys.find(pk => pk.name === json.key.name);
+
+				if (primaryKey) {
+					this.columns.push(new ForeignKey(json.name, primaryKey, json));
+				}
+			});
+
 			this.rows = p1.rows;
 		}
 	}
@@ -93,21 +122,6 @@ export class Table {
 	public * indexes(): IterableIterator<number> {
 		for (let i = 0; i < this.rows; i++) {
 			yield i;
-		}
-	}
-
-	/**
-	 * Create columns from JSON objects
-	 * @param json The raw JSON to create columns from
-	 * @private
-	 */
-	private static create(json: any): IColumn {
-		if ('distinct' in json) {
-			return new Column(json.name, json);
-		} else if('values' in json) {
-			return new Key(json.name, json);
-		} else {
-			return new ForeignKey(json.name, json);
 		}
 	}
 }

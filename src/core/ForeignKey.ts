@@ -1,5 +1,6 @@
 import { IColumn } from "./IColumn";
 import { Key } from "./Key";
+import { Table } from "./Table";
 import { Function, Supplier } from "./types";
 
 export class ForeignKey implements IColumn {
@@ -13,17 +14,21 @@ export class ForeignKey implements IColumn {
 
 	constructor(name: string, key: Key);
 
-	constructor(name: string, foreignKey: ForeignKey);
+	constructor(name: string, ket: Key, foreignKey: ForeignKey);
 
-	constructor(name: string, p2: Key | ForeignKey) {
+	constructor(name: string, key: Key,  foreignKey?: ForeignKey) {
+		if(key.unique === false) {
+			throw Error(`Key ${key.name} must have a unique constrain for ForeignKey ${name} to refer to it.`);
+		}
+
 		this.name = name;
-		this.key = p2 instanceof Key ? p2 : p2.key;
-		this.index = p2 instanceof Key ? [] : p2.index;
+		this.key = key; // TODO: more work required here to find the Key instane in the parent table when reconstituting from json
+		this.index = foreignKey ? foreignKey.index : [];
 		this.convert = (value: unknown) => value;
 	}
 
 	as(name: string): IColumn {
-		return new ForeignKey(name, this);
+		return new ForeignKey(name, this.key, this);
 	}
 
 	to<T>(convert: Function<unknown, T>): this {
