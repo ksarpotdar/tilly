@@ -1,6 +1,5 @@
 import { IColumn } from "./IColumn";
 import { Key } from "./Key";
-import { Table } from "./Table";
 import { Function, Supplier } from "./types";
 
 export class ForeignKey implements IColumn {

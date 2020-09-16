@@ -3,7 +3,6 @@ import { Column } from './Column';
 import { Key } from './Key';
 import { ForeignKey } from './ForeignKey';
 import { Row } from './types';
-import { throws } from 'assert';
 
 /**
  * Represents a table of data, comprising a number of columns.
