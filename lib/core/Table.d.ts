@@ -34,9 +34,14 @@ export declare class Table {
     add(...columns: Array<IColumn>): void;
     /**
      * Adds a new row of data to the table
-     * @param rows One or more rows of data to add
+     * @param data The row of data to add
      */
-    insert(...rows: Array<Row>): void;
+    insert(row: Row): void;
+    /**
+     * Adds multiple rows to a table; can be an array, the result of another query, or anyhing else supporting the iterable protocol.
+     * @param rows The rows of data to add
+     */
+    insertMany(rows: Iterable<Row>): void;
     /**
      * Returns the table coumn of the given name.
      * @param name The name of the column to find.

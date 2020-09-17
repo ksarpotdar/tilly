@@ -65,16 +65,24 @@ export class Table {
 
 	/**
 	 * Adds a new row of data to the table
-	 * @param rows One or more rows of data to add
+	 * @param data The row of data to add
 	 */
-	public insert(...rows: Array<Row>): void {
-		for (const row of rows) {
-			// add a new row with appropriate value, or null if not found, to each column
-			for (const column of this.columns) {
-				column.insert(column.name in row ? row[column.name] : null, [this.rows]);
-			}
+	public insert(row: Row): void {
+		// add a new row with appropriate value, or null if not found, to each column
+		for (const column of this.columns) {
+			column.insert(column.name in row ? row[column.name] : null, [this.rows]);
+		}
 
-			this.rows++;
+		this.rows++;
+	}
+
+	/**
+	 * Adds multiple rows to a table; can be an array, the result of another query, or anyhing else supporting the iterable protocol.
+	 * @param rows The rows of data to add
+	 */
+	public insertMany(rows: Iterable<Row>): void {
+		for (const row of rows) {
+			this.insert(row);
 		}
 	}
 
