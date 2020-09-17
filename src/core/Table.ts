@@ -1,7 +1,6 @@
 import { IColumn } from './IColumn';
 import { Column } from './Column';
 import { Key } from './Key';
-import { ForeignKey } from './ForeignKey';
 import { Row } from './types';
 
 /**
@@ -37,41 +36,13 @@ export class Table {
 	public constructor(table: Table);
 
 	public constructor(p1: string | Table) {
-		this.columns = [];
-
 		if (typeof p1 === "string") {
 			this.name = p1;
+			this.columns = [];
 			this.rows = 0;
 		} else {
-			const primaryKeys: Array<Key> = [];
-			const foreignKeys: Array<ForeignKey> = [];
-
 			this.name = p1.name;
-
-			p1.columns.forEach((json: any) => {
-				if ('distinct' in json) {
-					this.columns.push(new Column(json.name, json));
-				} else if ('values' in json) {
-					const key = new Key(json.name, json);
-
-					this.columns.push(key);
-
-					if (key.unique === true) {
-						primaryKeys.push(key);
-					}
-				} else {
-					foreignKeys.push(json)
-				}
-			});
-
-			foreignKeys.forEach((json: any) => {
-				const primaryKey = primaryKeys.find(pk => pk.name === json.key.name);
-
-				if (primaryKey) {
-					this.columns.push(new ForeignKey(json.name, primaryKey, json));
-				}
-			});
-
+			this.columns = p1.columns.map((json: any) => 'distinct' in json ? new Column(json.name, json) : new Key(json.name, json));
 			this.rows = p1.rows;
 		}
 	}
