@@ -49,14 +49,6 @@ export class Query {
 	}
 
 	/**
-	 * Returns the table coumn of the given name.
-	 * @param name The name of the column to find.
-	 */
-	public column(name: string): IColumn | undefined {
-		return this.columns.find(col => col.name === name);
-	}
-
-	/**
 	 * Returns the row indexes that this query will return when executed.
 	 * @returns Returns an iterator for all the rows that meet the criteria specified in the where method.
 	 */

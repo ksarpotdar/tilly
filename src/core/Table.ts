@@ -87,14 +87,6 @@ export class Table {
 	}
 
 	/**
-	 * Returns the table coumn of the given name.
-	 * @param name The name of the column to find.
-	 */
-	public column(name: string): IColumn | undefined {
-		return this.columns.find(col => col.name === name);
-	}
-
-	/**
 	 * Returns the indexes of all rows in the table.
 	 */
 	public * indexes(): IterableIterator<number> {

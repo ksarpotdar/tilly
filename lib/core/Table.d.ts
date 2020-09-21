@@ -43,11 +43,6 @@ export declare class Table {
      */
     insertMany(rows: Iterable<Row>): void;
     /**
-     * Returns the table coumn of the given name.
-     * @param name The name of the column to find.
-     */
-    column(name: string): IColumn | undefined;
-    /**
      * Returns the indexes of all rows in the table.
      */
     indexes(): IterableIterator<number>;

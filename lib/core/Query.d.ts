@@ -33,11 +33,6 @@ export declare class Query {
      */
     where(operator: Operator): this;
     /**
-     * Returns the table coumn of the given name.
-     * @param name The name of the column to find.
-     */
-    column(name: string): IColumn | undefined;
-    /**
      * Returns the row indexes that this query will return when executed.
      * @returns Returns an iterator for all the rows that meet the criteria specified in the where method.
      */
