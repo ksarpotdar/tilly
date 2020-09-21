@@ -1,6 +1,6 @@
 {
   "name": "@steelbreeze/tilly",
-  "version": "1.0.0-rc.9",
+  "version": "1.0.0-rc.10",
   "description": "Columnar database for JavaScript",
   "main": "lib/core/index.js",
   "directories": {
