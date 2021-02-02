@@ -37,6 +37,7 @@ export declare class Query {
      * @returns Returns an iterator for all the rows that meet the criteria specified in the where method.
      */
     indexes(): IterableIterator<number>;
+    exists(): boolean;
     /**
      * Makes the query iterable.
      * @returns Returns an interable iterator to the result rows.

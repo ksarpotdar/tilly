@@ -64,6 +64,14 @@ export class Query {
 		}
 	}
 
+	public exists(): boolean {
+		for(const index of this.indexes()) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Makes the query iterable.
 	 * @returns Returns an interable iterator to the result rows.
