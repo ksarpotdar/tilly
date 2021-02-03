@@ -39,11 +39,6 @@ export declare class Table {
      */
     insert(row: Row): number;
     /**
-     * Adds multiple rows to a table; can be an array, the result of another query, or anyhing else supporting the iterable protocol.
-     * @param rows The rows of data to add
-     */
-    insertMany(rows: Iterable<Row>): void;
-    /**
      * Gets a row for a given index.
      * @param index The index of the row.
      * @return Returns the row of data
