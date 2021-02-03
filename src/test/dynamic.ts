@@ -19,7 +19,8 @@ membership.add(id, givenName, familyName);
 
 // populate the table with some random data
 for (let id = 0; id < 10; id++) {
-	membership.insert({ id: id, givenName: random(givenNames), familyName: random(familyNames), county: random(counties) })
+	const row = { id: id, givenName: random(givenNames), familyName: random(familyNames), county: random(counties) };
+	const index = membership.insert(row);
 }
 
 const county = new Column('county').to(c => c || "Not specified");
@@ -27,7 +28,8 @@ membership.add(county);
 
 // populate the table with some random data
 for (let id = 10; id < 20; id++) {
-	membership.insert({ id: id, givenName: random(givenNames), familyName: random(familyNames), county: random(counties) })
+	const row = { id: id, givenName: random(givenNames), familyName: random(familyNames), county: random(counties) };
+	const index = membership.insert(row);
 }
 
 const query = new Query(membership)

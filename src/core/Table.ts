@@ -66,14 +66,15 @@ export class Table {
 	/**
 	 * Adds a new row of data to the table
 	 * @param data The row of data to add
+	 * @returns Returns the row index within the table
 	 */
-	public insert(row: Row): void {
+	public insert(row: Row): number {
 		// add a new row with appropriate value, or null if not found, to each column
 		for (const column of this.columns) {
 			column.insert(column.name in row ? row[column.name] : null, [this.rows]);
 		}
 
-		this.rows++;
+		return this.rows++;
 	}
 
 	/**
@@ -84,6 +85,22 @@ export class Table {
 		for (const row of rows) {
 			this.insert(row);
 		}
+	}
+
+	/**
+	 * Gets a row for a given index.
+	 * @param index The index of the row.
+	 * @return Returns the row of data
+	 */
+	public row(index: number): Row {
+		const result: Row = {};
+
+		// create each row in the result
+		for (const column of this.columns) {
+			result[column.name] = column.value(index);
+		}
+
+		return result;
 	}
 
 	/**

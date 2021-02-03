@@ -64,6 +64,26 @@ export class Query {
 		}
 	}
 
+	/**
+	 * Gets a row for a given index.
+	 * @param index The index of the row.
+	 * @return Returns the row of data
+	 */
+	public row(index: number): Row {
+		const result: Row = {};
+
+		// create each row in the result
+		for (const column of this.columns) {
+			result[column.name] = column.value(index);
+		}
+
+		return result;
+	}
+
+	/**
+	 * Checks a query to see if there are any results.
+	 * @returns Returns true if a query has results.
+	 */
 	public exists(): boolean {
 		for(const index of this.indexes()) {
 			return true;
@@ -78,14 +98,7 @@ export class Query {
 	 */
 	public *[Symbol.iterator](): IterableIterator<Row> {
 		for (const index of this.indexes()) {
-			const row: Row = {};
-
-			// create each row in the result
-			for (const column of this.columns) {
-				row[column.name] = column.value(index);
-			}
-
-			yield row;
+			yield this.row(index);
 		}
 	}
 }

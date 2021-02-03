@@ -37,6 +37,16 @@ export declare class Query {
      * @returns Returns an iterator for all the rows that meet the criteria specified in the where method.
      */
     indexes(): IterableIterator<number>;
+    /**
+     * Gets a row for a given index.
+     * @param index The index of the row.
+     * @return Returns the row of data
+     */
+    row(index: number): Row;
+    /**
+     * Checks a query to see if there are any results.
+     * @returns Returns true if a query has results.
+     */
     exists(): boolean;
     /**
      * Makes the query iterable.
