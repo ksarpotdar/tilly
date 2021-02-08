@@ -32,10 +32,8 @@ for (let id = 10; id < 20; id++) {
 	const index = membership.insert(row);
 }
 
-const query = new Query(membership)
-	.select(id, givenName, familyName, county)
-	.where(givenName.in(['David', 'James']));
+const query = membership.where(givenName.in(['David', 'James']));
 
-for (const member of query) {
+for (const member of query.select(id, givenName, familyName, county)) {
 	console.log(member);
 }

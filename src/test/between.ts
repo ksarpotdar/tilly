@@ -1,4 +1,4 @@
-import { Table, Column, Query, evaluate } from '../core';
+import { Column, Table, evaluate } from '../core';
 
 // create a table
 const table = new Table('ranges');
@@ -12,15 +12,11 @@ for (let year = 1000; year < 3000; ++year) {
 	table.insert({ name: `${year} - ${year + 5}`, from: new Date(year, 0, 1), to: new Date(year + 5, 11, 31) });
 }
 
-// create a query
+// create a query in two steps
 const today = new Date();
-const query1 = new Query(table)
-	.where(evaluate(from, value => value <= today));
+const query1 = table.where(evaluate(from, value => value <= today));
+const query2 = query1.where(evaluate(to, value => value >= today));
 
-const query2 = new Query(query1)
-	.select(name)
-	.where(evaluate(to, value => value >= today));
-
-for (const row of query2) {
+for (const row of query2.select(name)) {
 	console.log(row);
 }
