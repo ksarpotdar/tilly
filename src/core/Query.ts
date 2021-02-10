@@ -19,11 +19,19 @@ export class Query extends Queryable {
 		return new Query(this, operator);
 	}
 
+	public exists(): boolean {
+		for(const index of this.indexes()) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Returns the indexes of all rows in the query with an optional filter criteria.
 	 * @private
 	 */
-	indexes(operator: Operator | undefined): Iterable<number> {
+	indexes(operator?: Operator): Iterable<number> {
 		return this.source.indexes(operator ? and(operator,this.operator) : this.operator);
 	}
 }

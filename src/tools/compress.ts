@@ -1,6 +1,5 @@
 import fs = require('fs');
-import zlib = require('zlib');
-import { exit } from 'process';
+import zlib = require('zlib');;
 
 const compressors = [
 	{
@@ -17,7 +16,7 @@ const compressors = [
 
 const compressor = compressors.find(c => c.name.toLowerCase() === process.argv[3].toLowerCase());
 
-if (compressor !== undefined) {
+if (compressor) {
 
 	let count = 0;
 	const start: Date = new Date();

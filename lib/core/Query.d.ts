@@ -13,9 +13,10 @@ export declare class Query extends Queryable {
      */
     constructor(source: Queryable, operator: Operator);
     where(operator: Operator): Query;
+    exists(): boolean;
     /**
      * Returns the indexes of all rows in the query with an optional filter criteria.
      * @private
      */
-    indexes(operator: Operator | undefined): Iterable<number>;
+    indexes(operator?: Operator): Iterable<number>;
 }

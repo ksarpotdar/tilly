@@ -5,9 +5,6 @@ import { IColumn } from './IColumn';
  * A primary key is a type of column where all the values are known to be unique.
  */
 export class Key implements IColumn {
-	/** The name of this column */
-	public readonly name: string;
-
 	/** A flag indicating if the key has a unique constraint. */
 	public readonly unique: boolean;
 
@@ -30,10 +27,14 @@ export class Key implements IColumn {
 	 */
 	public constructor(name: string, column: Key);
 
-	public constructor(name: string, p2: Key | boolean) {
-		this.name = name;
-		this.unique = typeof p2 === 'boolean' ? p2 : p2.unique;
-		this.values = typeof p2 === 'boolean' ? [] : p2.values;
+	public constructor(public readonly name: string, p2: Key | boolean) {
+		if (typeof p2 === 'boolean') {
+			this.unique = p2;
+			this.values = [];
+		} else {
+			this.unique = p2.unique;
+			this.values = p2.values;
+		}
 	}
 
 	/**

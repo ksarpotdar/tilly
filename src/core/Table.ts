@@ -59,7 +59,7 @@ export class Table extends Queryable {
 		for (const column of columns) {
 			// if the table already has rows, add null rows to the newly added columns
 			if (this.rows !== 0) {
-				column.insert(null, this.indexes(undefined));
+				column.insert(null, this.indexes());
 			}
 
 			// add the columns to the table
@@ -106,7 +106,7 @@ export class Table extends Queryable {
 	 * Returns the indexes of all rows in the table with an optional filter criteria.
 	 * @private
 	 */
-	* indexes(operator: Operator | undefined): Iterable<number> {
+	* indexes(operator?: Operator): Iterable<number> {
 		const predicate = operator ? operator() : () => true;
 
 		for (let i = 0; i < this.rows; ++i) {

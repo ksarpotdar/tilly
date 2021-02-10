@@ -26,14 +26,13 @@ for (let id = 0; id < 10; id++) {
 const county = new Column('county').to(c => c || "Not specified");
 membership.add(county);
 
-// populate the table with some random data
+// populate the table with some more random data, this time with the county column in place
 for (let id = 10; id < 20; id++) {
 	const row = { id: id, givenName: random(givenNames), familyName: random(familyNames), county: random(counties) };
 	const index = membership.insert(row);
 }
 
-const query = membership.where(givenName.in(['David', 'James']));
-
-for (const member of query.select(id, givenName, familyName, county)) {
+// run a query
+for (const member of membership.where(givenName.in(['David', 'James'])).select(id, givenName, familyName, county)) {
 	console.log(member);
 }

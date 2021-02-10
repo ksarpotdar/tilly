@@ -2,7 +2,6 @@ import { Function, Operator } from './types';
 import { IColumn } from './IColumn';
 /** Represents a column and its data within a table. */
 export declare class Column implements IColumn {
-    /** The name of this column */
     readonly name: string;
     /**
      * The set of distinct, raw values for this column within the table.

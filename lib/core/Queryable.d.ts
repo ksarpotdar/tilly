@@ -8,7 +8,7 @@ export declare abstract class Queryable {
     /**
      * Returns the set of row indexes that fulfil the predicate within the operator if provided.
      */
-    abstract indexes(operator: Operator | undefined): Iterable<number>;
+    abstract indexes(operator?: Operator): Iterable<number>;
     /**
      * Constructs a row object for a given row index and set of columns.
      */

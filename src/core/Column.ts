@@ -3,9 +3,6 @@ import { IColumn } from './IColumn';
 
 /** Represents a column and its data within a table. */
 export class Column implements IColumn {
-	/** The name of this column */
-	public readonly name: string;
-
 	/**
 	 * The set of distinct, raw values for this column within the table.
 	 */
@@ -36,8 +33,7 @@ export class Column implements IColumn {
 	 */
 	public constructor(name: string, column: Column);
 
-	public constructor(name: string, column?: Column) {
-		this.name = name;
+	public constructor(public readonly name: string, column?: Column) {
 		this.distinct = column ? column.distinct : [];
 		this.index = column ? column.index : [];
 		this.convert = (value: unknown) => value;

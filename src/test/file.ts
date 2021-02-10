@@ -15,12 +15,11 @@ const countryName = estimates.columns.find(column => column.name === 'Country Na
 const indicatorName = estimates.columns.find(column => column.name === 'Indicator Name')!;
 const value = estimates.columns.find(column => column.name === '2020')!.as('population').to(Number); // NOTE: "as" and "to" can be used here or in query; they are not fluent and create new virtual columns
 
-// a list of country codes in the data that are not countries, but aggregates
-const notCountry = ['ARB', 'CSS', 'CEB', 'EAR', 'EAS', 'EAP', 'TEA', 'ECS', 'ECA', 'TEC', 'EUU', 'FCS', 'HPC', 'HIC', 'INX', 'LTE', 'EMU', 'LCN', 'LAC', 'TLA', 'LDC', 'LIC', 'LMY', 'LMC', 'MEA', 'MNA', 'TMN', 'MIC', 'NAC', 'OED', 'OSS', 'PSS', 'PST', 'PRE', 'SST', 'SAS', 'TSA', 'SSF', 'SSA', 'TSS', 'UMC', 'WLD'];
+// a query to filter our country codes that are not countries
+const countries = estimates.where(not(countryCode.in(['ARB', 'CSS', 'CEB', 'EAR', 'EAS', 'EAP', 'TEA', 'ECS', 'ECA', 'TEC', 'EUU', 'FCS', 'HPC', 'HIC', 'INX', 'LTE', 'EMU', 'LCN', 'LAC', 'TLA', 'LDC', 'LIC', 'LMY', 'LMC', 'MEA', 'MNA', 'TMN', 'MIC', 'NAC', 'OED', 'OSS', 'PSS', 'PST', 'PRE', 'SST', 'SAS', 'TSA', 'SSF', 'SSA', 'TSS', 'UMC', 'WLD'])));
 
-// create a query with just three returned columns and a complex filter criteria
-const query = estimates
-	.where(and(indicatorName.equals('Population, total'), not(value.equals(null)), not(countryCode.in(notCountry))));
+// create a query to home in just on population data
+const query = countries.where(and(indicatorName.equals('Population, total'), not(value.equals(null))));
 
 // iterate the query results
 for (const row of query.select(countryCode.as('code'), countryName.as('name'), value)) {

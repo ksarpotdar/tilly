@@ -56,5 +56,5 @@ export declare class Table extends Queryable {
      * Returns the indexes of all rows in the table with an optional filter criteria.
      * @private
      */
-    indexes(operator: Operator | undefined): Iterable<number>;
+    indexes(operator?: Operator): Iterable<number>;
 }

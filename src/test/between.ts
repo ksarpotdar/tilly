@@ -12,7 +12,7 @@ for (let year = 1000; year < 3000; ++year) {
 	table.insert({ name: `${year} - ${year + 5}`, from: new Date(year, 0, 1), to: new Date(year + 5, 11, 31) });
 }
 
-// create a query in two steps
+// create a query in two steps, showing cascading qu
 const today = new Date();
 const query1 = table.where(evaluate(from, value => value <= today));
 const query2 = query1.where(evaluate(to, value => value >= today));
