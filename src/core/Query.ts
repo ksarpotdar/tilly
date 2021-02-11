@@ -15,10 +15,17 @@ export class Query extends Queryable {
 		super();
 	}
 
+	/**
+	 * Creates a query to furthre filter the contents of the query based on another predicate.
+	 * @param operator An Operator object that creates the filter predicate at query execution time.
+	 */
 	public where(operator: Operator): Query {
 		return new Query(this, operator);
 	}
 
+	/**
+	 * Tests the query to see if it contains any result rows.
+	 */
 	public exists(): boolean {
 		for(const index of this.indexes()) {
 			return true;

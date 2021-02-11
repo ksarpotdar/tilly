@@ -51,6 +51,10 @@ export declare class Table extends Queryable {
      * @param columns The columns to return in each row; if not provided, all columns will be returned.
      */
     select(...columns: Array<IColumn>): Iterable<Row>;
+    /**
+     * Creates a query to filter the contents of a table based on a predicate.
+     * @param operator An Operator object that creates the filter predicate at query execution time.
+     */
     where(operator: Operator): Query;
     /**
      * Returns the indexes of all rows in the table with an optional filter criteria.

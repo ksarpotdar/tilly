@@ -98,6 +98,10 @@ export class Table extends Queryable {
 		return super.select(...(columns.length === 0 ? this.columns : columns));
 	}
 
+	/**
+	 * Creates a query to filter the contents of a table based on a predicate.
+	 * @param operator An Operator object that creates the filter predicate at query execution time.
+	 */
 	public where(operator: Operator): Query {
 		return new Query(this, operator);
 	}
