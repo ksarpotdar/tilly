@@ -1,24 +1,13 @@
-import { Function, Operator } from './types';
-import { IColumn } from './IColumn';
+import { Operator } from './types';
+import { ColumnBase } from './IColumn';
 
 /** Represents a column and its data within a table. */
-export class Column implements IColumn {
-	/**
-	 * The set of distinct, raw values for this column within the table.
-	 */
-	public readonly distinct: Array<unknown>;
-
+export class Column extends ColumnBase {
 	/**
 	 * The index into the array of distinct values for each row. 
 	 * @private
 	 */
 	private readonly index: Array<number>;
-
-	/**
-	 * A function to convert the returned value to a defined type.
-	 * @private
-	 */
-	private convert: Function<unknown, any>;
 
 	/**
 	 * Creates a new instance of the Column class.
@@ -33,10 +22,9 @@ export class Column implements IColumn {
 	 */
 	public constructor(name: string, column: Column);
 
-	public constructor(public readonly name: string, column?: Column) {
-		this.distinct = column ? column.distinct : [];
+	public constructor(name: string, column?: Column) {
+		super(name, column ? column.values : []);
 		this.index = column ? column.index : [];
-		this.convert = (value: unknown) => value;
 	}
 
 	/**
@@ -44,19 +32,8 @@ export class Column implements IColumn {
 	 * @param name The alias name for the column.
 	 * @returns A virtual column.
 	 */
-	public as(name: string): Column {
+	public as(name: string): ColumnBase {
 		return new Column(name, this);
-	}
-
-	/**
-	 * Allows the column to be converted to a specific type.
-	 * @param convert A function used to convert to the defined type.
-	 * @return Fluent API call, so returns this.
-	 */
-	public to<T>(convert: Function<unknown, T>): this {
-		this.convert = convert;
-
-		return this;
 	}
 
 	/**
@@ -66,10 +43,10 @@ export class Column implements IColumn {
 	 * @private Package private.
 	 */
 	insert(value: unknown, indexes: Iterable<number>): void {
-		let position = this.distinct.indexOf(value);
+		let position = this.values.indexOf(value);
 
 		if (position === -1) {
-			this.distinct[position = this.distinct.length] = value;
+			this.values[position = this.values.length] = value;
 		}
 
 		for (const index of indexes) {
@@ -83,7 +60,22 @@ export class Column implements IColumn {
 	 * @private Package private.
 	 */
 	value(index: number): any {
-		return this.convert(this.distinct[this.index[index]]);
+		return this.convert(this.values[this.index[index]]);
+	}
+
+	/**
+	 * Generates an operator to be used in the where method of a query to select rows from a table based on equality.
+	 * @param value The value to test against.
+	 * @returns Returns the predicate to be used within a query where method.
+	 */
+	public equals(value: unknown): Operator {
+		return () => {
+			const position = this.values.indexOf(value);
+
+			return (index: number) => {
+				return this.index[index] === position;
+			}
+		}
 	}
 
 	/**
@@ -95,7 +87,7 @@ export class Column implements IColumn {
 			const indexes: Array<number> = [];
 
 			for (let i = values.length; i--;) {
-				const index = this.distinct.indexOf(values[i]);
+				const index = this.values.indexOf(values[i]);
 
 				if (index !== -1) {
 					indexes.push(index);
@@ -104,21 +96,6 @@ export class Column implements IColumn {
 
 			return (index: number) => {
 				return indexes.indexOf(this.index[index]) !== -1;
-			}
-		}
-	}
-
-	/**
-	 * Generates an operator to be used in the where method of a query to select rows from a table based on equality.
-	 * @param value The value to test against.
-	 * @returns Returns the predicate to be used within a query where method.
-	 */
-	public equals(value: unknown): Operator {
-		return () => {
-			const position = this.distinct.indexOf(value);
-
-			return (index: number) => {
-				return this.index[index] === position;
 			}
 		}
 	}

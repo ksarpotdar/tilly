@@ -1,4 +1,4 @@
-import { IColumn } from './IColumn';
+import { ColumnBase } from './IColumn';
 import { Column } from './Column';
 import { Key } from './Key';
 import { Queryable } from './Queryable';
@@ -23,7 +23,7 @@ export class Table extends Queryable {
 	/**
 	 * All the columns within the table.
 	 */
-	public readonly columns: Array<IColumn>;
+	public readonly columns: Array<ColumnBase>;
 
 	/**
 	 * Creates a new instance of the Table class.
@@ -46,7 +46,7 @@ export class Table extends Queryable {
 			this.rows = 0;
 		} else {
 			this.name = p1.name;
-			this.columns = p1.columns.map((json: any) => 'distinct' in json ? new Column(json.name, json) : new Key(json.name, json));
+			this.columns = p1.columns.map((json: any) => 'index' in json ? new Column(json.name, json) : new Key(json.name, json));
 			this.rows = p1.rows;
 		}
 	}
@@ -55,7 +55,7 @@ export class Table extends Queryable {
 	 * Adds one or more columns to the table
 	 * @param columns The new columns to add.
 	 */
-	public add(...columns: Array<IColumn>): void {
+	public add(...columns: Array<ColumnBase>): void {
 		for (const column of columns) {
 			// if the table already has rows, add null rows to the newly added columns
 			if (this.rows !== 0) {
@@ -86,7 +86,7 @@ export class Table extends Queryable {
 	 * @param index The index of the row.
 	 * @return Returns the row of data
 	 */
-	public row(index: number, ...columns: Array<IColumn>): Row {
+	public row(index: number, ...columns: Array<ColumnBase>): Row {
 		return super.row(index, ...(columns.length === 0 ? this.columns : columns));
 	}
 
@@ -94,7 +94,7 @@ export class Table extends Queryable {
 	 * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
 	 * @param columns The columns to return in each row; if not provided, all columns will be returned.
 	 */
-	public select(...columns: Array<IColumn>): Iterable<Row> {
+	public select(...columns: Array<ColumnBase>): Iterable<Row> {
 		return super.select(...(columns.length === 0 ? this.columns : columns));
 	}
 

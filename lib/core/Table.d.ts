@@ -1,4 +1,4 @@
-import { IColumn } from './IColumn';
+import { ColumnBase } from './IColumn';
 import { Queryable } from './Queryable';
 import { Query } from './Query';
 import { Operator, Row } from './types';
@@ -18,7 +18,7 @@ export declare class Table extends Queryable {
     /**
      * All the columns within the table.
      */
-    readonly columns: Array<IColumn>;
+    readonly columns: Array<ColumnBase>;
     /**
      * Creates a new instance of the Table class.
      * @param name The name of the table.
@@ -33,7 +33,7 @@ export declare class Table extends Queryable {
      * Adds one or more columns to the table
      * @param columns The new columns to add.
      */
-    add(...columns: Array<IColumn>): void;
+    add(...columns: Array<ColumnBase>): void;
     /**
      * Adds a new row of data to the table
      * @param data The row of data to add
@@ -45,12 +45,12 @@ export declare class Table extends Queryable {
      * @param index The index of the row.
      * @return Returns the row of data
      */
-    row(index: number, ...columns: Array<IColumn>): Row;
+    row(index: number, ...columns: Array<ColumnBase>): Row;
     /**
      * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
      * @param columns The columns to return in each row; if not provided, all columns will be returned.
      */
-    select(...columns: Array<IColumn>): Iterable<Row>;
+    select(...columns: Array<ColumnBase>): Iterable<Row>;
     /**
      * Creates a query to filter the contents of a table based on a predicate.
      * @param operator An Operator object that creates the filter predicate at query execution time.

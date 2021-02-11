@@ -1,5 +1,5 @@
 import { Operator, Row } from './types';
-import { IColumn } from './IColumn';
+import { ColumnBase } from './IColumn';
 /**
  * Internal base class for tables and queries.
  * @private
@@ -12,9 +12,9 @@ export declare abstract class Queryable {
     /**
      * Constructs a row object for a given row index and set of columns.
      */
-    row(index: number, ...columns: Array<IColumn>): Row;
+    row(index: number, ...columns: Array<ColumnBase>): Row;
     /**
      * Selects many rows of data.
      */
-    select(...columns: Array<IColumn>): Iterable<Row>;
+    select(...columns: Array<ColumnBase>): Iterable<Row>;
 }

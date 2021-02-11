@@ -1,5 +1,5 @@
 import { Operator, Row } from './types';
-import { IColumn } from './IColumn';
+import { ColumnBase } from './IColumn';
 
 /**
  * Internal base class for tables and queries.
@@ -14,7 +14,7 @@ export abstract class Queryable {
 	/**
 	 * Constructs a row object for a given row index and set of columns.
 	 */
-	public row(index: number, ...columns: Array<IColumn>): Row {
+	public row(index: number, ...columns: Array<ColumnBase>): Row {
 		const result: Row = {};
 
 		for (const column of columns) {
@@ -27,7 +27,7 @@ export abstract class Queryable {
 	/**
 	 * Selects many rows of data.
 	 */
-	public * select(...columns: Array<IColumn>): Iterable<Row> {
+	public * select(...columns: Array<ColumnBase>): Iterable<Row> {
 		for (const index of this.indexes()) {
 			yield this.row(index, ...columns);
 		}

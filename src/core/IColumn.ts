@@ -1,49 +1,59 @@
 import { Function, Operator } from "./types";
 
-/**
- * Abstraction of any of the column types.
- * We offer differnt column types as the strategy for efficent data management varies depending on the nature of the data.
- */
-export interface IColumn {
+export abstract class ColumnBase {
 	/**
-	 * The name of the column
+	 * A function to convert the returned value to a defined type.
+	 * @protected
 	 */
-	readonly name: string;
+	protected convert: Function<unknown, any> = (value: unknown) => value;
 
 	/**
-	 * Creates an alias of the same type for the column.
+	 * Creates a new instance of the common parts of the ColumnBase class
+	 * @param name The name of the column.
+	 * @param values The set of distinct, raw values within the column.
 	 */
-	as(name: string): IColumn;
+	public constructor(readonly name: string, public readonly values: Array<unknown> ) {}
 
 	/**
 	 * Adds a conversion function used when retreiving data.
 	 * @param convert A callback to convert each value on retrieval.
 	 */
-	to<T>(convert: Function<unknown, T>): this;
+	public to<T>(convert: Function<unknown, T>): this {
+		this.convert = convert;
+
+		return this;
+	}
+
+	/**
+	 * Creates a column alias with a different name.
+	 * @param name The alias name for the column.
+	 * @returns The new column alias.
+	 */
+	public abstract as(name: string): ColumnBase;
 
 	/**
 	 * Inserts a new value into the column at a defined set of positions.
 	 * @param value The value to insert.
 	 * @param indexes The range of indexes to insert.
 	 */
-	insert(value: unknown, indexes: Iterable<number>): void;
+	public abstract insert(value: unknown, indexes: Iterable<number>): void;
 
 	/**
 	 * Returns a value from a specific row index.
 	 * The returned row will have the conversion function applied if specified by the [to] method.
 	 * @param index 
 	 */
-	value(index: number): any;
+	public abstract value(index: number): any;
 
 	/**
 	 * Creates and operator to test for equality.
 	 * @param value The value to test equality for.
 	 */
-	equals(value: any): Operator;
+	public abstract equals(value: any): Operator;
 
 	/**
 	 * Creates and operator to test if a rows value is in a set of values.
 	 * @param value The value to test equality for.
 	 */
-	in(values: Array<any>): Operator;
+	public abstract in(values: Array<any>): Operator;
 }

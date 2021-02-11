@@ -1,17 +1,12 @@
-import { Function, Operator } from './types';
-import { IColumn } from './IColumn';
+import { Operator } from './types';
+import { ColumnBase } from './IColumn';
 
 /**
  * A primary key is a type of column where all the values are known to be unique.
  */
-export class Key implements IColumn {
+export class Key extends ColumnBase {
 	/** A flag indicating if the key has a unique constraint. */
 	public readonly unique: boolean;
-
-	/**
-	 * The set of distinct, raw values for this column within the table.
-	 */
-	public readonly values: Array<unknown>;
 
 	/**
 	 * Creates a new instance of the Column class.
@@ -27,14 +22,9 @@ export class Key implements IColumn {
 	 */
 	public constructor(name: string, column: Key);
 
-	public constructor(public readonly name: string, p2: Key | boolean) {
-		if (typeof p2 === 'boolean') {
-			this.unique = p2;
-			this.values = [];
-		} else {
-			this.unique = p2.unique;
-			this.values = p2.values;
-		}
+	public constructor(name: string, p2: Key | boolean) {
+		super(name, typeof p2 === 'boolean' ? [] : p2.values);
+		this.unique = typeof p2 === 'boolean' ? p2 : p2.unique;
 	}
 
 	/**
@@ -42,17 +32,8 @@ export class Key implements IColumn {
 	 * @param name The alias name for the column.
 	 * @returns A virtual column.
 	 */
-	public as(name: string): Key {
+	public as(name: string): ColumnBase {
 		return new Key(name, this);
-	}
-
-	/**
-	 * Allows the column to be converted to a specific type.
-	 * @param convert A function used to convert to the defined type.
-	 * @return Fluent API call, so returns this.
-	 */
-	public to<T>(convert: Function<unknown, T>): this {
-		return this;
 	}
 
 	/**
@@ -77,7 +58,7 @@ export class Key implements IColumn {
 	 * @private Package private.
 	 */
 	value(index: number): any {
-		return this.values[index];
+		return this.convert(this.values[index]);
 	}
 
 	/**
@@ -93,6 +74,10 @@ export class Key implements IColumn {
 		}
 	}
 
+	/**
+	 * Creates and operator to test if a rows value is in a set of values.
+	 * @param value The value to test equality for.
+	 */
 	public in(values: Array<any>): Operator {
 		return () => {
 			return (index: number) => {

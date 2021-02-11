@@ -1,5 +1,5 @@
 import { Operator, Predicate } from './types';
-import { IColumn } from './IColumn';
+import { ColumnBase } from './IColumn';
 
 /**
  * Performs an arbitary comparison operation based on a user-supplied callback.
@@ -7,7 +7,7 @@ import { IColumn } from './IColumn';
  * @param predicate The test condition.
  * @returns Returns the predicate to be used within a query where method.
  */
-export function evaluate(column: IColumn, predicate: Predicate<any>): Operator {
+export function evaluate(column: ColumnBase, predicate: Predicate<any>): Operator {
 	return () => index => predicate(column.value(index));
 }
 
