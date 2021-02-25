@@ -1,13 +1,23 @@
-import { Operator } from './types';
-import { ColumnBase } from './IColumn';
+import { Function, Operator, Predicate } from './types';
 
 /** Represents a column and its data within a table. */
-export class Column extends ColumnBase {
+export class Column {
+	/**
+	 * The set of distinct values seen within the column.
+	 * @private
+	 */
+	private readonly values: Array<unknown>;
+
 	/**
 	 * The index into the array of distinct values for each row. 
 	 * @private
 	 */
 	private readonly index: Array<number>;
+
+	/**
+	 * An optional function to convert the value from one type to another.
+	 */
+	private convert?: Function<unknown, any>;
 
 	/**
 	 * Creates a new instance of the Column class.
@@ -22,8 +32,8 @@ export class Column extends ColumnBase {
 	 */
 	public constructor(name: string, column: Column);
 
-	public constructor(name: string, column?: Column) {
-		super(name, column ? column.values : []);
+	public constructor(public readonly name: string, column?: Column) {
+		this.values = column ? column.values : [];
 		this.index = column ? column.index : [];
 	}
 
@@ -32,8 +42,18 @@ export class Column extends ColumnBase {
 	 * @param name The alias name for the column.
 	 * @returns A virtual column.
 	 */
-	public as(name: string): ColumnBase {
+	public as(name: string): Column {
 		return new Column(name, this);
+	}
+
+	/**
+	 * Adds a conversion function used when retreiving data.
+	 * @param convert A callback to convert each value on retrieval.
+	 */
+	public to<T>(convert: Function<unknown, T>): this {
+		this.convert = convert;
+
+		return this;
 	}
 
 	/**
@@ -60,11 +80,13 @@ export class Column extends ColumnBase {
 	 * @private Package private.
 	 */
 	value(index: number): any {
-		return this.convert(this.values[this.index[index]]);
+		const raw = this.values[this.index[index]];
+
+		return this.convert ? this.convert(raw) : raw;
 	}
 
 	/**
-	 * Generates an operator to be used in the where method of a query to select rows from a table based on equality.
+	 * Generates an operator to be used in a query to select rows from a table based on equality.
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
@@ -76,6 +98,15 @@ export class Column extends ColumnBase {
 				return this.index[index] === position;
 			}
 		}
+	}
+
+	/**
+	 * Generates and operator to e used in a query; performs an arbitary comparison operation based on a user-supplied callback.
+	 * @param predicate The test condition.
+	 * @returns Returns the predicate to be used within a query method.
+	 */
+	public evaluate(predicate: Predicate<any>): Operator {
+		return () => index => predicate(this.value(index));
 	}
 
 	/**

@@ -1,6 +1,5 @@
 export { Row } from './types';
-export { Key } from './Key';
 export { Column } from './Column';
 export { Table } from './Table';
 export { Query } from './Query';
-export { evaluate, and, not, or } from './operators';
+export { and, not, or } from './operators';

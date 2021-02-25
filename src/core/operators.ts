@@ -1,15 +1,4 @@
-import { Operator, Predicate } from './types';
-import { ColumnBase } from './IColumn';
-
-/**
- * Performs an arbitary comparison operation based on a user-supplied callback.
- * @param column The column to test.
- * @param predicate The test condition.
- * @returns Returns the predicate to be used within a query where method.
- */
-export function evaluate(column: ColumnBase, predicate: Predicate<any>): Operator {
-	return () => index => predicate(column.value(index));
-}
+import { Operator } from './types';
 
 /**
  * Performs a logical and operation of other predicates used within a query.
@@ -18,7 +7,7 @@ export function evaluate(column: ColumnBase, predicate: Predicate<any>): Operato
  */
 export function and(...operators: Array<Operator>): Operator {
 	return () => {
-		const predicates = operators.map(supplier => supplier());
+		const predicates = operators.map(operator => operator());
 
 		return index => predicates.every(predicate => predicate(index));
 	};
@@ -31,7 +20,7 @@ export function and(...operators: Array<Operator>): Operator {
  */
 export function or(...operators: Array<Operator>): Operator {
 	return () => {
-		const predicates = operators.map(supplier => supplier());
+		const predicates = operators.map(operator => operator());
 
 		return (index: number) => {
 			return predicates.some(predicate => predicate(index));

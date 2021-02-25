@@ -1,9 +1,10 @@
-import { Queryable } from './Queryable';
-import { Operator } from './types';
+import { Column } from './Column';
+import { Operator, Row } from './types';
+import { Table } from './Table';
 /**
  * Represents a query used to select a subset of the rows and columns of a table.
  */
-export declare class Query extends Queryable {
+export declare class Query {
     private readonly source;
     private readonly operator;
     /**
@@ -11,7 +12,7 @@ export declare class Query extends Queryable {
      * @param source Another queryable object to use as the source for this query.
      * @param operator The operator that will create the predicate that this query will use to restrict the number of rows from source table.
      */
-    constructor(source: Queryable, operator: Operator);
+    constructor(source: Query | Table, operator: Operator);
     /**
      * Creates a query to furthre filter the contents of the query based on another predicate.
      * @param operator An Operator object that creates the filter predicate at query execution time.
@@ -21,6 +22,10 @@ export declare class Query extends Queryable {
      * Tests the query to see if it contains any result rows.
      */
     exists(): boolean;
+    /**
+     * Selects many rows of data.
+     */
+    select(...columns: Array<Column>): Iterable<Row>;
     /**
      * Returns the indexes of all rows in the query with an optional filter criteria.
      * @private

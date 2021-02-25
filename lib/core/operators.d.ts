@@ -1,12 +1,4 @@
-import { Operator, Predicate } from './types';
-import { ColumnBase } from './IColumn';
-/**
- * Performs an arbitary comparison operation based on a user-supplied callback.
- * @param column The column to test.
- * @param predicate The test condition.
- * @returns Returns the predicate to be used within a query where method.
- */
-export declare function evaluate(column: ColumnBase, predicate: Predicate<any>): Operator;
+import { Operator } from './types';
 /**
  * Performs a logical and operation of other predicates used within a query.
  * @param operators An arbitory number of operators, all of which must return true for this predicate to return true.

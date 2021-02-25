@@ -1,14 +1,11 @@
-import { ColumnBase } from './IColumn';
 import { Column } from './Column';
-import { Key } from './Key';
-import { Queryable } from './Queryable';
 import { Query } from './Query';
 import { Operator, Row } from './types';
 
 /**
  * Represents a table of data, comprising a number of columns.
  */
-export class Table extends Queryable {
+export class Table {
 	/**
 	 * The name of this table
 	 */
@@ -23,7 +20,7 @@ export class Table extends Queryable {
 	/**
 	 * All the columns within the table.
 	 */
-	public readonly columns: Array<ColumnBase>;
+	public readonly columns: Array<Column>;
 
 	/**
 	 * Creates a new instance of the Table class.
@@ -38,24 +35,16 @@ export class Table extends Queryable {
 	public constructor(table: Table);
 
 	public constructor(p1: string | Table) {
-		super();
-
-		if (typeof p1 === "string") {
-			this.name = p1;
-			this.columns = [];
-			this.rows = 0;
-		} else {
-			this.name = p1.name;
-			this.columns = p1.columns.map((json: any) => 'index' in json ? new Column(json.name, json) : new Key(json.name, json));
-			this.rows = p1.rows;
-		}
+		this.name = typeof p1 === "string" ? p1 : p1.name;
+		this.columns = typeof p1 === "string" ? [] : p1.columns.map(col => new Column(col.name, col));
+		this.rows = typeof p1 === "string" ? 0 : p1.rows;
 	}
 
 	/**
 	 * Adds one or more columns to the table
 	 * @param columns The new columns to add.
 	 */
-	public add(...columns: Array<ColumnBase>): void {
+	public add(...columns: Array<Column>): void {
 		for (const column of columns) {
 			// if the table already has rows, add null rows to the newly added columns
 			if (this.rows !== 0) {
@@ -86,16 +75,18 @@ export class Table extends Queryable {
 	 * @param index The index of the row.
 	 * @return Returns the row of data
 	 */
-	public row(index: number, ...columns: Array<ColumnBase>): Row {
-		return super.row(index, ...(columns.length === 0 ? this.columns : columns));
+	public row(index: number, ...columns: Array<Column>): Row {
+		return Object.fromEntries((columns.length ? columns : this.columns).map(column => [column.name, column.value(index)]));
 	}
 
 	/**
 	 * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
 	 * @param columns The columns to return in each row; if not provided, all columns will be returned.
 	 */
-	public select(...columns: Array<ColumnBase>): Iterable<Row> {
-		return super.select(...(columns.length === 0 ? this.columns : columns));
+	public * select(...columns: Array<Column>): Iterable<Row> {
+		for (const index of this.indexes()) {
+			yield this.row(index, ...columns.length ? columns : this.columns);
+		}
 	}
 
 	/**
@@ -113,7 +104,7 @@ export class Table extends Queryable {
 	* indexes(operator?: Operator): Iterable<number> {
 		const predicate = operator ? operator() : () => true;
 
-		for (let i = 0; i < this.rows; ++i) {
+		for (let i = 0, l = this.rows; i < l; ++i) {
 			if (predicate(i)) {
 				yield i;
 			}

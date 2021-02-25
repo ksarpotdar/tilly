@@ -1,4 +1,4 @@
-import { Table, Key, Column, Query } from '../core';
+import { Table, Column } from '../core';
 
 // some names to generate a membership database with
 const givenNames = ['Boris', 'Theresa', 'David', 'Gordon', 'Tony', 'John', 'Margaret', 'James', 'Harold', 'Edward'];
@@ -12,7 +12,7 @@ function random(strings: Array<string>): string {
 
 // create a table with some columns
 const membership = new Table('membership');
-const id = new Key('id', true);
+const id = new Column('id');
 const givenName = new Column('givenName');
 const familyName = new Column('familyName');
 membership.add(id, givenName, familyName);
