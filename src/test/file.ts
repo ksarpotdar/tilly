@@ -13,7 +13,7 @@ const estimates = new Table(json);
 const countryCode = estimates.columns.find(column => column.name === 'Country Code')!;
 const countryName = estimates.columns.find(column => column.name === 'Country Name')!;
 const indicatorName = estimates.columns.find(column => column.name === 'Indicator Name')!;
-const value = estimates.columns.find(column => column.name === '2020')!.as('population').to(Number); // NOTE: "as" and "to" can be used here or in query; they are not fluent and create new virtual columns
+const value = estimates.columns.find(column => column.name === '2020')!.as('population').to(Number);
 
 // a query to filter our country codes that are not countries
 const countries = estimates.where(not(countryCode.in(['ARB', 'CSS', 'CEB', 'EAR', 'EAS', 'EAP', 'TEA', 'ECS', 'ECA', 'TEC', 'EUU', 'FCS', 'HPC', 'HIC', 'INX', 'LTE', 'EMU', 'LCN', 'LAC', 'TLA', 'LDC', 'LIC', 'LMY', 'LMC', 'MEA', 'MNA', 'TMN', 'MIC', 'NAC', 'OED', 'OSS', 'PSS', 'PST', 'PRE', 'SST', 'SAS', 'TSA', 'SSF', 'SSA', 'TSS', 'UMC', 'WLD'])));
@@ -36,4 +36,4 @@ for (const row of query.select()) {
 
 const elapsed = process.hrtime(start);
 
-console.log(`Processed ${count} rows in ${elapsed[0]}s ${elapsed[1] / 1000000}ms`);
+console.log(`Returned ${count} rows from ${countryCode.count()} in ${elapsed[0]}s ${elapsed[1] / 1000000}ms`);

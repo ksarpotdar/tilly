@@ -14,21 +14,18 @@ export declare class Column {
     private readonly index;
     /**
      * An optional function to convert the value from one type to another.
+     * @private
      */
     private convert?;
-    /**
-     * Creates a new instance of the Column class.
-     * @param name The name of the column.
-     */
-    constructor(name: string);
     /**
      * Copy constructor; creates a new instance of the Column class from another object with the same values.
      * @param name The name of the column.
      * @param column Another column to copy as a baseline.
      */
-    constructor(name: string, column: Column);
+    constructor(name: string, column?: Column);
     /**
      * Creates a column alias with a different name.
+     * The underlying column data are shared between the origional column and the alias.
      * @param name The alias name for the column.
      * @returns A virtual column.
      */
@@ -52,20 +49,24 @@ export declare class Column {
      */
     value(index: number): any;
     /**
+     * Returns the number of rows within the column.
+     */
+    count(): number;
+    /**
      * Generates an operator to be used in a query to select rows from a table based on equality.
      * @param value The value to test against.
      * @returns Returns the predicate to be used within a query where method.
      */
     equals(value: unknown): Operator;
     /**
+     * Generates an operator to be used in Query.where to filter a column by a list of values.
+     * @param values The list of values to filter the column by.
+     */
+    in(values: Array<any>): Operator;
+    /**
      * Generates and operator to e used in a query; performs an arbitary comparison operation based on a user-supplied callback.
      * @param predicate The test condition.
      * @returns Returns the predicate to be used within a query method.
      */
     evaluate(predicate: Predicate<any>): Operator;
-    /**
-     * Generates an operator to be used in Query.where to filter a column by a list of values.
-     * @param values The list of values to filter the column by.
-     */
-    in(values: Array<any>): Operator;
 }

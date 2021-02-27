@@ -16,22 +16,15 @@ export class Column {
 
 	/**
 	 * An optional function to convert the value from one type to another.
+	 * @private
 	 */
 	private convert?: Function<unknown, any>;
-
-	/**
-	 * Creates a new instance of the Column class.
-	 * @param name The name of the column.
-	 */
-	public constructor(name: string);
 
 	/**
 	 * Copy constructor; creates a new instance of the Column class from another object with the same values.
 	 * @param name The name of the column.
 	 * @param column Another column to copy as a baseline.
 	 */
-	public constructor(name: string, column: Column);
-
 	public constructor(public readonly name: string, column?: Column) {
 		this.values = column ? column.values : [];
 		this.index = column ? column.index : [];
@@ -39,6 +32,7 @@ export class Column {
 
 	/**
 	 * Creates a column alias with a different name.
+	 * The underlying column data are shared between the origional column and the alias.
 	 * @param name The alias name for the column.
 	 * @returns A virtual column.
 	 */
@@ -66,7 +60,7 @@ export class Column {
 		let position = this.values.indexOf(value);
 
 		if (position === -1) {
-			this.values[position = this.values.length] = value;
+			position = this.values.push(value) - 1;
 		}
 
 		for (const index of indexes) {
@@ -86,6 +80,13 @@ export class Column {
 	}
 
 	/**
+	 * Returns the number of rows within the column.
+	 */
+	public count(): number {
+		return this.index.length;
+	}
+
+	/**
 	 * Generates an operator to be used in a query to select rows from a table based on equality.
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
@@ -94,9 +95,19 @@ export class Column {
 		return () => {
 			const position = this.values.indexOf(value);
 
-			return (index: number) => {
-				return this.index[index] === position;
-			}
+			return (index: number) => this.index[index] === position;
+		}
+	}
+
+	/**
+	 * Generates an operator to be used in Query.where to filter a column by a list of values.
+	 * @param values The list of values to filter the column by.
+	 */
+	public in(values: Array<any>): Operator {
+		return () => {
+			const indexes = values.map(value => this.values.indexOf(value));
+
+			return (index: number) => indexes.indexOf(this.index[index]) !== -1;
 		}
 	}
 
@@ -106,28 +117,6 @@ export class Column {
 	 * @returns Returns the predicate to be used within a query method.
 	 */
 	public evaluate(predicate: Predicate<any>): Operator {
-		return () => index => predicate(this.value(index));
-	}
-
-	/**
-	 * Generates an operator to be used in Query.where to filter a column by a list of values.
-	 * @param values The list of values to filter the column by.
-	 */
-	public in(values: Array<any>): Operator {
-		return () => {
-			const indexes: Array<number> = [];
-
-			for (let i = values.length; i--;) {
-				const index = this.values.indexOf(values[i]);
-
-				if (index !== -1) {
-					indexes.push(index);
-				}
-			}
-
-			return (index: number) => {
-				return indexes.indexOf(this.index[index]) !== -1;
-			}
-		}
+		return () => (index: number) => predicate(this.value(index));
 	}
 }
