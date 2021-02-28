@@ -15,7 +15,7 @@ export class Table {
 	 * The number of rows inserted into the table.
 	 * @private
 	 */
-	private rows: number;
+	private _rows: number;
 
 	/**
 	 * All the columns within the table.
@@ -37,7 +37,7 @@ export class Table {
 	public constructor(p1: string | Table) {
 		this.name = typeof p1 === "string" ? p1 : p1.name;
 		this.columns = typeof p1 === "string" ? [] : p1.columns.map(col => new Column(col.name, col));
-		this.rows = typeof p1 === "string" ? 0 : p1.rows;
+		this._rows = typeof p1 === "string" ? 0 : p1._rows;
 	}
 
 	/**
@@ -67,7 +67,14 @@ export class Table {
 			column.insert(column.name in row ? row[column.name] : null, [this.rows]);
 		}
 
-		return this.rows++;
+		return this._rows++;
+	}
+
+	/**
+	 * Returns the number of rows within the table
+	 */
+	public get rows(): number {
+		return this._rows;
 	}
 
 	/**
@@ -78,14 +85,6 @@ export class Table {
 	public row(index: number, ...columns: Array<Column>): Row {
 		return Object.fromEntries((columns.length ? columns : this.columns).map(column => [column.name, column.value(index)]));
 	}
-
-	/**
-	 * Returns the number of rows within the column.
-	 */
-	public count(): number {
-		return this.rows;
-	}
-
 
 	/**
 	 * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.

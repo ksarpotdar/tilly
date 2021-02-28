@@ -11,9 +11,8 @@ export declare class Table {
     readonly name: string;
     /**
      * The number of rows inserted into the table.
-     * @private
      */
-    private rows;
+    private _rows;
     /**
      * All the columns within the table.
      */
@@ -40,15 +39,15 @@ export declare class Table {
      */
     insert(row: Row): number;
     /**
+     * Returns the number of rows within the table
+     */
+    get rows(): number;
+    /**
      * Gets a row for a given index.
      * @param index The index of the row.
      * @return Returns the row of data
      */
     row(index: number, ...columns: Array<Column>): Row;
-    /**
-     * Returns the number of rows within the column.
-     */
-    count(): number;
     /**
      * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
      * @param columns The columns to return in each row; if not provided, all columns will be returned.
