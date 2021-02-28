@@ -25,35 +25,44 @@ node lib/tools/compress [source JSON path] brotli
 ## Example
 An example of option two would be:
 ```TypeScript
-// load zipped JSON from a file
 import { readFileSync } from 'fs';
 import { brotliDecompressSync } from 'zlib';
-const json = JSON.parse(brotliDecompressSync(readFileSync(process.argv[2])).toString('utf-8')); // improve read/unzip time with streams? 
+import { Table, and, not } from '../core';
 
-// example really starts here
-import { Table, Query, and, not } from '../core';
+// read and uncompress source data
+const json = JSON.parse(brotliDecompressSync(readFileSync(process.argv[2])).toString('utf-8'));
 
 // load the database and table from file
 const estimates = new Table(json);
 
 // for conveniance, find the columns we are interested in; some aliased
-const countryCode = estimates.column('Country Code')!;
-const countryName = estimates.column('Country Name')!;
-const indicatorName = estimates.column('Indicator Name')!;
-const value = estimates.column('2020')!.as('population').to(Number); // NOTE: "as" and "to" can be used here or in query; they are not fluent and create new virtual columns
+const countryCode = estimates.columns.find(column => column.name === 'Country Code')!;
+const countryName = estimates.columns.find(column => column.name === 'Country Name')!;
+const indicatorName = estimates.columns.find(column => column.name === 'Indicator Name')!;
+const value = estimates.columns.find(column => column.name === '2020')!.as('population').to(Number);
 
-// a list of country codes in the data that are not countries, but aggregates
-const notCountry = ['ARB', 'CSS', 'CEB', 'EAR', 'EAS', 'EAP', 'TEA', 'ECS', 'ECA', 'TEC', 'EUU', 'FCS', 'HPC', 'HIC', 'INX', 'LTE', 'EMU', 'LCN', 'LAC', 'TLA', 'LDC', 'LIC', 'LMY', 'LMC', 'MEA', 'MNA', 'TMN', 'MIC', 'NAC', 'OED', 'OSS', 'PSS', 'PST', 'PRE', 'SST', 'SAS', 'TSA', 'SSF', 'SSA', 'TSS', 'UMC', 'WLD'];
+// a query to filter our country codes that are not countries
+const countries = estimates.where(not(countryCode.in(['ARB', 'CSS', 'CEB', 'EAR', 'EAS', 'EAP', 'TEA', 'ECS', 'ECA', 'TEC', 'EUU', 'FCS', 'HPC', 'HIC', 'INX', 'LTE', 'EMU', 'LCN', 'LAC', 'TLA', 'LDC', 'LIC', 'LMY', 'LMC', 'MEA', 'MNA', 'TMN', 'MIC', 'NAC', 'OED', 'OSS', 'PSS', 'PST', 'PRE', 'SST', 'SAS', 'TSA', 'SSF', 'SSA', 'TSS', 'UMC', 'WLD'])));
 
-// create a query with just three returned columns and a complex filter criteria
-const query = new Query(estimates)
-	.select(countryCode.as('code'), countryName.as('name'), value)
-	.where(and(indicatorName.equals('Population, total'), not(value.equals(null)), not(countryCode.in(notCountry))));
+// create a query to home in just on population data
+const query = countries.where(and(indicatorName.equals('Population, total'), not(value.equals(null))));
 
 // iterate the query results
-for (const row of query) {
+for (const row of query.select(countryCode.as('code'), countryName.as('name'), value)) {
 	console.log(row);
 }
+
+let count = 0;
+const start = process.hrtime();
+
+// iterate the query results - without console overhead
+for (const row of query.select()) {
+	count++;
+}
+
+const elapsed = process.hrtime(start);
+
+console.log(`Returned ${count} rows from ${countryCode.count()} in ${elapsed[0]}s ${elapsed[1] / 1000000}ms`);
 ```
 The results of which is :
 ```
@@ -62,8 +71,10 @@ The results of which is :
 ...
 { code: 'ZMB', name: 'Zambia', population: 18384000 }
 { code: 'ZWE', name: 'Zimbabwe', population: 14863000 }
+
+Returned 212 rows from 45325 in 0s 2.425424ms
 ```
-This example uses population forecast data from the World Bank available [here](https://datacatalog.worldbank.org/dataset/health-nutrition-and-population-statistics).
+This example uses population forecast data from the World Bank available [here](https://datacatalog.worldbank.org/dataset/health-nutrition-and-population-statistics). Performance based on a 2019 MacBook Pro 2.3GHz 8-core Intel Core i9.
 
 ## Licence
 Licensed under the [MIT License](LICENSE).

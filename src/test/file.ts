@@ -1,10 +1,9 @@
-// load zipped JSON from a file
 import { readFileSync } from 'fs';
 import { brotliDecompressSync } from 'zlib';
-const json = JSON.parse(brotliDecompressSync(readFileSync(process.argv[2])).toString('utf-8')); // improve read/unzip time with streams? 
+import { Table, and, not } from '../core';
 
-// example really starts here
-import { Table, Query, and, not } from '../core';
+// read and uncompress source data
+const json = JSON.parse(brotliDecompressSync(readFileSync(process.argv[2])).toString('utf-8'));
 
 // load the database and table from file
 const estimates = new Table(json);
