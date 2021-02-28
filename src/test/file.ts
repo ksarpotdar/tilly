@@ -6,7 +6,7 @@ import { Table, and, not } from '../core';
 const json = JSON.parse(brotliDecompressSync(readFileSync(process.argv[2])).toString('utf-8'));
 
 // load the database and table from file
-const estimates = new Table(json);
+const estimates = new Table('Estimates', json);
 
 // for conveniance, find the columns we are interested in; some aliased
 const countryCode = estimates.columns.find(column => column.name === 'Country Code')!;

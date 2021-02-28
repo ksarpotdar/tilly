@@ -7,11 +7,6 @@ import { Operator, Row } from './types';
  */
 export class Table {
 	/**
-	 * The name of this table
-	 */
-	public readonly name: string;
-
-	/**
 	 * All the columns within the table.
 	 */
 	public readonly columns: Array<Column>;
@@ -19,18 +14,10 @@ export class Table {
 	/**
 	 * Creates a new instance of the Table class.
 	 * @param name The name of the table.
-	 */
-	public constructor(name: string);
-
-	/**
-	 * Creates a new instance of the Table class.
 	 * @param table Another table to copy as a baseline or JSON rendering of a table.
 	 */
-	public constructor(table: Table);
-
-	public constructor(p1: string | Table) {
-		this.name = typeof p1 === "string" ? p1 : p1.name;
-		this.columns = typeof p1 === "string" ? [] : p1.columns.map(col => new Column(col.name, col));
+	public constructor(public readonly name: string, table?: Table) {
+		this.columns = table ? table.columns.map(column => new Column(column.name, column)) : [];
 	}
 
 	/**
@@ -40,7 +27,7 @@ export class Table {
 	public add(...columns: Array<Column>): void {
 		for (const column of columns) {
 			// if the table already has rows, add null rows to the newly added columns
-			if (this.rows !== 0) {
+			if (this.rows) {
 				column.insert(null, this.indexes());
 			}
 
@@ -54,22 +41,20 @@ export class Table {
 	 * @param data The row of data to add
 	 * @returns Returns the row index within the table
 	 */
-	public insert(row: Row): number {
+	public insert(row: Row): void {
 		const range = [this.rows];
 
 		// add a new row with appropriate value, or null if not found, to each column
 		for (const column of this.columns) {
 			column.insert(column.name in row ? row[column.name] : null, range);
 		}
-
-		return this.rows;
 	}
 
 	/**
 	 * Returns the number of rows within the table.
 	 */
 	public get rows(): number {
-		return this.columns.length !== 0 ? this.columns[0].index.length : 0;
+		return this.columns[0] ? this.columns[0].index.length : 0;
 	}
 
 	/**

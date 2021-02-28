@@ -5,9 +5,6 @@ import { Operator, Row } from './types';
  * Represents a table of data, comprising a number of columns.
  */
 export declare class Table {
-    /**
-     * The name of this table
-     */
     readonly name: string;
     /**
      * All the columns within the table.
@@ -16,13 +13,9 @@ export declare class Table {
     /**
      * Creates a new instance of the Table class.
      * @param name The name of the table.
-     */
-    constructor(name: string);
-    /**
-     * Creates a new instance of the Table class.
      * @param table Another table to copy as a baseline or JSON rendering of a table.
      */
-    constructor(table: Table);
+    constructor(name: string, table?: Table);
     /**
      * Adds one or more columns to the table
      * @param columns The new columns to add.
@@ -33,7 +26,7 @@ export declare class Table {
      * @param data The row of data to add
      * @returns Returns the row index within the table
      */
-    insert(row: Row): number;
+    insert(row: Row): void;
     /**
      * Returns the number of rows within the table.
      */
