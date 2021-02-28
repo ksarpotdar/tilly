@@ -80,6 +80,14 @@ export class Table {
 	}
 
 	/**
+	 * Returns the number of rows within the column.
+	 */
+	public count(): number {
+		return this.rows;
+	}
+
+
+	/**
 	 * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
 	 * @param columns The columns to return in each row; if not provided, all columns will be returned.
 	 */

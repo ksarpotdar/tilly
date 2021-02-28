@@ -46,6 +46,10 @@ export declare class Table {
      */
     row(index: number, ...columns: Array<Column>): Row;
     /**
+     * Returns the number of rows within the column.
+     */
+    count(): number;
+    /**
      * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
      * @param columns The columns to return in each row; if not provided, all columns will be returned.
      */

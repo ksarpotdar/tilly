@@ -62,7 +62,7 @@ for (const row of query.select(countryCode.as('code'), countryName.as('name'), v
 
 const elapsed = process.hrtime(start);
 
-console.log(`Returned ${count} rows from ${countryCode.count()} in ${elapsed[0]}s ${elapsed[1] / 1000000}ms`);
+console.log(`Returned ${count} rows from ${estimates.count()} in ${elapsed[0]}s ${elapsed[1] / 1000000}ms`);
 ```
 The results of which is :
 ```

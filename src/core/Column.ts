@@ -80,13 +80,6 @@ export class Column {
 	}
 
 	/**
-	 * Returns the number of rows within the column.
-	 */
-	public count(): number {
-		return this.index.length;
-	}
-
-	/**
 	 * Generates an operator to be used in a query to select rows from a table based on equality.
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
