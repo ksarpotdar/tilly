@@ -11,7 +11,7 @@ export declare class Column {
      * The index into the array of distinct values for each row.
      * @private
      */
-    private readonly index;
+    readonly index: Array<number>;
     /**
      * An optional function to convert the value from one type to another.
      * @private

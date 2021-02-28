@@ -12,12 +12,6 @@ export class Table {
 	public readonly name: string;
 
 	/**
-	 * The number of rows inserted into the table.
-	 * @private
-	 */
-	private _rows: number;
-
-	/**
 	 * All the columns within the table.
 	 */
 	public readonly columns: Array<Column>;
@@ -37,7 +31,6 @@ export class Table {
 	public constructor(p1: string | Table) {
 		this.name = typeof p1 === "string" ? p1 : p1.name;
 		this.columns = typeof p1 === "string" ? [] : p1.columns.map(col => new Column(col.name, col));
-		this._rows = typeof p1 === "string" ? 0 : p1._rows;
 	}
 
 	/**
@@ -62,19 +55,21 @@ export class Table {
 	 * @returns Returns the row index within the table
 	 */
 	public insert(row: Row): number {
+		const range = [this.rows];
+
 		// add a new row with appropriate value, or null if not found, to each column
 		for (const column of this.columns) {
-			column.insert(column.name in row ? row[column.name] : null, [this.rows]);
+			column.insert(column.name in row ? row[column.name] : null, range);
 		}
 
-		return this._rows++;
+		return this.rows;
 	}
 
 	/**
-	 * Returns the number of rows within the table
+	 * Returns the number of rows within the table.
 	 */
 	public get rows(): number {
-		return this._rows;
+		return this.columns.length !== 0 ? this.columns[0].index.length : 0;
 	}
 
 	/**

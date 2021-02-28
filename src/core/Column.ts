@@ -12,7 +12,7 @@ export class Column {
 	 * The index into the array of distinct values for each row. 
 	 * @private
 	 */
-	private readonly index: Array<number>;
+	readonly index: Array<number>;
 
 	/**
 	 * An optional function to convert the value from one type to another.

@@ -10,10 +10,6 @@ export declare class Table {
      */
     readonly name: string;
     /**
-     * The number of rows inserted into the table.
-     */
-    private _rows;
-    /**
      * All the columns within the table.
      */
     readonly columns: Array<Column>;
@@ -39,7 +35,7 @@ export declare class Table {
      */
     insert(row: Row): number;
     /**
-     * Returns the number of rows within the table
+     * Returns the number of rows within the table.
      */
     get rows(): number;
     /**
