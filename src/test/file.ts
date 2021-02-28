@@ -20,16 +20,16 @@ const countries = estimates.where(not(countryCode.in(['ARB', 'CSS', 'CEB', 'EAR'
 // create a query to home in just on population data
 const query = countries.where(and(indicatorName.equals('Population, total'), not(value.equals(null))));
 
-// iterate the query results
+// iterate the query results and display
 for (const row of query.select(countryCode.as('code'), countryName.as('name'), value)) {
 	console.log(row);
 }
 
+// re-run the same query without the console overhead for timings
 let count = 0;
 const start = process.hrtime();
 
-// iterate the query results - without console overhead
-for (const row of query.select()) {
+for (const row of query.select(countryCode.as('code'), countryName.as('name'), value)) {
 	count++;
 }
 
