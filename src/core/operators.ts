@@ -9,7 +9,7 @@ export function and(...operators: Array<Operator>): Operator {
 	return () => {
 		const predicates = operators.map(operator => operator());
 
-		return index => predicates.every(predicate => predicate(index));
+		return (index) => { return predicates.every(predicate => predicate(index)) };
 	};
 }
 
