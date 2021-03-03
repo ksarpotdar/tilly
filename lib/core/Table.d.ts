@@ -6,9 +6,7 @@ import { Operator, Row } from './types';
  */
 export declare class Table {
     readonly name: string;
-    /**
-     * All the columns within the table.
-     */
+    /** All the columns within the table */
     readonly columns: Array<Column>;
     /**
      * Creates a new instance of the Table class.
@@ -36,12 +34,11 @@ export declare class Table {
      * @param index The index of the row.
      * @return Returns the row of data
      */
-    row(index: number, ...columns: Array<Column>): Row;
+    row(index: number): Row;
     /**
      * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
-     * @param columns The columns to return in each row; if not provided, all columns will be returned.
      */
-    select(...columns: Array<Column>): Iterable<Row>;
+    select(): Iterable<Row>;
     /**
      * Creates a query to filter the contents of a table based on a predicate.
      * @param operator An Operator object that creates the filter predicate at query execution time.

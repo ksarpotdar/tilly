@@ -22,9 +22,7 @@ export function or(...operators: Array<Operator>): Operator {
 	return () => {
 		const predicates = operators.map(operator => operator());
 
-		return (index: number) => {
-			return predicates.some(predicate => predicate(index));
-		}
+		return index => predicates.some(predicate => predicate(index));
 	}
 }
 
@@ -37,8 +35,6 @@ export function not(operator: Operator): Operator {
 	return () => {
 		const predicate = operator();
 
-		return (index: number) => {
-			return !predicate(index);
-		}
+		return index => !predicate(index);
 	}
 }

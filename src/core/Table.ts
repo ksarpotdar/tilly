@@ -6,9 +6,7 @@ import { Operator, Row } from './types';
  * Represents a table of data, comprising a number of columns.
  */
 export class Table {
-	/**
-	 * All the columns within the table.
-	 */
+	/** All the columns within the table */
 	public readonly columns: Array<Column>;
 
 	/**
@@ -26,10 +24,8 @@ export class Table {
 	 */
 	public add(...columns: Array<Column>): void {
 		for (const column of columns) {
-			// if the table already has rows, add null rows to the newly added columns
-			if (this.rows) {
-				column.insert(null, this.indexes());
-			}
+			// pre-populate with nulls for existing rows
+			column.insert(null, this.indexes());
 
 			// add the columns to the table
 			this.columns.push(column);
@@ -46,7 +42,7 @@ export class Table {
 
 		// add a new row with appropriate value, or null if not found, to each column
 		for (const column of this.columns) {
-			column.insert(column.name in row ? row[column.name] : null, range);
+			column.insert(row[column.name] || null, range);
 		}
 	}
 
@@ -62,17 +58,16 @@ export class Table {
 	 * @param index The index of the row.
 	 * @return Returns the row of data
 	 */
-	public row(index: number, ...columns: Array<Column>): Row {
-		return Object.fromEntries((columns.length ? columns : this.columns).map(column => [column.name, column.value(index)]));
+	public row(index: number): Row {
+		return Object.fromEntries(this.columns.map(column => [column.name, column.value(index)]));
 	}
 
 	/**
 	 * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
-	 * @param columns The columns to return in each row; if not provided, all columns will be returned.
 	 */
-	public * select(...columns: Array<Column>): Iterable<Row> {
+	public * select(): Iterable<Row> {
 		for (const index of this.indexes()) {
-			yield this.row(index, ...columns.length ? columns : this.columns);
+			yield this.row(index);
 		}
 	}
 
@@ -92,7 +87,7 @@ export class Table {
 		const predicate = operator ? operator() : () => true;
 
 		for (let i = 0, l = this.rows; i < l; ++i) {
-			if (predicate(i)) {
+				if (predicate(i)) {
 				yield i;
 			}
 		}

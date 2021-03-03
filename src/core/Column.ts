@@ -88,7 +88,7 @@ export class Column {
 		return () => {
 			const position = this.values.indexOf(value);
 
-			return (index: number) => this.index[index] === position;
+			return index => this.index[index] === position;
 		}
 	}
 
@@ -100,7 +100,7 @@ export class Column {
 		return () => {
 			const indexes = values.map(value => this.values.indexOf(value));
 
-			return (index: number) => indexes.indexOf(this.index[index]) !== -1;
+			return index => indexes.includes(this.index[index]);
 		}
 	}
 
@@ -110,6 +110,6 @@ export class Column {
 	 * @returns Returns the predicate to be used within a query method.
 	 */
 	public evaluate(predicate: Predicate<any>): Operator {
-		return () => (index: number) => predicate(this.value(index));
+		return () => index => predicate(this.values[this.index[index]]);
 	}
 }
