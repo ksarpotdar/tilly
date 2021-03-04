@@ -7,4 +7,4 @@ export declare type Supplier<TResult> = () => TResult;
 /** Represents a row of data; essentially a JavaScript Object with an arbitory number of properties. */
 export declare type Row = Record<string, unknown>;
 /** An operator used in queries. */
-export declare type Operator = Supplier<Predicate<number>>;
+export declare type Operator<T> = Supplier<Predicate<T>>;

@@ -11,4 +11,4 @@ export type Supplier<TResult> = () => TResult;
 export type Row = Record<string, unknown>;
 
 /** An operator used in queries. */
-export type Operator = Supplier<Predicate<number>>;
+export type Operator<T> = Supplier<Predicate<T>>;

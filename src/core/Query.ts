@@ -12,14 +12,14 @@ export class Query {
 	 * @param source Another queryable object to use as the source for this query.
 	 * @param operator The operator that will create the predicate that this query will use to restrict the number of rows from source table.
 	 */
-	public constructor(private readonly source: Query | Table, private readonly operator: Operator) {
+	public constructor(private readonly source: Query | Table, private readonly operator: Operator<number>) {
 	}
 
 	/**
 	 * Creates a query to furthre filter the contents of the query based on another predicate.
 	 * @param operator An Operator object that creates the filter predicate at query execution time.
 	 */
-	public where(operator: Operator): Query {
+	public where(operator: Operator<number>): Query {
 		return new Query(this, operator);
 	}
 
@@ -47,7 +47,7 @@ export class Query {
 	 * Returns the indexes of all rows in the query with an optional filter criteria.
 	 * @private
 	 */
-	indexes(operator?: Operator): Iterable<number> {
+	indexes(operator?: Operator<number>): Iterable<number> {
 		return this.source.indexes(operator ? and(operator, this.operator) : this.operator);
 	}
 }

@@ -53,16 +53,16 @@ export declare class Column {
      * @param value The value to test against.
      * @returns Returns the predicate to be used within a query where method.
      */
-    equals(value: unknown): Operator;
+    equals(value: unknown): Operator<number>;
     /**
      * Generates an operator to be used in Query.where to filter a column by a list of values.
      * @param values The list of values to filter the column by.
      */
-    in(values: Array<any>): Operator;
+    in(values: Array<any>): Operator<number>;
     /**
      * Generates and operator to e used in a query; performs an arbitary comparison operation based on a user-supplied callback.
      * @param predicate The test condition.
      * @returns Returns the predicate to be used within a query method.
      */
-    evaluate(predicate: Predicate<any>): Operator;
+    evaluate(predicate: Predicate<any>): Operator<number>;
 }

@@ -75,7 +75,7 @@ export class Table {
 	 * Creates a query to filter the contents of a table based on a predicate.
 	 * @param operator An Operator object that creates the filter predicate at query execution time.
 	 */
-	public where(operator: Operator): Query {
+	public where(operator: Operator<number>): Query {
 		return new Query(this, operator);
 	}
 
@@ -83,7 +83,7 @@ export class Table {
 	 * Returns the indexes of all rows in the table with an optional filter criteria.
 	 * @private
 	 */
-	* indexes(operator?: Operator): Iterable<number> {
+	* indexes(operator?: Operator<number>): Iterable<number> {
 		const predicate = operator ? operator() : () => true;
 
 		for (let i = 0, l = this.rows; i < l; ++i) {

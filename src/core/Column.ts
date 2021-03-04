@@ -84,7 +84,7 @@ export class Column {
 	 * @param value The value to test against.
 	 * @returns Returns the predicate to be used within a query where method.
 	 */
-	public equals(value: unknown): Operator {
+	public equals(value: unknown): Operator<number> {
 		return () => {
 			const position = this.values.indexOf(value);
 
@@ -96,7 +96,7 @@ export class Column {
 	 * Generates an operator to be used in Query.where to filter a column by a list of values.
 	 * @param values The list of values to filter the column by.
 	 */
-	public in(values: Array<any>): Operator {
+	public in(values: Array<any>): Operator<number> {
 		return () => {
 			const indexes = values.map(value => this.values.indexOf(value));
 
@@ -109,7 +109,7 @@ export class Column {
 	 * @param predicate The test condition.
 	 * @returns Returns the predicate to be used within a query method.
 	 */
-	public evaluate(predicate: Predicate<any>): Operator {
+	public evaluate(predicate: Predicate<any>): Operator<number> {
 		return () => index => predicate(this.values[this.index[index]]);
 	}
 }

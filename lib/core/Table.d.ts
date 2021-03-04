@@ -43,10 +43,10 @@ export declare class Table {
      * Creates a query to filter the contents of a table based on a predicate.
      * @param operator An Operator object that creates the filter predicate at query execution time.
      */
-    where(operator: Operator): Query;
+    where(operator: Operator<number>): Query;
     /**
      * Returns the indexes of all rows in the table with an optional filter criteria.
      * @private
      */
-    indexes(operator?: Operator): Iterable<number>;
+    indexes(operator?: Operator<number>): Iterable<number>;
 }
