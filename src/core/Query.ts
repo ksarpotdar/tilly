@@ -38,7 +38,7 @@ export class Query {
 	 * Selects many rows of data.
 	 */
 	public * select(...columns: Array<Column>): Iterable<Row> {
-		for (const index of this.indexes()) {
+		for (const index of this.source.indexes(this.operator)) {
 			yield Object.fromEntries(columns.map(column => [column.name, column.value(index)]));
 		}
 	}
