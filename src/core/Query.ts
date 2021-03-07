@@ -27,11 +27,7 @@ export class Query {
 	 * Tests the query to see if it contains any result rows.
 	 */
 	public exists(): boolean {
-		for (const index of this.indexes()) {
-			return true;
-		}
-
-		return false;
+		return !this.indexes()[Symbol.iterator]().next().done;
 	}
 
 	/**

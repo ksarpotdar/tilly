@@ -1,3 +1,4 @@
+import { countReset } from 'console';
 import { readFileSync } from 'fs';
 import { brotliDecompressSync } from 'zlib';
 import { Table, and, not } from '../core';
