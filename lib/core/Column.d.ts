@@ -18,7 +18,7 @@ export declare class Column {
      */
     private convert?;
     /**
-     * Copy constructor; creates a new instance of the Column class from another object with the same values.
+     * Creates a new instance of the Column class, if another column is specified, acts as a copy constructor.
      * @param name The name of the column.
      * @param column Another column to copy as a baseline.
      */

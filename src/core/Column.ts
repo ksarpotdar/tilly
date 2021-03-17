@@ -21,7 +21,7 @@ export class Column {
 	private convert?: Function<unknown, any>;
 
 	/**
-	 * Copy constructor; creates a new instance of the Column class from another object with the same values.
+	 * Creates a new instance of the Column class, if another column is specified, acts as a copy constructor.
 	 * @param name The name of the column.
 	 * @param column Another column to copy as a baseline.
 	 */
@@ -57,12 +57,15 @@ export class Column {
 	 * @private Package private.
 	 */
 	insert(value: unknown, indexes: Iterable<number>): void {
+		// find the position of the value in the set of distinct values
 		let position = this.values.indexOf(value);
 
+		// if not found, add it to the set of distinct values
 		if (position === -1) {
 			position = this.values.push(value) - 1;
 		}
 
+		// update the index with the position
 		for (const index of indexes) {
 			this.index[index] = position;
 		}
@@ -74,9 +77,11 @@ export class Column {
 	 * @private Package private.
 	 */
 	value(index: number): any {
-		const raw = this.values[this.index[index]];
+		// extract the value as inserted
+		const value = this.values[this.index[index]];
 
-		return this.convert ? this.convert(raw) : raw;
+		// if there is a conversion function, apply it, otherwide return the raw value
+		return this.convert ? this.convert(value) : value;
 	}
 
 	/**
@@ -86,8 +91,10 @@ export class Column {
 	 */
 	public equals(value: unknown): Operator<number> {
 		return () => {
+			// find the position of the value within the distinct set
 			const position = this.values.indexOf(value);
 
+			// return a Predicate that will filter rows as required
 			return index => this.index[index] === position;
 		}
 	}
@@ -98,9 +105,10 @@ export class Column {
 	 */
 	public in(values: Array<any>): Operator<number> {
 		return () => {
-			const indexes = values.map(value => this.values.indexOf(value));
 
-			return index => indexes.includes(this.index[index]);
+			const positions = values.map(value => this.values.indexOf(value));
+
+			return index => positions.includes(this.index[index]);
 		}
 	}
 
@@ -110,6 +118,8 @@ export class Column {
 	 * @returns Returns the predicate to be used within a query method.
 	 */
 	public evaluate(predicate: Predicate<any>): Operator<number> {
-		return () => index => predicate(this.values[this.index[index]]);
+		return () => {
+			return index => predicate(this.values[this.index[index]]);
+		}
 	}
 }
