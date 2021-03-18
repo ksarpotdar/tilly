@@ -56,18 +56,22 @@ export class Table {
 	/**
 	 * Gets a row for a given index.
 	 * @param index The index of the row.
+	 * @param columns The columns from the table to return in the row.
 	 * @return Returns the row of data
 	 */
-	public row(index: number): Row {
-		return Object.fromEntries(this.columns.map(column => [column.name, column.value(index)]));
+	public row(index: number, columns: Array<Column>): Row {
+		return Object.fromEntries(columns.map(column => [column.name, column.value(index)]));
 	}
 
 	/**
 	 * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
+	 * @param columns The columns from the table to return in the row; if omitted, returns all columns.
 	 */
-	public * select(): Iterable<Row> {
+	public * select(...columns: Array<Column>): Iterable<Row> {
+		columns = columns.length ? columns : this.columns;
+
 		for (const index of this.indexes()) {
-			yield this.row(index);
+			yield this.row(index, columns);
 		}
 	}
 
@@ -87,7 +91,7 @@ export class Table {
 		const predicate = operator ? operator() : () => true;
 
 		for (let i = 0, l = this.rows; i < l; ++i) {
-				if (predicate(i)) {
+			if (predicate(i)) {
 				yield i;
 			}
 		}

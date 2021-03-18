@@ -27,16 +27,8 @@ export class Query {
 	 * Tests the query to see if it contains any result rows.
 	 */
 	public exists(): boolean {
+		// get an iterator and see if it has an initial result
 		return !this.indexes()[Symbol.iterator]().next().done;
-	}
-
-	/**
-	 * Selects many rows of data.
-	 */
-	public * select(...columns: Array<Column>): Iterable<Row> {
-		for (const index of this.source.indexes(this.operator)) {
-			yield Object.fromEntries(columns.map(column => [column.name, column.value(index)]));
-		}
 	}
 
 	/**
@@ -44,6 +36,16 @@ export class Query {
 	 * @private
 	 */
 	indexes(operator?: Operator<number>): Iterable<number> {
+		// propigate this and any additional operators to the underlying table to query
 		return this.source.indexes(operator ? and(operator, this.operator) : this.operator);
+	}
+
+	/**
+	 * Selects many rows of data.
+	 */
+	 public * select(...columns: Array<Column>): Iterable<Row> {
+		for (const index of this.source.indexes(this.operator)) {
+			yield Object.fromEntries(columns.map(column => [column.name, column.value(index)]));
+		}
 	}
 }

@@ -32,13 +32,15 @@ export declare class Table {
     /**
      * Gets a row for a given index.
      * @param index The index of the row.
+     * @param columns The columns from the table to return in the row.
      * @return Returns the row of data
      */
-    row(index: number): Row;
+    row(index: number, columns: Array<Column>): Row;
     /**
      * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
+     * @param columns The columns from the table to return in the row; if omitted, returns all columns.
      */
-    select(): Iterable<Row>;
+    select(...columns: Array<Column>): Iterable<Row>;
     /**
      * Creates a query to filter the contents of a table based on a predicate.
      * @param operator An Operator object that creates the filter predicate at query execution time.
