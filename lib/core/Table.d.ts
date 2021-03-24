@@ -1,6 +1,6 @@
+import { Operator, Row } from './types';
 import { Column } from './Column';
 import { Query } from './Query';
-import { Operator, Row } from './types';
 /**
  * Represents a table of data, comprising a number of columns.
  */
