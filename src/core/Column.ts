@@ -62,7 +62,7 @@ export class Column {
 
 		// if not found, add it to the set of distinct values
 		if (position === -1) {
-			position = this.values.push(value) - 1;
+			this.values[position = this.values.length] = value;
 		}
 
 		// update the index with the position
