@@ -21,7 +21,7 @@ function createColumns(headers: any) {
 function insertRow(row: Row) {
 	for (const name of Object.getOwnPropertyNames(row)) {
 		if (row[name] === '') {
-			row[name] = null;
+			row[name] = undefined;
 		}
 	}
 

@@ -25,7 +25,7 @@ export class Table {
 	public add(...columns: Array<Column>): void {
 		for (const column of columns) {
 			// pre-populate with nulls for existing rows
-			column.insert(null, this.indexes());
+			column.insert(this.indexes());
 
 			// add the columns to the table
 			this.columns.push(column);
@@ -40,9 +40,9 @@ export class Table {
 	public insert(row: Row): void {
 		const range = [this.rows];
 
-		// add a new row with appropriate value, or null if not found, to each column
+		// add a new row with appropriate value, or undefined if not found, to each column
 		for (const column of this.columns) {
-			column.insert(row[column.name] || null, range);
+			column.insert(range, row[column.name]);
 		}
 	}
 

@@ -19,7 +19,7 @@ const value = estimates.columns.find(column => column.name === '2020')!.as('popu
 const countries = estimates.where(not(countryCode.in(['ARB', 'CSS', 'CEB', 'EAR', 'EAS', 'EAP', 'TEA', 'ECS', 'ECA', 'TEC', 'EUU', 'FCS', 'HPC', 'HIC', 'INX', 'LTE', 'EMU', 'LCN', 'LAC', 'TLA', 'LDC', 'LIC', 'LMY', 'LMC', 'MEA', 'MNA', 'TMN', 'MIC', 'NAC', 'OED', 'OSS', 'PSS', 'PST', 'PRE', 'SST', 'SAS', 'TSA', 'SSF', 'SSA', 'TSS', 'UMC', 'WLD'])));
 
 // create a query to home in just on population data
-const query = countries.where(and(indicatorName.equals('Population, total'), not(value.equals(null))));
+const query = countries.where(and(indicatorName.equals('Population, total'), not(value.equals(undefined))));
 
 // iterate the query results and display
 for (const row of query.select(countryCode.as('code'), countryName.as('name'), value)) {

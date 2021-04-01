@@ -56,7 +56,7 @@ export class Column {
 	 * @param indexes The set of indexes to insert the value into.
 	 * @private Package private.
 	 */
-	insert(value: unknown, indexes: Iterable<number>): void {
+	insert(indexes: Iterable<number>, value: unknown = undefined): void {
 		// find the position of the value in the set of distinct values
 		let position = this.values.indexOf(value);
 

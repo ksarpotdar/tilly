@@ -41,7 +41,7 @@ export declare class Column {
      * @param indexes The set of indexes to insert the value into.
      * @private Package private.
      */
-    insert(value: unknown, indexes: Iterable<number>): void;
+    insert(indexes: Iterable<number>, value?: unknown): void;
     /**
      * Returns a value from the column for a specific row index.
      * @param index The row index to return.
