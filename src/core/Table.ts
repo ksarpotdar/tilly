@@ -67,7 +67,7 @@ export class Table {
 	 * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
 	 * @param columns The columns from the table to return in the row; if omitted, returns all columns.
 	 */
-	public * select(...columns: Array<Column>): Iterable<Row> {
+	public * select(...columns: Array<Column>): IterableIterator<Row> {
 		columns = columns.length ? columns : this.columns;
 
 		for (const index of this.indexes()) {
@@ -87,7 +87,7 @@ export class Table {
 	 * Returns the indexes of all rows in the table with an optional filter criteria.
 	 * @private
 	 */
-	* indexes(operator?: Operator<number>): Iterable<number> {
+	* indexes(operator?: Operator<number>): IterableIterator<number> {
 		const predicate = operator ? operator() : () => true;
 
 		for (let i = 0, l = this.rows; i < l; ++i) {

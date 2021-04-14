@@ -26,9 +26,9 @@ export declare class Query {
      * Returns the indexes of all rows in the query with an optional filter criteria.
      * @private
      */
-    indexes(operator?: Operator<number>): Iterable<number>;
+    indexes(operator?: Operator<number>): IterableIterator<number>;
     /**
      * Selects many rows of data.
      */
-    select(...columns: Array<Column>): Iterable<Row>;
+    select(...columns: Array<Column>): IterableIterator<Row>;
 }

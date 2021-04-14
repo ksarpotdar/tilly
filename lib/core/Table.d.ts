@@ -40,7 +40,7 @@ export declare class Table {
      * Returns all the row within the table; a row being the columns specified, or if not specified, all colunms.
      * @param columns The columns from the table to return in the row; if omitted, returns all columns.
      */
-    select(...columns: Array<Column>): Iterable<Row>;
+    select(...columns: Array<Column>): IterableIterator<Row>;
     /**
      * Creates a query to filter the contents of a table based on a predicate.
      * @param operator An Operator object that creates the filter predicate at query execution time.
@@ -50,5 +50,5 @@ export declare class Table {
      * Returns the indexes of all rows in the table with an optional filter criteria.
      * @private
      */
-    indexes(operator?: Operator<number>): Iterable<number>;
+    indexes(operator?: Operator<number>): IterableIterator<number>;
 }

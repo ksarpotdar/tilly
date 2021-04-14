@@ -28,14 +28,14 @@ export class Query {
 	 */
 	public exists(): boolean {
 		// get an iterator and see if it has an initial result
-		return !this.indexes()[Symbol.iterator]().next().done;
+		return !this.indexes().next().done;
 	}
 
 	/**
 	 * Returns the indexes of all rows in the query with an optional filter criteria.
 	 * @private
 	 */
-	indexes(operator?: Operator<number>): Iterable<number> {
+	indexes(operator?: Operator<number>): IterableIterator<number> {
 		// propigate this and any additional operators to the underlying table to query
 		return this.source.indexes(operator ? and(operator, this.operator) : this.operator);
 	}
@@ -43,7 +43,7 @@ export class Query {
 	/**
 	 * Selects many rows of data.
 	 */
-	 public * select(...columns: Array<Column>): Iterable<Row> {
+	 public * select(...columns: Array<Column>): IterableIterator<Row> {
 		for (const index of this.source.indexes(this.operator)) {
 			yield Object.fromEntries(columns.map(column => [column.name, column.value(index)]));
 		}
